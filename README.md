@@ -17,11 +17,13 @@
 
 ## Quy tắc project
 
-1.  Tên file, thư mục không được viết hoa
+1. Tên file, thư mục không được viết hoa
     eg: detail_plant_screen.dart
-2.  Tên class viết hoa chữ cái đầu sau mỗi phân cách
+2. Tên class viết hoa chữ cái đầu sau mỗi phân cách
     eg: DetailPlantScreen
-3. Tổ chức thư mục:
+3. import thư viện hay file luôn luôn là dạng package
+       eg: **đúng**: import 'package:calories/c_theme/c_theme.dart'; **sai**: import './c_theme/c_theme.dart';
+4. Tổ chức thư mục:
    **data**:  chứa thư mục con là **models** và **repositories**
    *model*: chứa các đối tượng
    *repositories*: quản lý tất cả các hàm gọi api trả về
