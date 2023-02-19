@@ -20,10 +20,11 @@ Widget buildBody(
           floatingActionButton: createFloatingActionButton,
           floatingActionButtonLocation: floatingActionButtonLocation,
           body: body),
-      onWillPop: () => onWillPop(context));
+      onWillPop: () async => onWillPop(context));
 }
 
 Future<bool> onWillPop(BuildContext context) async {
+  print('dđ');
   bool exitResult = await showDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(

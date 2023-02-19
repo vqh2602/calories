@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.0.17
   lucide_icons: ^0.114.0
   animated_text_kit: ^4.2.2
+  flashy_tab_bar2: ^0.0.5
 
 dev_dependencies:
   flutter_test:
@@ -67,8 +68,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

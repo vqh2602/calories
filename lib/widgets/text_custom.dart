@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-Widget textDisplayLarge({
-  required String text,
-  double fontSize = 54,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w500,
-  Color? backGroundColor,
-}) {
+Widget textDisplayLarge(
+    {required String text,
+    double fontSize = 54,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w500,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -22,16 +27,21 @@ Widget textDisplayLarge({
   );
 }
 
-Widget textDisplayMedium({
-  required String text,
-  double fontSize = 45,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w500,
-  Color? backGroundColor,
-}) {
+Widget textDisplayMedium(
+    {required String text,
+    double fontSize = 45,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w500,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -42,16 +52,21 @@ Widget textDisplayMedium({
   );
 }
 
-Widget textDisplaySmall({
-  required String text,
-  double fontSize = 36,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w500,
-  Color? backGroundColor,
-}) {
+Widget textDisplaySmall(
+    {required String text,
+    double fontSize = 36,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w500,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -62,16 +77,21 @@ Widget textDisplaySmall({
   );
 }
 
-Widget textHeadlineLarge({
-  required String text,
-  double fontSize = 32,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textHeadlineLarge(
+    {required String text,
+    double fontSize = 32,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -82,16 +102,21 @@ Widget textHeadlineLarge({
   );
 }
 
-Widget textHeadlineMedium({
-  required String text,
-  double fontSize = 28,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textHeadlineMedium(
+    {required String text,
+    double fontSize = 28,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -102,16 +127,21 @@ Widget textHeadlineMedium({
   );
 }
 
-Widget textHeadlineSmall({
-  required String text,
-  double fontSize = 24,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textHeadlineSmall(
+    {required String text,
+    double fontSize = 24,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -122,16 +152,21 @@ Widget textHeadlineSmall({
   );
 }
 
-Widget textTitleLarge({
-  required String text,
-  double fontSize = 22,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w700,
-  Color? backGroundColor,
-}) {
+Widget textTitleLarge(
+    {required String text,
+    double fontSize = 22,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w700,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -142,16 +177,21 @@ Widget textTitleLarge({
   );
 }
 
-Widget textTitleMedium({
-  required String text,
-  double fontSize = 16,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w700,
-  Color? backGroundColor,
-}) {
+Widget textTitleMedium(
+    {required String text,
+    double fontSize = 16,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w700,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -162,16 +202,21 @@ Widget textTitleMedium({
   );
 }
 
-Widget textTitleSmall({
-  required String text,
-  double fontSize = 14,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w700,
-  Color? backGroundColor,
-}) {
+Widget textTitleSmall(
+    {required String text,
+    double fontSize = 14,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w700,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -182,16 +227,21 @@ Widget textTitleSmall({
   );
 }
 
-Widget textLableLarge({
-  required String text,
-  double fontSize = 21,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w600,
-  Color? backGroundColor,
-}) {
+Widget textLableLarge(
+    {required String text,
+    double fontSize = 21,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w600,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -202,16 +252,21 @@ Widget textLableLarge({
   );
 }
 
-Widget textLableMedium({
-  required String text,
-  double fontSize = 18,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w600,
-  Color? backGroundColor,
-}) {
+Widget textLableMedium(
+    {required String text,
+    double fontSize = 18,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w600,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -222,16 +277,21 @@ Widget textLableMedium({
   );
 }
 
-Widget textLableSmall({
-  required String text,
-  double fontSize = 15,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.w600,
-  Color? backGroundColor,
-}) {
+Widget textLableSmall(
+    {required String text,
+    double fontSize = 15,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.w600,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -242,16 +302,21 @@ Widget textLableSmall({
   );
 }
 
-Widget textBodyLarge({
-  required String text,
-  double fontSize = 20,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textBodyLarge(
+    {required String text,
+    double fontSize = 20,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -262,16 +327,21 @@ Widget textBodyLarge({
   );
 }
 
-Widget textBodyMedium({
-  required String text,
-  double fontSize = 17.5,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textBodyMedium(
+    {required String text,
+    double fontSize = 17.5,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
@@ -282,16 +352,21 @@ Widget textBodyMedium({
   );
 }
 
-Widget textBodySmall({
-  required String text,
-  double fontSize = 14,
-  Color? color,
-  FontStyle? fontStyle,
-  FontWeight fontWeight = FontWeight.normal,
-  Color? backGroundColor,
-}) {
+Widget textBodySmall(
+    {required String text,
+    double fontSize = 14,
+    Color? color,
+    FontStyle? fontStyle,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? backGroundColor,
+    TextDirection? textDirection,
+    int? maxLines,
+    TextAlign? textAlign}) {
   return Text(
     text,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    textAlign: textAlign,
     style: josefinSans(
       fontSize: fontSize,
       color: color,
