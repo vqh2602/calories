@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SThemeTask {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-
+    useMaterial3: true,
     /// Primary Color
     primaryColor: Colors.cyan.shade800,
     scaffoldBackgroundColor: const Color(0xffffffff),
@@ -116,7 +116,7 @@ class SThemeTask {
   /// -------------------------- Dark Theme  -------------------------------------------- ///
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-
+    useMaterial3: true,
     /// Primary Color
     primaryColor: Colors.cyan.shade800,
 
@@ -226,6 +226,6 @@ class SThemeTask {
     disabledColor: const Color(0xffa3a3a3),
     highlightColor: Colors.white.withAlpha(28),
     splashColor: Colors.white.withAlpha(56), colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.cyan.shade800, brightness: Brightness.dark).copyWith( background: const Color(0xff161616)).copyWith(error: Color(0xfff0323c)),
+      seedColor: Colors.cyan.shade800, brightness: Brightness.dark).copyWith( background: const Color(0xff161616)).copyWith(error: const Color(0xfff0323c)),
   );
 }

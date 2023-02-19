@@ -41,6 +41,8 @@ dependencies:
   connectivity_plus: ^3.0.3
   google_fonts: ^4.0.3
   shared_preferences: ^2.0.17
+  lucide_icons: ^0.114.0
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:
