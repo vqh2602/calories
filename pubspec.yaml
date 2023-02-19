@@ -44,6 +44,7 @@ dependencies:
   lucide_icons: ^0.114.0
   animated_text_kit: ^4.2.2
   flashy_tab_bar2: ^0.0.5
+  sqflite: ^2.2.4+1
 
 dev_dependencies:
   flutter_test:

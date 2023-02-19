@@ -154,7 +154,7 @@ Widget textHeadlineSmall(
 
 Widget textTitleLarge(
     {required String text,
-    double fontSize = 22,
+    double fontSize = 23,
     Color? color,
     FontStyle? fontStyle,
     FontWeight fontWeight = FontWeight.w700,
@@ -179,7 +179,7 @@ Widget textTitleLarge(
 
 Widget textTitleMedium(
     {required String text,
-    double fontSize = 16,
+    double fontSize = 18.5,
     Color? color,
     FontStyle? fontStyle,
     FontWeight fontWeight = FontWeight.w700,
@@ -204,7 +204,7 @@ Widget textTitleMedium(
 
 Widget textTitleSmall(
     {required String text,
-    double fontSize = 14,
+    double fontSize = 15.5,
     Color? color,
     FontStyle? fontStyle,
     FontWeight fontWeight = FontWeight.w700,
