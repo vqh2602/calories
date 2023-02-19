@@ -1,10 +1,12 @@
+import 'package:calories/modules/dashboard/dashboard_screen.dart';
 import 'package:calories/widgets/color_custom.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-Widget bottomNavigationBar() {
-  int selectedIndex = 0;
+Widget bottomNavigationBar(
+    {int selectedIndex = 0, required Function(int) onSelect}) {
   return StatefulBuilder(builder: (context, setState) {
     return FlashyTabBar(
       selectedIndex: selectedIndex,
@@ -12,9 +14,8 @@ Widget bottomNavigationBar() {
       animationCurve: Curves.elasticInOut,
       animationDuration: const Duration(milliseconds: 700),
       iconSize: 24,
-      onItemSelected: (index) => setState(() {
-        selectedIndex = index;
-      }),
+      backgroundColor: Get.theme.colorScheme.background,
+      onItemSelected: onSelect,
       items: items,
     );
   });
@@ -44,5 +45,24 @@ List<FlashyTabBarItem> items = [
     title: const Text('Thiết đặt'),
     activeColor: colorBlack1,
     inactiveColor: Colors.grey,
+  ),
+];
+
+List<Widget> widgetOptions = <Widget>[
+  const DashboardScreen(),
+  Container(
+    color: Colors.green,
+    width: Get.width,
+    height: Get.height,
+  ),
+  Container(
+    color: Colors.amber,
+    width: Get.width,
+    height: Get.height,
+  ),
+  Container(
+    color: Colors.deepPurple,
+    width: Get.width,
+    height: Get.height,
   ),
 ];

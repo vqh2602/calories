@@ -24,7 +24,7 @@ Widget buildBody(
 }
 
 Future<bool> onWillPop(BuildContext context) async {
-  print('dđ');
+  //print('dđ');
   bool exitResult = await showDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(
