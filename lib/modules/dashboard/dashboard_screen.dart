@@ -69,7 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
               const SizedBox(
-                height: 4 * 6,
+                height: 4 * 6 ,
               ),
               GFCarousel(
                   hasPagination: true,
