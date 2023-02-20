@@ -39,7 +39,6 @@ Widget imageNetwork(
         child: Image.asset(
           'assets/images/image_notfound.jpg',
           fit: BoxFit.fill,
-
         ),
       );
     },
