@@ -40,3 +40,10 @@ jobs:
       # want to change this to 'flutter test'.
       - name: Run tests
         run: dart pub add --dev test
+      - run: flutter test
+      - run: flutter build apk --debug --split-per-abi
+      - name: Create a Release APK
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/debug/*.apk"
+          token: ${{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}}  
