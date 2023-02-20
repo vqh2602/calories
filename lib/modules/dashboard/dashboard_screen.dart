@@ -75,14 +75,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 hasPagination: true,
                 autoPlay: true,
                 activeIndicator: Colors.white,
-                autoPlayInterval: Duration(seconds: 1),
+                autoPlayInterval: const Duration(seconds: 1),
                 viewportFraction: 1.0,
                   items: imageList.map((url) {
                     return SizedBox(
                       // margin: EdgeInsets.all(8.0),
                       width: Get.width,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                         child: Image.network(url,
                             fit: BoxFit.cover, width: 1000.0),
                       ),
