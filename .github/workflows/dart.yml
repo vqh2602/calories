@@ -42,6 +42,12 @@ jobs:
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
-      - run: flutter build apk
-      - run: flutter build appbundle
+      - run: flutter build apk --debug --split-per-abi
+      - name: Create a Release APK
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/debug/*.apk"
+          token: ${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}
+      #- run: flutter build apk
+      #- run: flutter build appbundle
     
