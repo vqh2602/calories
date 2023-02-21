@@ -835,7 +835,7 @@ TextStyle josefinSans(
     List<FontFeature>? fontFeatures,
     Paint? foreground,
     double? letterSpacing}) {
-  return GoogleFonts.josefinSans(
+  return GoogleFonts.reemKufiFun(
     fontSize: fontSize,
     color: color,
     decoration: decoration,
