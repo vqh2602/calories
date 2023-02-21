@@ -1,11 +1,8 @@
 import 'package:calories/widgets/base/base.dart';
-import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/getwidget.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -40,120 +37,99 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildBody() {
     return SafeArea(
         child: Container(
-          padding: EdgeInsets.zero,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: alignment_20_0(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.zero,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: alignment_20_0(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 4 * 3,
+                  ),
+                  textHeadlineSmall(text: 'Thống kê'),
+                  const SizedBox(
+                    height: 4 * 6,
+                  ),
+                  blockStatisticalToday(),
+                  const SizedBox(
+                    height: 4 * 14,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 4 * 3,
-                      ),
-                      textHeadlineSmall(text: 'Thống kê'),
-                      const SizedBox(
-                        height: 4 * 6,
-                      ),
-                      blockStatisticalToday(),
-                      const SizedBox(
-                        height: 4 * 14,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          textHeadlineSmall(text: 'Blog tập luyện'),
-                          textBodySmall(
-                            text: 'xem thêm',
-                            decoration: TextDecoration.underline,
-                          ),
-                        ],
+                      textHeadlineSmall(text: 'Blog tập luyện'),
+                      textBodySmall(
+                        text: 'xem thêm',
+                        decoration: TextDecoration.underline,
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 4 * 6,
-                ),
-                GFCarousel(
-                    hasPagination: true,
-                    autoPlay: true,
-                    height: 450,
-                    activeIndicator: Colors.white,
-                    autoPlayInterval: const Duration(seconds: 4),
-                    viewportFraction: 1.0,
-                    items: imageList.map((url) {
-                      return SizedBox(
-                        // color: Colors.red,
-                        height: 450,
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5.0)),
-                              child: imageNetwork(
-                                  url: url,
-                                  fit: BoxFit.cover,
-                                  height: double.infinity),
-                            ),
-                            Container(
-                              color: Colors.black.withOpacity(0.4),
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.transparent),
-                                  margin: alignment_20_0(),
-                                  padding: const EdgeInsets.only(bottom: 4*7),
-                                  child: Wrap(
-                                    runSpacing: 12,
-                                    children: [
-                                      textHeadlineMedium(
-                                          text: 'Làm sao để tập vùng mông hiệu quả'
-                                              .toUpperCase(),
-                                          fontWeight: FontWeight.w700,
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.white),
-                                      ElevatedButton(
-                                          //icon: Icon(Icons.edit, size: 32),
-                                          onPressed: () {},
-                                          style:  ElevatedButton.styleFrom(
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.zero, // <-- Radius
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            padding: const EdgeInsets.all(4*3)
-                                          ),
-                                          child: Wrap(
-                                            crossAxisAlignment: WrapCrossAlignment.center,
-                                            children: [
-                                              textTitleLarge(
-                                                  text: 'Đọc chi tiết',
-                                                  textAlign: TextAlign.center,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black),
-                                              const SizedBox(width: 8,),
-                                              const Icon(LucideIcons.arrowRight,color: Colors.black,)
-                                            ],
-                                          ),),
-                                    ],
-                                  )),
-                            )
-                          ],
-                        ),
-                      );
-                    }).toList()),
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+            const SizedBox(
+              height: 4 * 6,
+            ),
+            buildCarousel(listData: imageList),
+            const SizedBox(
+              height: 4 * 6,
+            ),
+            Container(
+              margin: alignment_20_0(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 4 * 12,
+                  ),
+                  buildTitleImageButton(
+                      title: 'Tính toán calo',
+                      des: 'TÌM HIỂU LƯỢNG CALO TIÊU THỤ MỖI NGÀY?',
+                      image: 'assets/images/bg_calo.png',
+                      onTap: () {}),
+                  const SizedBox(
+                    height: 4 * 25,
+                  ),
+                  buildTitleImageButton(
+                      title: 'Tính toán BMI',
+                      des: 'THEO DÕI SỐ LIỆU BMI QUA TỪNG NGÀY',
+                      image: 'assets/images/bg_bmi.png',
+                      onTap: () {}),
+                  const SizedBox(
+                    height: 4 * 25,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 4 * 5),
+              color: const Color(0xfff8f8f8),
+              width: Get.width,
+              child: buildTitleImageButton(
+                  title: '',
+                  des: 'TÌM KIẾM THÊM?\nHãy vào tập luyện',
+                  image: 'assets/images/bg_gray.png',
+                  textAlign: TextAlign.start,
+                  fontSize: 4 * 5,
+                  titleButton: 'VÀO TẬP LUYỆN',
+                  alignmentDes: Alignment.centerLeft,
+                  paddingButton: const EdgeInsets.all(4 * 5),
+                  onTap: () {}),
+            ),
+            Container(
+              color: const Color(0xfff8f8f8),
+              width: Get.width,
+              height: 120,
+            )
+          ],
+        ),
+      ),
+    ));
   }
 }
 
