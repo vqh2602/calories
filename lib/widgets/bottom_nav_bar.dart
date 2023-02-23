@@ -1,4 +1,5 @@
 import 'package:calories/modules/dashboard/dashboard_screen.dart';
+import 'package:calories/modules/setting/setting_screen.dart';
 import 'package:calories/widgets/color_custom.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +61,5 @@ List<Widget> widgetOptions = <Widget>[
     width: Get.width,
     height: Get.height,
   ),
-  Container(
-    color: Colors.deepPurple,
-    width: Get.width,
-    height: Get.height,
-  ),
+  const SettingScreen()
 ];
