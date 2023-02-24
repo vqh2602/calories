@@ -4,6 +4,8 @@ import 'package:calories/modules/home/home_binding.dart';
 import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/modules/splash/splash_binding.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
+import 'package:calories/modules/workout/workout_binding.dart';
+import 'package:calories/modules/workout/workout_screen.dart';
 import 'package:get/get.dart';
 
 List<GetPage> routes = [
@@ -19,4 +21,8 @@ List<GetPage> routes = [
       name: DashboardScreen.routeName,
       page: () => const DashboardScreen(),
       binding: DashboardBinding()),
+  GetPage(
+      name: WorkoutScreen.routeName,
+      page: () => const WorkoutScreen(),
+      binding: WorkoutBinding()),
 ];
