@@ -218,6 +218,7 @@ AppBar appBarCustom({
           border: Border(
               bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
       child: Container(
+        margin: const EdgeInsets.only(top: 3),
           padding: alignment_20_8(), child: textTitleLarge(text: title)),
     ),
   );

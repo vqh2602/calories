@@ -6,6 +6,8 @@ import 'package:calories/modules/setting/setting_binding.dart';
 import 'package:calories/modules/setting/setting_screen.dart';
 import 'package:calories/modules/splash/splash_binding.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
+import 'package:calories/modules/statistical/statistical_binding.dart';
+import 'package:calories/modules/statistical/statistical_screen.dart';
 import 'package:get/get.dart';
 
 List<GetPage> routes = [
@@ -25,4 +27,8 @@ List<GetPage> routes = [
       name: DashboardScreen.routeName,
       page: () => const DashboardScreen(),
       binding: DashboardBinding()),
+  GetPage(
+      name: StatisticalScreen.routeName,
+      page: () => const StatisticalScreen(),
+      binding: StatisticalBinding()),
 ];
