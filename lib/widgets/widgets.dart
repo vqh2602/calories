@@ -3,9 +3,9 @@ import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // khối thông tin tập luyện trong ngày
 Widget blockStatisticalToday({Function? onTap}) {
@@ -218,8 +218,9 @@ AppBar appBarCustom({
           border: Border(
               bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
       child: Container(
-        margin: const EdgeInsets.only(top: 3),
-          padding: alignment_20_8(), child: textTitleLarge(text: title)),
+          margin: const EdgeInsets.only(top: 3),
+          padding: alignment_20_8(),
+          child: textTitleLarge(text: title)),
     ),
   );
 }
@@ -295,6 +296,36 @@ Widget buttonSetting({
                 ),
         ],
       ),
+    ),
+  );
+}
+
+Widget chartCustom({dynamic series, double height = 450}) {
+  return Container(
+    width: Get.width,
+    margin: const EdgeInsets.only(top: 4 * 5, bottom: 4 * 2),
+    height: height,
+    child: SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: ChartTitle(text: ''),
+      legend: Legend(
+          isVisible: !false,
+          overflowMode: LegendItemOverflowMode.wrap,
+          toggleSeriesVisibility: true,
+          position: LegendPosition.bottom),
+      primaryXAxis: CategoryAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          labelPlacement: LabelPlacement.onTicks),
+      primaryYAxis: NumericAxis(
+          // minimum: 0,
+          // maximum: 50,
+          // visibleMaximum: 1000,
+          axisLine: const AxisLine(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.hide,
+          labelFormat: '{value}',
+          majorTickLines: const MajorTickLines(size: 0)),
+      series: series,
+      tooltipBehavior: TooltipBehavior(enable: true),
     ),
   );
 }
