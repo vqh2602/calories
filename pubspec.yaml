@@ -46,7 +46,7 @@ dependencies:
   flashy_tab_bar2: ^0.0.6
   sqflite: ^2.2.4+1
   getwidget: ^3.0.1
-  bruno: ^3.3.0
+  syncfusion_flutter_charts: ^20.4.51
 
 dev_dependencies:
   flutter_test:
