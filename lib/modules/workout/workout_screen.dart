@@ -1,5 +1,7 @@
 import 'package:calories/widgets/base/base.dart';
+import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
+import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -15,31 +17,161 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
-    return buildBody(
-      context: context,
-      body: _buildBody(),
-      appBar: AppBar(
-        titleSpacing: 0,
-        backgroundColor: Get.theme.colorScheme.background,
-        surfaceTintColor: Get.theme.colorScheme.background,
-        title: Container(
-          width: Get.width,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(width: 1, color: Colors.grey.shade400),
+    return DefaultTabController(
+      initialIndex: 1,
+      length: 2,
+      child: buildBody(
+        context: context,
+        appBar: AppBar(
+          titleSpacing: 0,
+          backgroundColor: Get.theme.colorScheme.background,
+          surfaceTintColor: Get.theme.colorScheme.background,
+          title: Container(
+            width: Get.width,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 1, color: Colors.grey.shade400),
+              ),
+            ),
+            child: Container(
+              padding: alignment_20_8(),
+              child: textTitleLarge(text: 'BÀI TẬP'),
             ),
           ),
-          child: Container(
-            padding: alignment_20_8(),
-            child: textTitleLarge(text: 'BÀI TẬP'),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(4 * 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TabBar(
+                unselectedLabelColor: Colors.grey,
+                overlayColor:
+                    MaterialStateProperty.all<Color>(Colors.transparent),
+                isScrollable: true,
+                tabs: [
+                  Container(
+                    margin: const EdgeInsets.all(4 * 2),
+                    child: textBodySmall(text: 'Dành cho bạn'),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(4 * 2),
+                    child: textBodySmall(text: 'Browse'),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
+        body: _buildBody(),
       ),
     );
   }
 }
 
 Widget _buildBody() {
+  return TabBarView(
+    children: [
+      forYouTab(),
+      browseTab(),
+    ],
+  );
+}
+
+//tab browse cho bạn ở màn Workout
+Widget browseTab() {
+  return SafeArea(
+    child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 4 * 4,
+          ),
+          searchBar(),
+          const SizedBox(
+            height: 4 * 4,
+          ),
+          browseItem(
+            title: 'chống đẩy',
+            des: 'chống đẩy chống đẩy chống đẩy chống đẩy chống đẩy',
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget browseItem({required String title, required String des}) {
+  return InkWell(
+    onTap: () {},
+    child: Stack(
+      children: [
+        imageNetwork(
+            url:
+                'https://phantom-marca.unidadeditorial.es/efa9740df47cff7f9466ea78fd720074/crop/0x93/899x599/resize/1320/f/jpg/assets/multimedia/imagenes/2022/01/19/16426036798831.jpg'),
+        Positioned(
+          bottom: 0,
+          child: Container(
+            margin: const EdgeInsets.all(4 * 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                forYouItemTitle(title: title),
+                const SizedBox(
+                  height: 4,
+                ),
+                LimitedBox(
+                  maxWidth: Get.width - 4 * 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(4 * 2),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: textBodySmall(
+                      text: des,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget searchBar() {
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20),
+    decoration: BoxDecoration(
+      color: Colors.grey.withOpacity(0.05),
+      borderRadius: BorderRadius.circular(30),
+    ),
+    child: TextField(
+      onChanged: (value) {},
+      decoration: const InputDecoration(
+        contentPadding: EdgeInsets.all(4 * 3),
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        hintText: "Search",
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+        prefixIcon: Icon(
+          LucideIcons.search,
+          size: 12,
+        ),
+      ),
+    ),
+  );
+}
+
+//tab dành cho bạn ở màn Workout
+Widget forYouTab() {
   return SafeArea(
     child: SingleChildScrollView(
       child: Column(
@@ -87,178 +219,6 @@ Widget forYou() {
               pagePosition: pagePosition,
             );
           },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget forYouItem({
-  required image,
-  required String name,
-  required String level,
-  required String time,
-  required String des,
-  required int pagePosition,
-}) {
-  return Container(
-    margin: const EdgeInsets.only(right: 4),
-    child: Stack(
-      children: [
-        Image.network(
-          image,
-          fit: BoxFit.cover,
-          height: 440,
-          width: double.infinity,
-        ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            margin: const EdgeInsets.all(4 * 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LimitedBox(
-                  maxWidth: Get.width - 4 * 20,
-                  child: Container(
-                    padding: const EdgeInsets.all(4 * 2),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: textTitleLarge(
-                      text: name.toUpperCase(),
-                      fontStyle: FontStyle.italic,
-                      maxLines: 2,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(4 * 2),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: textTitleSmall(
-                        text: level.toUpperCase(),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(4 * 2),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: textTitleSmall(
-                        text: '$time Phút'.toUpperCase(),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(4 * 2),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  width: 240,
-                  child: textBodySmall(
-                    text: des,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(4 * 2),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: const Icon(LucideIcons.arrowRight),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget topPickForYou() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const SizedBox(height: 4 * 4),
-      Container(
-        margin: alignment_20_0(),
-        child: textHeadlineSmall(text: 'Top pick for you'),
-      ),
-      const SizedBox(height: 4 * 4),
-      Container(
-        //item
-        margin: const EdgeInsets.only(right: 4),
-        child: SizedBox(
-          height: 200,
-          child: PageView.builder(
-            itemCount: 3,
-            pageSnapping: true,
-            controller: PageController(
-              initialPage: 0,
-              viewportFraction: 0.9,
-            ),
-            itemBuilder: (context, pagePosition) {
-              return Container(
-                margin: const EdgeInsets.only(right: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black.withOpacity(0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.network(
-                      "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
-                      fit: BoxFit.cover,
-                      height: 140,
-                      width: double.infinity,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 4 * 3,
-                        vertical: 4 * 2,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          textTitleSmall(
-                            text: 'Plank'.toUpperCase(),
-                            fontSize: 12,
-                          ),
-                          textBodySmall(
-                            text:
-                                'Xây dựng sự ổn định cốt lõi cho chuyển động hàng ngày',
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 10,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
         ),
       ),
     ],
