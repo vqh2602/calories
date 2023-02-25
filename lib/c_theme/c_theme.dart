@@ -5,7 +5,7 @@ class SThemeTask {
     brightness: Brightness.light,
     useMaterial3: true,
     /// Primary Color
-    primaryColor: Colors.cyan.shade800,
+    primaryColor: Colors.black,
     scaffoldBackgroundColor: const Color(0xffffffff),
     canvasColor: Colors.transparent,
 
@@ -21,12 +21,12 @@ class SThemeTask {
 
     /// Floating Action Theme
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: Colors.cyan.shade800,
+        backgroundColor: Colors.black,
         splashColor: const Color(0xffeeeeee).withAlpha(100),
         highlightElevation: 8,
         elevation: 4,
-        focusColor: Colors.cyan.shade800,
-        hoverColor: Colors.cyan.shade800,
+        focusColor: Colors.black,
+        hoverColor: Colors.black,
         foregroundColor: const Color(0xffeeeeee)),
 
     /// Divider Theme
@@ -35,27 +35,27 @@ class SThemeTask {
 
     /// Bottom AppBar Theme
     bottomAppBarTheme:
-    BottomAppBarTheme(color: Colors.cyan.shade900, elevation: 2),
+    const BottomAppBarTheme(color:Colors.black, elevation: 2),
 
     /// Tab bar Theme
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: const Color(0xff495057),
-      labelColor: Colors.cyan.shade800,
+    tabBarTheme: const TabBarTheme(
+      unselectedLabelColor: Color(0xff495057),
+      labelColor: Colors.black,
       indicatorSize: TabBarIndicatorSize.label,
       indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(color: Colors.cyan.shade800, width: 2.0),
+        borderSide: BorderSide(color: Colors.black, width: 2.0),
       ),
     ),
 
     /// CheckBox theme
     checkboxTheme: CheckboxThemeData(
       checkColor: MaterialStateProperty.all(const Color(0xffeeeeee)),
-      fillColor: MaterialStateProperty.all(Colors.cyan.shade800),
+      fillColor: MaterialStateProperty.all(Colors.black),
     ),
 
     /// Radio theme
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.all(Colors.cyan.shade800),
+      fillColor: MaterialStateProperty.all(Colors.black),
     ),
 
     ///Switch Theme
@@ -80,7 +80,7 @@ class SThemeTask {
           MaterialState.selected,
         };
         if (state.any(interactiveStates.contains)) {
-          return Colors.cyan.shade800;
+          return Colors.black;
         }
         return null;
       }),
@@ -88,15 +88,15 @@ class SThemeTask {
 
     /// Slider Theme
     sliderTheme: SliderThemeData(
-      activeTrackColor: Colors.cyan.shade800,
-      inactiveTrackColor: Colors.cyan.shade800.withAlpha(140),
+      activeTrackColor: Colors.black,
+      inactiveTrackColor: Colors.black.withAlpha(140),
       trackShape: const RoundedRectSliderTrackShape(),
       trackHeight: 4.0,
-      thumbColor: Colors.cyan.shade800,
+      thumbColor: Colors.black,
       thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
       overlayShape: const RoundSliderOverlayShape(overlayRadius: 24.0),
       tickMarkShape: const RoundSliderTickMarkShape(),
-      inactiveTickMarkColor: Colors.cyan[100],
+      inactiveTickMarkColor: Colors.black12,
       valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
       valueIndicatorTextStyle: const TextStyle(
         color: Color(0xffeeeeee),
@@ -107,8 +107,8 @@ class SThemeTask {
     splashColor: Colors.white.withAlpha(100),
     indicatorColor: const Color(0xffeeeeee),
     highlightColor: const Color(0xffeeeeee), colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.cyan.shade800,
-      primary: Colors.cyan.shade800,
+      seedColor: Colors.black,
+      primary: Colors.black,
       brightness: Brightness.light).copyWith(background: const Color(0xffffffff)).copyWith(error: const Color(0xfff0323c)),
 
   );
@@ -118,7 +118,7 @@ class SThemeTask {
     brightness: Brightness.dark,
     useMaterial3: true,
     /// Primary Color
-    primaryColor: Colors.cyan.shade800,
+    primaryColor: Colors.black,
 
     /// Scaffold and Background color
     scaffoldBackgroundColor: const Color(0xff161616),
@@ -132,16 +132,16 @@ class SThemeTask {
     cardColor: const Color(0xff222327),
 
     /// Input (Text-Field) Theme
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
-        borderSide: BorderSide(width: 1, color: Colors.cyan.shade800),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        borderSide: BorderSide(width: 1, color: Colors.black),
       ),
-      enabledBorder: const OutlineInputBorder(
+      enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(4)),
         borderSide: BorderSide(width: 1, color: Colors.white70),
       ),
-      border: const OutlineInputBorder(
+      border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
           borderSide: BorderSide(width: 1, color: Colors.white70)),
     ),
@@ -152,27 +152,27 @@ class SThemeTask {
 
     /// Floating Action Theme
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: Colors.cyan.shade800,
+        backgroundColor: Colors.black,
         splashColor: Colors.white.withAlpha(100),
         highlightElevation: 8,
         elevation: 4,
-        focusColor: Colors.cyan.shade800,
-        hoverColor: Colors.cyan.shade800,
+        focusColor: Colors.black,
+        hoverColor: Colors.black,
         foregroundColor: Colors.white),
 
     /// Bottom AppBar Theme
-    bottomAppBarTheme: BottomAppBarTheme(
-      color: Colors.cyan.shade900,
+    bottomAppBarTheme: const BottomAppBarTheme(
+      color:Colors.black,
       elevation: 2,
     ),
 
     /// Tab bar Theme
-    tabBarTheme: TabBarTheme(
-      unselectedLabelColor: const Color(0xff495057),
-      labelColor: Colors.cyan.shade800,
+    tabBarTheme: const TabBarTheme(
+      unselectedLabelColor: Color(0xff495057),
+      labelColor: Colors.black,
       indicatorSize: TabBarIndicatorSize.label,
       indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(color: Colors.cyan.shade800, width: 2.0),
+        borderSide: BorderSide(color: Colors.black, width: 2.0),
       ),
     ),
 
@@ -198,7 +198,7 @@ class SThemeTask {
           MaterialState.selected,
         };
         if (state.any(interactiveStates.contains)) {
-          return Colors.cyan.shade800;
+          return Colors.black;
         }
         return null;
       }),
@@ -206,11 +206,11 @@ class SThemeTask {
 
     /// Slider Theme
     sliderTheme: SliderThemeData(
-      activeTrackColor: Colors.cyan.shade800,
-      inactiveTrackColor: Colors.cyan.shade800.withAlpha(100),
+      activeTrackColor: Colors.black,
+      inactiveTrackColor: Colors.black.withAlpha(100),
       trackShape: const RoundedRectSliderTrackShape(),
       trackHeight: 4.0,
-      thumbColor: Colors.cyan.shade800,
+      thumbColor: Colors.black,
       thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 10.0),
       overlayShape: const RoundSliderOverlayShape(overlayRadius: 24.0),
       tickMarkShape: const RoundSliderTickMarkShape(),
@@ -226,6 +226,6 @@ class SThemeTask {
     disabledColor: const Color(0xffa3a3a3),
     highlightColor: Colors.white.withAlpha(28),
     splashColor: Colors.white.withAlpha(56), colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.cyan.shade800, brightness: Brightness.dark).copyWith( background: const Color(0xff161616)).copyWith(error: const Color(0xfff0323c)),
+      seedColor: Colors.black, brightness: Brightness.dark).copyWith( background: const Color(0xff161616)).copyWith(error: const Color(0xfff0323c)),
   );
 }

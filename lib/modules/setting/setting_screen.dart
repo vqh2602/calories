@@ -1,3 +1,4 @@
+import 'package:calories/modules/setting/acc_detail/account_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
@@ -23,6 +24,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return buildBody(
       context: context,
+      isCheckBeforePop: true,
       body: _buildBody(),
       appBar: appBarCustom(title: 'THIẾT ĐẶT'.toUpperCase()),
     );
@@ -60,7 +62,9 @@ class _SettingScreenState extends State<SettingScreen> {
                       height: 4 * 10,
                     ),
                     GFButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AccountDetailScreen.routeName);
+                      },
                       padding: const EdgeInsets.only(
                         left: 4 * 15,
                         right: 4 * 15,
