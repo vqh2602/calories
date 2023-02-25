@@ -1,4 +1,3 @@
-import 'package:calories/modules/setting/acc_detail/account_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
@@ -7,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class SettingScreen extends StatefulWidget {
-  const SettingScreen({Key? key}) : super(key: key);
-  static const String routeName = '/Setting';
+class AccountDetailScreen extends StatefulWidget {
+  const AccountDetailScreen({Key? key}) : super(key: key);
+  static const String routeName = '/account_detail';
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
+  State<AccountDetailScreen> createState() => _AccountDetailScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class _AccountDetailScreenState extends State<AccountDetailScreen> {
   @override
   void initState() {
     super.initState();
@@ -24,9 +23,21 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return buildBody(
       context: context,
-      isCheckBeforePop: true,
       body: _buildBody(),
-      appBar: appBarCustom(title: 'THIẾT ĐẶT'.toUpperCase()),
+      appBar: appBarCustom(
+          title: 'Chỉnh sửa tài khoản',
+          isPadding: false,
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(LucideIcons.x)),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          actions: [
+            TextButton(onPressed: (){}, child: textBodyMedium(text: 'Lưu',))
+          ],
+          bigTitle: false,
+          isBorder: true),
     );
   }
 
@@ -62,9 +73,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       height: 4 * 10,
                     ),
                     GFButton(
-                      onPressed: () {
-                        Get.toNamed(AccountDetailScreen.routeName);
-                      },
+                      onPressed: () {},
                       padding: const EdgeInsets.only(
                         left: 4 * 15,
                         right: 4 * 15,
