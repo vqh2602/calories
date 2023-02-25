@@ -17,6 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return buildBody(
         context: context,
+        isCheckBeforePop: true,
         body: _buildBody(),
         appBar: appBarCustom(title: 'TRANG CHỦ'.toUpperCase()));
   }

@@ -2,6 +2,8 @@ import 'package:calories/modules/dashboard/dashboard_binding.dart';
 import 'package:calories/modules/dashboard/dashboard_screen.dart';
 import 'package:calories/modules/home/home_binding.dart';
 import 'package:calories/modules/home/home_screen.dart';
+import 'package:calories/modules/setting/acc_detail/account_detail_binding.dart';
+import 'package:calories/modules/setting/acc_detail/account_detail_screen.dart';
 import 'package:calories/modules/setting/setting_binding.dart';
 import 'package:calories/modules/setting/setting_screen.dart';
 import 'package:calories/modules/splash/splash_binding.dart';
@@ -31,4 +33,9 @@ List<GetPage> routes = [
       name: StatisticalScreen.routeName,
       page: () => const StatisticalScreen(),
       binding: StatisticalBinding()),
+  GetPage(
+      name: AccountDetailScreen.routeName,
+      page: () => const AccountDetailScreen(),
+      binding: AccountDetailBinding(),
+      transition: Transition.rightToLeft),
 ];

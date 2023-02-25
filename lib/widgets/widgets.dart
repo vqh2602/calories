@@ -204,23 +204,46 @@ Widget buildTitleImageButton(
 }
 
 // app bar custom
-AppBar appBarCustom({
-  required String title,
-}) {
+AppBar appBarCustom(
+    {required String title,
+    bool bigTitle = true,
+    bool isBorder = true,
+    double marginTop = 3.0,
+    Widget? leadingAppBar,
+    List<Widget>? actionsAppBar,
+    bool isPadding = true,
+    MainAxisAlignment? mainAxisAlignment,
+    Widget? leading,
+    List<Widget>? actions}) {
   return AppBar(
     titleSpacing: 0,
+    automaticallyImplyLeading: false,
     backgroundColor: Get.theme.colorScheme.background,
     surfaceTintColor: Get.theme.colorScheme.background,
+    leading: leadingAppBar,
+    actions: actionsAppBar,
     title: Container(
       width: Get.width,
-      padding: const EdgeInsets.only(top: 4, bottom: 4),
+      padding: const EdgeInsets.only(top: 4, bottom: 3),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
+              bottom: isBorder
+                  ? BorderSide(width: 1, color: Colors.grey.shade400)
+                  : BorderSide.none)),
       child: Container(
-          margin: const EdgeInsets.only(top: 3),
-          padding: alignment_20_8(),
-          child: textTitleLarge(text: title)),
+          margin: EdgeInsets.only(top: marginTop),
+          padding: isPadding ? alignment_20_8() : EdgeInsets.zero,
+          child: Row(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (leading != null) leading,
+              bigTitle
+                  ? textTitleLarge(text: title)
+                  : textTitleMedium(text: title),
+              if (actions != null) ...actions
+            ],
+          )),
     ),
   );
 }
@@ -231,6 +254,7 @@ Widget avatarImage({required String url, double? radius}) {
   return StatefulBuilder(builder: (context, setState) {
     return CircleAvatar(
         radius: radius,
+        backgroundColor: Colors.transparent,
         backgroundImage: NetworkImage(url),
         onBackgroundImageError: (dynamic exception, StackTrace? stackTrace) {
           setState(() {
