@@ -47,6 +47,7 @@ dependencies:
   sqflite: ^2.2.4+1
   getwidget: ^3.0.1
   syncfusion_flutter_charts: ^20.4.51
+  image_picker: ^0.8.6+3
 
 
 dev_dependencies:

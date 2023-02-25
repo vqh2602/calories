@@ -208,6 +208,7 @@ AppBar appBarCustom(
     {required String title,
     bool bigTitle = true,
     bool isBorder = true,
+    double marginTop = 3.0,
     Widget? leadingAppBar,
     List<Widget>? actionsAppBar,
     bool isPadding = true,
@@ -223,14 +224,14 @@ AppBar appBarCustom(
     actions: actionsAppBar,
     title: Container(
       width: Get.width,
-      padding: const EdgeInsets.only(top: 4, bottom: 4),
+      padding: const EdgeInsets.only(top: 4, bottom: 3),
       decoration: BoxDecoration(
           border: Border(
               bottom: isBorder
                   ? BorderSide(width: 1, color: Colors.grey.shade400)
                   : BorderSide.none)),
       child: Container(
-          margin: const EdgeInsets.only(top: 3),
+          margin: EdgeInsets.only(top: marginTop),
           padding: isPadding ? alignment_20_8() : EdgeInsets.zero,
           child: Row(
             mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
@@ -253,6 +254,7 @@ Widget avatarImage({required String url, double? radius}) {
   return StatefulBuilder(builder: (context, setState) {
     return CircleAvatar(
         radius: radius,
+        backgroundColor: Colors.transparent,
         backgroundImage: NetworkImage(url),
         onBackgroundImageError: (dynamic exception, StackTrace? stackTrace) {
           setState(() {
