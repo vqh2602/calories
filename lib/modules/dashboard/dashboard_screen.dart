@@ -18,20 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return buildBody(
         context: context,
         body: _buildBody(),
-        appBar: AppBar(
-          titleSpacing: 0,
-          backgroundColor: Get.theme.colorScheme.background,
-          surfaceTintColor: Get.theme.colorScheme.background,
-          title: Container(
-            width: Get.width,
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
-            child: Container(
-                padding: alignment_20_8(),
-                child: textTitleLarge(text: 'TRANG CHỦ')),
-          ),
-        ));
+        appBar: appBarCustom(title: 'TRANG CHỦ'.toUpperCase()));
   }
 
   Widget _buildBody() {
