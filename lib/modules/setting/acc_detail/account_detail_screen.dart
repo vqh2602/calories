@@ -1,3 +1,4 @@
+import 'package:calories/modules/setting/acc_detail/account_detail_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/theme_textinput.dart';
@@ -15,6 +16,9 @@ class AccountDetailScreen extends StatefulWidget {
 }
 
 class _AccountDetailScreenState extends State<AccountDetailScreen> {
+  AccountDetailController accountDetailController =
+      Get.put(AccountDetailController());
+  GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormA1');
   bool sex = true;
   @override
   void initState() {
@@ -38,7 +42,11 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                if (keyForm1.currentState?.validate() ?? false) {
+                  //Get.offAndToNamed(HomeScreen.routeName);
+                }
+              },
               child: textBodyMedium(
                 text: 'Lưu',
               ))
@@ -49,164 +57,175 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
   }
 
   Widget _buildBody() {
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.zero,
-        padding: alignment_20_0(),
-        color: Colors.white,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () async {
-                    final ImagePicker picker = ImagePicker();
-                    //final XFile? image =
-                    await picker.pickImage(source: ImageSource.gallery);
-                  },
-                  child: Ink(
-                    child: avatarImage(
-                        url:
-                            'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-                        radius: 60),
+    return accountDetailController.obx((state) => SafeArea(
+            child: SingleChildScrollView(
+          child: Form(
+            key: keyForm1,
+            child: Container(
+              margin: EdgeInsets.zero,
+              padding: alignment_20_0(),
+              color: Colors.white,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 4 * 5,
                   ),
-                ),
-                const SizedBox(
-                  width: 4 * 5,
-                ),
-                Expanded(
-                  child: Column(
+                  Row(
                     children: [
-                      TextField(
-                        onTap: () {},
-                        style: josefinSans(fontSize: 16),
-                        decoration: textFieldInputStyle(label: 'Họ & đệm'),
+                      InkWell(
+                        onTap: () async {
+                          final ImagePicker picker = ImagePicker();
+                          //final XFile? image =
+                          await picker.pickImage(source: ImageSource.gallery);
+                        },
+                        child: Ink(
+                          child: avatarImage(
+                              url:
+                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                              radius: 60),
+                        ),
                       ),
                       const SizedBox(
-                        height: 4 * 5,
+                        width: 4 * 5,
                       ),
-                      TextField(
-                        onTap: () {},
-                        style: josefinSans(fontSize: 16),
-                        decoration: textFieldInputStyle(label: 'Tên'),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              onTap: () {},
+                              style: josefinSans(fontSize: 16),
+                              validator: accountDetailController.validateString,
+                              decoration:
+                                  textFieldInputStyle(label: 'Họ & đệm (*)'),
+                            ),
+                            const SizedBox(
+                              height: 4 * 5,
+                            ),
+                            TextFormField(
+                              onTap: () {},
+                              style: josefinSans(fontSize: 16),
+                              validator: accountDetailController.validateString,
+                              decoration: textFieldInputStyle(label: 'Tên (*)'),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  TextField(
+                    onTap: () {},
+                    style: josefinSans(fontSize: 16),
+                    readOnly: true,
+                    decoration: textFieldInputStyle(label: 'Email'),
+                    maxLines: 1,
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  TextFormField(
+                    onTap: () {},
+                    style: josefinSans(fontSize: 16),
+                    showCursor: false,
+                    readOnly: true,
+                    decoration: textFieldInputStyle(label: 'Năm sinh (*)'),
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            sex = !sex;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1,
+                                  color: !sex ? Colors.grey : Colors.black)),
+                          child: Center(
+                            child: textBodyMedium(
+                                text: 'Nam',
+                                color: !sex ? Colors.grey : Colors.black),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4 * 5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            sex = !sex;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1,
+                                  color: sex ? Colors.grey : Colors.black)),
+                          child: Center(
+                            child: textBodyMedium(
+                                text: 'Nữ',
+                                color: sex ? Colors.grey : Colors.black),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            TextField(
-              onTap: () {},
-              style: josefinSans(fontSize: 16),
-              readOnly: true,
-              decoration: textFieldInputStyle(label: 'Email'),
-              maxLines: 1,
-            ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            TextField(
-              onTap: () {},
-              style: josefinSans(fontSize: 16),
-              showCursor: false,
-              readOnly: true,
-              decoration: textFieldInputStyle(label: 'Năm sinh'),
-            ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      sex = !sex;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: !sex ? Colors.grey : Colors.black)),
-                    child: Center(
-                      child: textBodyMedium(
-                          text: 'Nam',
-                          color: !sex ? Colors.grey : Colors.black),
-                    ),
+                  const SizedBox(
+                    height: 4 * 5,
                   ),
-                ),
-                const SizedBox(
-                  width: 4 * 5,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      sex = !sex;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: sex ? Colors.grey : Colors.black)),
-                    child: Center(
-                      child: textBodyMedium(
-                          text: 'Nữ', color: sex ? Colors.grey : Colors.black),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            TextField(
-              onTap: () {},
-              style: josefinSans(fontSize: 16),
-              decoration: textFieldInputStyle(label: 'Địa chỉ'),
-              maxLines: 3,
-            ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
+                  TextField(
                     onTap: () {},
                     style: josefinSans(fontSize: 16),
-                    decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
-                    keyboardType: TextInputType.number,
+                    decoration: textFieldInputStyle(label: 'Địa chỉ'),
+                    maxLines: 3,
                   ),
-                ),
-                const SizedBox(
-                  width: 4 * 5,
-                ),
-                Expanded(
-                  child: TextField(
-                    onTap: () {},
-                    style: josefinSans(fontSize: 16),
-                    keyboardType: TextInputType.number,
-                    decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
+                  const SizedBox(
+                    height: 4 * 5,
                   ),
-                )
-              ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          onTap: () {},
+                          style: josefinSans(fontSize: 16),
+                          validator: accountDetailController.numberValidator,
+                          decoration:
+                              textFieldInputStyle(label: 'Chiều cao (cm)'),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4 * 5,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          onTap: () {},
+                          style: josefinSans(fontSize: 16),
+                          keyboardType: TextInputType.number,
+                          validator: accountDetailController.numberValidator,
+                          decoration:
+                              textFieldInputStyle(label: 'Cân nặng (kg)'),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(
-              height: 4 * 5,
-            ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        )));
   }
-
 }

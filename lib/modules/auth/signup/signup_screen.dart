@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:calories/modules/auth/signup/signup_controller.dart';
 import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -22,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   SignupController signupController = Get.put(SignupController());
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormS1');
   bool sex = true;
+  File? imagePath;
   @override
   void initState() {
     super.initState();
@@ -62,18 +65,24 @@ class _SignupScreenState extends State<SignupScreen> {
                       InkWell(
                         onTap: () async {
                           final ImagePicker picker = ImagePicker();
-                          //final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery);
+                          setState(() {
+                            try {
+                              imagePath = File(image!.path);
+                            } catch (_) {}
+                          });
                         },
                         child: Ink(
                           child: avatarImage(
-                              url:
-                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                              url: '',
+                              imageF: imagePath,
+                              isFileImage: true,
                               radius: 60),
                         ),
                       ),
                       const SizedBox(
-                        height: 4 * 5,
+                        height: 4 * 10,
                       ),
                       Row(
                         children: [
@@ -110,7 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: textFieldInputStyle(label: 'Email (*)'),
                     maxLines: 1,
-                    validator: signupController.validateString,
+                    validator: signupController.validateEmail,
                   ),
                   const SizedBox(
                     height: 4 * 5,
@@ -196,6 +205,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: TextFormField(
                           onTap: () {},
                           style: josefinSans(fontSize: 16),
+                          validator: signupController.numberValidator,
                           decoration:
                               textFieldInputStyle(label: 'Chiều cao (cm)'),
                           keyboardType: TextInputType.number,
@@ -208,6 +218,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: TextFormField(
                           onTap: () {},
                           keyboardType: TextInputType.number,
+                          validator: signupController.numberValidator,
                           decoration:
                               textFieldInputStyle(label: 'Cân nặng (kg)'),
                         ),

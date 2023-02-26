@@ -53,7 +53,7 @@ void buildToast(
   }
 }
 
-enum TypeDate { ddMMyyyy, ddMMyyyyhhmm, hhmm, dd, yyyy, MM }
+enum TypeDate { ddMMyyyy, ddMMyyyyhhmm, hhmm, dd, yyyy, mM }
 
 String formatDate({required TypeDate type, required DateTime dateTime}) {
   switch (type) {
@@ -67,7 +67,7 @@ String formatDate({required TypeDate type, required DateTime dateTime}) {
       return dateTime.day.toString();
     case TypeDate.yyyy:
       return dateTime.year.toString();
-    case TypeDate.MM:
+    case TypeDate.mM:
       return dateTime.month.toString();
   }
 }

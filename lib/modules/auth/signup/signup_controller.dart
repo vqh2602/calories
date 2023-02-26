@@ -13,8 +13,9 @@ class SignupController extends GetxController
     initTE();
     changeUI();
   }
-  initTE(){
-    birthTE = TextEditingController(text: '');
+
+  initTE() {
+    birthTE = TextEditingController();
   }
 
   String? validateString(String? text) {
@@ -24,13 +25,31 @@ class SignupController extends GetxController
     return null;
   }
 
+  String? numberValidator(String? value) {
+    if (value == null || value == '') {
+      return null;
+    }
+    final n = num.tryParse(value);
+    if (n == null) {
+      return '$value không phải kiểu số';
+    }
+    return null;
+  }
+
+  String? validateEmail(String? value) {
+    bool emailValid = RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value ?? '');
+    return emailValid ? null : "Không đúng định dạng email";
+  }
+
   changeUI() {
     change(null, status: RxStatus.success());
   }
-  updateUI(){
+
+  updateUI() {
     update();
   }
-  loadingUI(){
-    change(null,status: RxStatus.loading());
+
+  loadingUI() {
+    change(null, status: RxStatus.loading());
   }
 }
