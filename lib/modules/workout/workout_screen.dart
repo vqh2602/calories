@@ -19,7 +19,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 2,
+      length: 3,
       child: buildBody(
         context: context,
         appBar: AppBar(
@@ -44,7 +44,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               alignment: Alignment.centerLeft,
               child: TabBar(
                 unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.black,
+                indicatorSize: TabBarIndicatorSize.tab,
                 dividerColor: Colors.grey.shade400,
+                indicator: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.black,
+                      width: 2.0,
+                    ),
+                  ),
+                ),
                 overlayColor:
                     MaterialStateProperty.all<Color>(Colors.transparent),
                 isScrollable: true,
@@ -55,7 +65,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.all(4 * 2),
-                    child: textBodySmall(text: 'Browse'),
+                    child: textBodySmall(text: 'Danh sách'),
                   ),
                 ],
               ),
@@ -70,6 +80,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
 Widget _buildBody() {
   return TabBarView(
+    physics: const NeverScrollableScrollPhysics(),
     children: [
       forYouTab(),
       browseTab(),
