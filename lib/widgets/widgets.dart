@@ -203,24 +203,155 @@ Widget buildTitleImageButton(
   );
 }
 
-// app bar custom
-AppBar appBarCustom({
-  required String title,
+Widget forYouItem({
+  required image,
+  required String name,
+  required String level,
+  required String time,
+  required String des,
+  required int pagePosition,
 }) {
+  return InkWell(
+    onTap: () {},
+    child: Container(
+      margin: const EdgeInsets.only(right: 4),
+      child: Stack(
+        children: [
+          imageNetwork(
+            url: image,
+            fit: BoxFit.cover,
+            height: 440,
+            width: double.infinity,
+          ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              margin: const EdgeInsets.all(4 * 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  forYouItemTitle(title: name),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4 * 2),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: textTitleSmall(
+                          text: level.toUpperCase(),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(4 * 2),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: textTitleSmall(
+                          text: '$time Phút'.toUpperCase(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(4 * 2),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    width: 240,
+                    child: textBodySmall(
+                      text: des,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(4 * 2),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: const Icon(LucideIcons.arrowRight),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget forYouItemTitle({required title}) {
+  return LimitedBox(
+    maxWidth: Get.width - 4 * 20,
+    child: Container(
+      padding: const EdgeInsets.all(4 * 2),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: textTitleLarge(
+        text: title.toUpperCase(),
+        fontStyle: FontStyle.italic,
+        maxLines: 2,
+      ),
+    ),
+  );
+}
+
+// app bar custom
+AppBar appBarCustom(
+    {required String title,
+    bool bigTitle = true,
+    bool isBorder = true,
+    double marginTop = 3.0,
+    Widget? leadingAppBar,
+    List<Widget>? actionsAppBar,
+    bool isPadding = true,
+    MainAxisAlignment? mainAxisAlignment,
+    Widget? leading,
+    List<Widget>? actions}) {
   return AppBar(
     titleSpacing: 0,
+    automaticallyImplyLeading: false,
     backgroundColor: Get.theme.colorScheme.background,
     surfaceTintColor: Get.theme.colorScheme.background,
+    leading: leadingAppBar,
+    actions: actionsAppBar,
     title: Container(
       width: Get.width,
-      padding: const EdgeInsets.only(top: 4, bottom: 4),
+      padding: const EdgeInsets.only(top: 4, bottom: 3),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
+              bottom: isBorder
+                  ? BorderSide(width: 1, color: Colors.grey.shade400)
+                  : BorderSide.none)),
       child: Container(
-          margin: const EdgeInsets.only(top: 3),
-          padding: alignment_20_8(),
-          child: textTitleLarge(text: title)),
+          margin: EdgeInsets.only(top: marginTop),
+          padding: isPadding ? alignment_20_8() : EdgeInsets.zero,
+          child: Row(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (leading != null) leading,
+              bigTitle
+                  ? textTitleLarge(text: title)
+                  : textTitleMedium(text: title),
+              if (actions != null) ...actions
+            ],
+          )),
     ),
   );
 }
@@ -231,6 +362,7 @@ Widget avatarImage({required String url, double? radius}) {
   return StatefulBuilder(builder: (context, setState) {
     return CircleAvatar(
         radius: radius,
+        backgroundColor: Colors.transparent,
         backgroundImage: NetworkImage(url),
         onBackgroundImageError: (dynamic exception, StackTrace? stackTrace) {
           setState(() {
@@ -297,6 +429,81 @@ Widget buttonSetting({
         ],
       ),
     ),
+  );
+}
+
+Widget topPickForYou() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const SizedBox(height: 4 * 4),
+      Container(
+        margin: alignment_20_0(),
+        child: textHeadlineSmall(text: 'Top pick for you'),
+      ),
+      const SizedBox(height: 4 * 4),
+      Container(
+        //item
+        margin: const EdgeInsets.only(right: 4),
+        child: SizedBox(
+          height: 200,
+          child: PageView.builder(
+            itemCount: 3,
+            pageSnapping: true,
+            controller: PageController(
+              initialPage: 0,
+              viewportFraction: 0.9,
+            ),
+            itemBuilder: (context, pagePosition) {
+              return InkWell(
+                onTap: () {},
+                child: Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black.withOpacity(0.2),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      imageNetwork(
+                        url:
+                            "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
+                        fit: BoxFit.cover,
+                        height: 140,
+                        width: double.infinity,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 4 * 3,
+                          vertical: 4 * 2,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            textTitleSmall(
+                              text: 'Plank'.toUpperCase(),
+                              fontSize: 12,
+                            ),
+                            textBodySmall(
+                              text:
+                                  'Xây dựng sự ổn định cốt lõi cho chuyển động hàng ngày',
+                              color: Colors.black.withOpacity(0.5),
+                              fontSize: 10,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ],
   );
 }
 
