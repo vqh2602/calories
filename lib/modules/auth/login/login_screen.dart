@@ -21,12 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return buildBody(
         context: context,
         body: _buildBody(),
-        appBar: null,
-        bottomNavigationBar: bottomNavigationBar(
-            onSelect: (index) => setState(() {
-                  selectedIndex = index;
-                }),
-            selectedIndex: selectedIndex));
+        appBar: null,);
   }
 
   Widget _buildBody() {
