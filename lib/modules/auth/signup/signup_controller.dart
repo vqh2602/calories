@@ -1,13 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class AccountDetailController extends GetxController
+class SignupController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
+  TextEditingController? birthTE;
+
   @override
   Future<void> onInit() async {
     super.onInit();
+    initTE();
     changeUI();
+  }
+
+  initTE() {
+    birthTE = TextEditingController();
   }
 
   String? validateString(String? text) {
@@ -26,6 +34,11 @@ class AccountDetailController extends GetxController
       return '$value không phải kiểu số';
     }
     return null;
+  }
+
+  String? validateEmail(String? value) {
+    bool emailValid = RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value ?? '');
+    return emailValid ? null : "Không đúng định dạng email";
   }
 
   changeUI() {

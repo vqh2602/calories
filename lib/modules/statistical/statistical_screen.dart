@@ -126,6 +126,9 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                       )
                     ],
                   ),
+                  const SizedBox(
+                    height: 4 * 10,
+                  ),
                   chartCustom(series: _getDefaultSplineSeries()),
                   const SizedBox(
                     height: 4 * 14,

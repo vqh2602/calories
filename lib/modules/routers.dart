@@ -1,3 +1,5 @@
+import 'package:calories/modules/auth/signup/signup_binding.dart';
+import 'package:calories/modules/auth/signup/signup_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_binding.dart';
 import 'package:calories/modules/dashboard/dashboard_screen.dart';
 import 'package:calories/modules/home/home_binding.dart';
@@ -26,7 +28,8 @@ List<GetPage> routes = [
   GetPage(
       name: HomeScreen.routeName,
       page: () => const HomeScreen(),
-      binding: HomeBinding()),
+      binding: HomeBinding(),
+      transition: Transition.fade),
   GetPage(
       name: DashboardScreen.routeName,
       page: () => const DashboardScreen(),
@@ -44,4 +47,8 @@ List<GetPage> routes = [
       name: WorkoutScreen.routeName,
       page: () => const WorkoutScreen(),
       binding: WorkoutBinding()),
+  GetPage(
+      name: SignupScreen.routeName,
+      page: () => const SignupScreen(),
+      binding: SignupBinding()),
 ];
