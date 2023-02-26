@@ -1,25 +1,30 @@
-import 'package:calories/modules/setting/acc_detail/account_detail_controller.dart';
+import 'dart:io';
+
+import 'package:calories/modules/auth/signup/signup_controller.dart';
+import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/theme_textinput.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class AccountDetailScreen extends StatefulWidget {
-  const AccountDetailScreen({Key? key}) : super(key: key);
-  static const String routeName = '/account_detail';
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
+  static const String routeName = '/signup';
   @override
-  State<AccountDetailScreen> createState() => _AccountDetailScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _AccountDetailScreenState extends State<AccountDetailScreen> {
-  AccountDetailController accountDetailController =
-      Get.put(AccountDetailController());
-  GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormA1');
+class _SignupScreenState extends State<SignupScreen> {
+  SignupController signupController = Get.put(SignupController());
+  GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormS1');
   bool sex = true;
+  File? imagePath;
   @override
   void initState() {
     super.initState();
@@ -30,97 +35,80 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
     return buildBody(
       context: context,
       body: _buildBody(),
-      appBar: appBarCustom(
-        title: 'Chỉnh sửa tài khoản',
-        isPadding: false,
-        marginTop: 0,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(LucideIcons.x)),
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        actions: [
-          TextButton(
-              onPressed: () {
-                if (keyForm1.currentState?.validate() ?? false) {
-                  //Get.offAndToNamed(HomeScreen.routeName);
-                }
-              },
-              child: textBodyMedium(
-                text: 'Lưu',
-              ))
-        ],
-        bigTitle: false,
-      ),
+      appBar: null,
     );
   }
 
   Widget _buildBody() {
-    return accountDetailController.obx((state) => SafeArea(
-            child: SingleChildScrollView(
-          child: Form(
+    return SafeArea(
+        child: SingleChildScrollView(
+      child: signupController.obx((state) => Form(
             key: keyForm1,
             child: Container(
               margin: EdgeInsets.zero,
               padding: alignment_20_0(),
               color: Colors.white,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 4 * 5,
+                    height: 4 * 10,
                   ),
-                  Row(
+                  textTitleLarge(text: 'Đăng kí'.toUpperCase()),
+                  textBodyMedium(
+                      text: 'Đăng kí tài khoản để có thể truy cập ứng dụng'),
+                  const SizedBox(
+                    height: 4 * 10,
+                  ),
+                  Column(
                     children: [
                       InkWell(
                         onTap: () async {
                           final ImagePicker picker = ImagePicker();
-                          //final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery);
+                          setState(() {
+                            try {
+                              imagePath = File(image!.path);
+                            } catch (_) {}
+                          });
                         },
                         child: Ink(
                           child: avatarImage(
-                              url:
-                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                              url: '',
+                              imageF: imagePath,
+                              isFileImage: true,
                               radius: 60),
                         ),
                       ),
                       const SizedBox(
-                        width: 4 * 5,
+                        height: 4 * 10,
                       ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            TextFormField(
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
-                              validator: accountDetailController.validateString,
                               decoration:
                                   textFieldInputStyle(label: 'Họ & đệm (*)'),
+                              validator: signupController.validateString,
                             ),
-                            const SizedBox(
-                              height: 4 * 5,
-                            ),
-                            TextFormField(
+                          ),
+                          const SizedBox(
+                            width: 4 * 5,
+                          ),
+                          Expanded(
+                            child: TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
-                              validator: accountDetailController.validateString,
                               decoration: textFieldInputStyle(label: 'Tên (*)'),
+                              validator: signupController.validateString,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       )
                     ],
-                  ),
-                  const SizedBox(
-                    height: 4 * 5,
-                  ),
-                  TextField(
-                    onTap: () {},
-                    style: josefinSans(fontSize: 16),
-                    readOnly: true,
-                    decoration: textFieldInputStyle(label: 'Email'),
-                    maxLines: 1,
                   ),
                   const SizedBox(
                     height: 4 * 5,
@@ -128,8 +116,27 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                   TextFormField(
                     onTap: () {},
                     style: josefinSans(fontSize: 16),
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: textFieldInputStyle(label: 'Email (*)'),
+                    maxLines: 1,
+                    validator: signupController.validateEmail,
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  TextFormField(
+                    onTap: () {
+                      dateTimePicker(
+                          onchange: (dt) {
+                            signupController.birthTE?.text = formatDate(
+                                type: TypeDate.ddMMyyyy, dateTime: dt);
+                          },
+                          onComplete: () {});
+                    },
+                    controller: signupController.birthTE,
                     showCursor: false,
                     readOnly: true,
+                    style: josefinSans(fontSize: 16),
                     decoration: textFieldInputStyle(label: 'Năm sinh (*)'),
                   ),
                   const SizedBox(
@@ -183,7 +190,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                   const SizedBox(
                     height: 4 * 5,
                   ),
-                  TextField(
+                  TextFormField(
                     onTap: () {},
                     style: josefinSans(fontSize: 16),
                     decoration: textFieldInputStyle(label: 'Địa chỉ'),
@@ -198,7 +205,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                         child: TextFormField(
                           onTap: () {},
                           style: josefinSans(fontSize: 16),
-                          validator: accountDetailController.numberValidator,
+                          validator: signupController.numberValidator,
                           decoration:
                               textFieldInputStyle(label: 'Chiều cao (cm)'),
                           keyboardType: TextInputType.number,
@@ -210,9 +217,8 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                       Expanded(
                         child: TextFormField(
                           onTap: () {},
-                          style: josefinSans(fontSize: 16),
                           keyboardType: TextInputType.number,
-                          validator: accountDetailController.numberValidator,
+                          validator: signupController.numberValidator,
                           decoration:
                               textFieldInputStyle(label: 'Cân nặng (kg)'),
                         ),
@@ -220,12 +226,52 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     ],
                   ),
                   const SizedBox(
+                    height: 4 * 10,
+                  ),
+                  GFButton(
+                    onPressed: () {
+                      if (keyForm1.currentState?.validate() ?? false) {
+                        Get.offAndToNamed(HomeScreen.routeName);
+                      }
+                    },
+                    padding: const EdgeInsets.only(
+                      left: 4 * 5,
+                      right: 4 * 5,
+                    ),
+                    size: 4 * 13,
+                    color: Colors.black,
+                    type: GFButtonType.outline,
+                    fullWidthButton: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        textTitleSmall(
+                            text: 'Đăng kí'.toUpperCase(), color: Colors.black),
+                        const Icon(
+                          LucideIcons.arrowRight,
+                          size: 4 * 6,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
                     height: 4 * 5,
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Ink(
+                      child: textBodyMedium(
+                          text: 'Đã có tài khoản? Đăng nhập',
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4 * 10,
                   ),
                 ],
               ),
             ),
-          ),
-        )));
+          )),
+    ));
   }
 }

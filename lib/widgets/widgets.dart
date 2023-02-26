@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -357,23 +359,48 @@ AppBar appBarCustom(
 }
 
 //avater tròn
-Widget avatarImage({required String url, double? radius}) {
+Widget avatarImage(
+    {required String url,
+    double? radius,
+    bool isFileImage = false,
+    File? imageF}) {
   bool loadImageError = false;
   return StatefulBuilder(builder: (context, setState) {
-    return CircleAvatar(
-        radius: radius,
-        backgroundColor: Colors.transparent,
-        backgroundImage: NetworkImage(url),
-        onBackgroundImageError: (dynamic exception, StackTrace? stackTrace) {
-          setState(() {
-            loadImageError = true;
-          });
-        },
-        child: loadImageError
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset('assets/images/image_notfound.jpg'))
-            : null);
+    return !isFileImage
+        ? CircleAvatar(
+            radius: radius,
+            backgroundColor: Colors.transparent,
+            backgroundImage: NetworkImage(url),
+            onBackgroundImageError:
+                (dynamic exception, StackTrace? stackTrace) {
+              setState(() {
+                loadImageError = true;
+              });
+            },
+            child: loadImageError
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset('assets/images/image_notfound.jpg'))
+                : null)
+        : CircleAvatar(
+            radius: radius,
+            backgroundColor: Colors.transparent,
+            backgroundImage:
+                const AssetImage('assets/images/image_notfound.jpg'),
+            child: ClipOval(
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(radius ?? 20), // Image radius
+                child: (imageF == null)
+                    ? Image.asset(
+                        'assets/images/image_notfound.jpg',
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
+                        imageF,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ));
   });
 }
 
@@ -510,7 +537,7 @@ Widget topPickForYou() {
 Widget chartCustom({dynamic series, double height = 450}) {
   return Container(
     width: Get.width,
-    margin: const EdgeInsets.only(top: 4 * 5, bottom: 4 * 2),
+    margin: const EdgeInsets.only(top: 4 * 5, bottom: 4),
     height: height,
     child: SfCartesianChart(
       plotAreaBorderWidth: 0,
