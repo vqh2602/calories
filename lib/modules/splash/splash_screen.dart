@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -8,25 +9,28 @@ import 'package:get/get.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
   static const String routeName = '/splash';
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () {
-      Get.offAndToNamed(HomeScreen.routeName);
+      // Get.offAndToNamed(HomeScreen.routeName);
+      Get.offAndToNamed(LoginScreen.routeName);
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return buildBody(
-        context: context,
-        body: _buildBody(),
-        appBar: null,);
+      context: context,
+      body: _buildBody(),
+      appBar: null,
+    );
   }
 
   Widget _buildBody() {
