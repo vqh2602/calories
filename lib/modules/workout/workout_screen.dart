@@ -18,7 +18,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 2,
       child: buildBody(
         context: context,
@@ -44,6 +44,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               alignment: Alignment.centerLeft,
               child: TabBar(
                 unselectedLabelColor: Colors.grey,
+                dividerColor: Colors.grey.shade400,
                 overlayColor:
                     MaterialStateProperty.all<Color>(Colors.transparent),
                 isScrollable: true,
