@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 void dateTimePicker(
     {required Function(dynamic) onchange, required Function onComplete}) {
@@ -49,5 +50,24 @@ void buildToast(
     case TypeToast.custom:
       if (snackBarCustom != null) snackBarCustom();
       break;
+  }
+}
+
+enum TypeDate { ddMMyyyy, ddMMyyyyhhmm, hhmm, dd, yyyy, MM }
+
+String formatDate({required TypeDate type, required DateTime dateTime}) {
+  switch (type) {
+    case TypeDate.ddMMyyyy:
+      return DateFormat('dd-MM-yyyy').format(dateTime);
+    case TypeDate.ddMMyyyyhhmm:
+      return DateFormat('dd-MM-yyyy hh:mm').format(dateTime);
+    case TypeDate.hhmm:
+      return DateFormat('hh:mm').format(dateTime);
+    case TypeDate.dd:
+      return dateTime.day.toString();
+    case TypeDate.yyyy:
+      return dateTime.year.toString();
+    case TypeDate.MM:
+      return dateTime.month.toString();
   }
 }

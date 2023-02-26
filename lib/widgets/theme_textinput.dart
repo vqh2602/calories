@@ -19,5 +19,9 @@ InputDecoration textFieldInputStyle({required String label}) {
       borderRadius: BorderRadius.circular(4),
       borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
     ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+    ),
   );
 }

@@ -177,6 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               TextField(
                 onTap: () {},
+                style: josefinSans(fontSize: 16),
                 decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
                 keyboardType: TextInputType.number,
               ),
@@ -185,6 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               TextField(
                 onTap: () {},
+                style: josefinSans(fontSize: 16),
                 keyboardType: TextInputType.number,
                 decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
               ),

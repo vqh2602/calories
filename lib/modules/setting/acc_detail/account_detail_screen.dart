@@ -83,6 +83,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     children: [
                       TextField(
                         onTap: () {},
+                        style: josefinSans(fontSize: 16),
                         decoration: textFieldInputStyle(label: 'Họ & đệm'),
                       ),
                       const SizedBox(
@@ -90,6 +91,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                       ),
                       TextField(
                         onTap: () {},
+                        style: josefinSans(fontSize: 16),
                         decoration: textFieldInputStyle(label: 'Tên'),
                       ),
                     ],
@@ -102,6 +104,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             ),
             TextField(
               onTap: () {},
+              style: josefinSans(fontSize: 16),
               readOnly: true,
               decoration: textFieldInputStyle(label: 'Email'),
               maxLines: 1,
@@ -111,6 +114,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             ),
             TextField(
               onTap: () {},
+              style: josefinSans(fontSize: 16),
               showCursor: false,
               readOnly: true,
               decoration: textFieldInputStyle(label: 'Năm sinh'),
@@ -166,6 +170,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             ),
             TextField(
               onTap: () {},
+              style: josefinSans(fontSize: 16),
               decoration: textFieldInputStyle(label: 'Địa chỉ'),
               maxLines: 3,
             ),
@@ -177,6 +182,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                 Expanded(
                   child: TextField(
                     onTap: () {},
+                    style: josefinSans(fontSize: 16),
                     decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
                     keyboardType: TextInputType.number,
                   ),
@@ -187,6 +193,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                 Expanded(
                   child: TextField(
                     onTap: () {},
+                    style: josefinSans(fontSize: 16),
                     keyboardType: TextInputType.number,
                     decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
                   ),
