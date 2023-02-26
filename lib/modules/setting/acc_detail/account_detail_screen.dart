@@ -1,5 +1,6 @@
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
+import 'package:calories/widgets/theme_textinput.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -82,14 +83,14 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     children: [
                       TextField(
                         onTap: () {},
-                        decoration: _textFieldInputStyle(label: 'Họ & đệm'),
+                        decoration: textFieldInputStyle(label: 'Họ & đệm'),
                       ),
                       const SizedBox(
                         height: 4 * 5,
                       ),
                       TextField(
                         onTap: () {},
-                        decoration: _textFieldInputStyle(label: 'Tên'),
+                        decoration: textFieldInputStyle(label: 'Tên'),
                       ),
                     ],
                   ),
@@ -102,7 +103,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             TextField(
               onTap: () {},
               readOnly: true,
-              decoration: _textFieldInputStyle(label: 'Email'),
+              decoration: textFieldInputStyle(label: 'Email'),
               maxLines: 1,
             ),
             const SizedBox(
@@ -112,7 +113,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
               onTap: () {},
               showCursor: false,
               readOnly: true,
-              decoration: _textFieldInputStyle(label: 'Năm sinh'),
+              decoration: textFieldInputStyle(label: 'Năm sinh'),
             ),
             const SizedBox(
               height: 4 * 5,
@@ -165,7 +166,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             ),
             TextField(
               onTap: () {},
-              decoration: _textFieldInputStyle(label: 'Địa chỉ'),
+              decoration: textFieldInputStyle(label: 'Địa chỉ'),
               maxLines: 3,
             ),
             const SizedBox(
@@ -176,7 +177,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                 Expanded(
                   child: TextField(
                     onTap: () {},
-                    decoration: _textFieldInputStyle(label: 'Chiều cao (cm)'),
+                    decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
                     keyboardType: TextInputType.number,
                   ),
                 ),
@@ -187,7 +188,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                   child: TextField(
                     onTap: () {},
                     keyboardType: TextInputType.number,
-                    decoration: _textFieldInputStyle(label: 'Cân nặng (kg)'),
+                    decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
                   ),
                 )
               ],
@@ -201,24 +202,4 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
     ));
   }
 
-  InputDecoration _textFieldInputStyle({required String label}) {
-    return InputDecoration(
-      //helperText: 'Helper Text',
-      //counterText: '0 characters',
-      label: textBodyMedium(text: label, color: Colors.grey),
-      floatingLabelBehavior: FloatingLabelBehavior.always,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-      ),
-    );
-  }
 }
