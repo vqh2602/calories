@@ -26,7 +26,8 @@ List<GetPage> routes = [
   GetPage(
       name: HomeScreen.routeName,
       page: () => const HomeScreen(),
-      binding: HomeBinding()),
+      binding: HomeBinding(),
+      transition: Transition.fade),
   GetPage(
       name: DashboardScreen.routeName,
       page: () => const DashboardScreen(),
