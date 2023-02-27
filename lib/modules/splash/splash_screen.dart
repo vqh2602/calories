@@ -13,21 +13,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () {
-     Get.offAndToNamed(HomeScreen.routeName);
+      Get.offAndToNamed(HomeScreen.routeName);
       //Get.offAndToNamed(SignupScreen.routeName);
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return buildBody(
-        context: context,
-        body: _buildBody(),
-        appBar: null,);
+      context: context,
+      body: _buildBody(),
+      appBar: null,
+    );
   }
 
   Widget _buildBody() {

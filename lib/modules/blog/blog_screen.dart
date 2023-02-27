@@ -39,8 +39,7 @@ class _BlogScreenState extends State<BlogScreen> {
             },
             icon: const Icon(LucideIcons.x)),
         mainAxisAlignment: MainAxisAlignment.start,
-        actions: [
-        ],
+        actions: [],
         bigTitle: false,
       ),
     );
