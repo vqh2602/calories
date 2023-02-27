@@ -13,6 +13,8 @@ import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/modules/statistical/statistical_binding.dart';
 import 'package:calories/modules/statistical/statistical_screen.dart';
 import 'package:calories/modules/workout/workout_binding.dart';
+import 'package:calories/modules/workout/workout_detail/workout_detail_binding.dart';
+import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/modules/workout/workout_screen.dart';
 import 'package:get/get.dart';
 
@@ -47,6 +49,11 @@ List<GetPage> routes = [
       name: WorkoutScreen.routeName,
       page: () => const WorkoutScreen(),
       binding: WorkoutBinding()),
+  GetPage(
+      name: WorkoutDetailScreen.routeName,
+      page: () => const WorkoutDetailScreen(),
+      binding: WorkoutDetailBinding(),
+      transition: Transition.rightToLeft),
   GetPage(
       name: SignupScreen.routeName,
       page: () => const SignupScreen(),

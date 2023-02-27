@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -214,7 +215,9 @@ Widget forYouItem({
   required int pagePosition,
 }) {
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      Get.toNamed(WorkoutDetailScreen.routeName);
+    },
     child: Container(
       margin: const EdgeInsets.only(right: 4),
       child: Stack(
@@ -354,6 +357,47 @@ AppBar appBarCustom(
               if (actions != null) ...actions
             ],
           )),
+    ),
+  );
+}
+
+Widget workoutDetailItem({
+  required IconData icon,
+  Function? onTap,
+  required String title,
+}) {
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border(
+        bottom: BorderSide(color: Colors.grey.shade300, width: 0.5),
+      ),
+    ),
+    padding: const EdgeInsets.only(top: 4 * 5, bottom: 4 * 5),
+    child: InkWell(
+      onTap: () {
+        if (onTap != null) onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4 * 6),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              icon,
+              size: 4 * 5,
+            ),
+            const SizedBox(width: 4 * 8),
+            Expanded(
+              child: textTitleSmall(
+                text: title,
+                fontWeight: FontWeight.w200,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }
