@@ -1,5 +1,4 @@
 import 'package:calories/widgets/base/base.dart';
-import 'package:calories/widgets/bottom_nav_bar.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
@@ -54,7 +53,7 @@ Widget _buildBody() {
     child: Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 4 * 20),
+          margin: const EdgeInsets.only(bottom: 4 * 20),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
