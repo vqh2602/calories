@@ -24,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   SignupController signupController = Get.put(SignupController());
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormS1');
   bool sex = true;
+  bool passwordVisible = true;
   File? imagePath;
   @override
   void initState() {
@@ -120,6 +121,55 @@ class _SignupScreenState extends State<SignupScreen> {
                     decoration: textFieldInputStyle(label: 'Email (*)'),
                     maxLines: 1,
                     validator: signupController.validateEmail,
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  TextFormField(
+                    onTap: () {},
+                    style: josefinSans(fontSize: 16),
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: passwordVisible,
+                    decoration: textFieldInputStyle(
+                        label: 'Mật khẩu (*)',
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                          child: Ink(
+                            child: Icon(passwordVisible
+                                ? LucideIcons.eye
+                                : LucideIcons.eyeOff),
+                          ),
+                        )),
+                    maxLines: 1,
+                    validator: signupController.validatePass,
+                  ),
+                  const SizedBox(
+                    height: 4 * 5,
+                  ),
+                  TextFormField(
+                    onTap: () {},
+                    style: josefinSans(fontSize: 16),
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: textFieldInputStyle(
+                        label: 'Nhập lại mật khẩu (*)',
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                          child: Ink(
+                            child: Icon(passwordVisible
+                                ? LucideIcons.eye
+                                : LucideIcons.eyeOff),
+                          ),
+                        )),
+                    maxLines: 1,
+                    validator: signupController.validateConfirmPass,
                   ),
                   const SizedBox(
                     height: 4 * 5,

@@ -1,3 +1,4 @@
+import 'package:calories/modules/blog/blog_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/loading_custom.dart';
@@ -57,9 +58,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               textHeadlineSmall(text: 'Blog tập luyện'),
-                              textBodySmall(
-                                text: 'xem thêm',
-                                decoration: TextDecoration.underline,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(BlogScreen.routeName);
+                                },
+                                child: Ink(
+                                  child: textBodySmall(
+                                    text: 'xem thêm',
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
