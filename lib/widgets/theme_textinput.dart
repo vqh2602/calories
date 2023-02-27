@@ -1,7 +1,7 @@
 import 'package:calories/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 
-InputDecoration textFieldInputStyle({required String label}) {
+InputDecoration textFieldInputStyle({required String label, Widget? prefixIcon, Widget? suffixIcon}) {
   return InputDecoration(
     //helperText: 'Helper Text',
     //counterText: '0 characters',
@@ -23,5 +23,7 @@ InputDecoration textFieldInputStyle({required String label}) {
       borderRadius: BorderRadius.circular(4),
       borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
     ),
+    prefixIcon: prefixIcon,
+    suffixIcon: suffixIcon,
   );
 }
