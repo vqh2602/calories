@@ -10,21 +10,26 @@ Widget buildBody(
     AppBar? appBar,
     Widget? bottomNavigationBar,
     Widget? createFloatingActionButton,
+    bool isCheckBeforePop = false,
     FloatingActionButtonLocation? floatingActionButtonLocation}) {
   return WillPopScope(
       child: Scaffold(
           extendBodyBehindAppBar: true,
           extendBody: true,
           appBar: appBar,
+          backgroundColor: Get.theme.colorScheme.background,
           bottomNavigationBar: bottomNavigationBar,
           floatingActionButton: createFloatingActionButton,
           floatingActionButtonLocation: floatingActionButtonLocation,
           body: body),
-      onWillPop: () async => onWillPop(context));
+      onWillPop: () async => onWillPop(context, isCheckBeforePop));
 }
 
-Future<bool> onWillPop(BuildContext context) async {
+Future<bool> onWillPop(BuildContext context, bool isCheckBeforePop) async {
   //print('dđ');
+  if (!isCheckBeforePop) {
+    return true;
+  }
   bool exitResult = await showDialog(
     context: context,
     builder: (context) => CupertinoAlertDialog(

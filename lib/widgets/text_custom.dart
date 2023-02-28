@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -835,9 +836,9 @@ TextStyle josefinSans(
     List<FontFeature>? fontFeatures,
     Paint? foreground,
     double? letterSpacing}) {
-  return GoogleFonts.josefinSans(
+  return GoogleFonts.reemKufiFun(
     fontSize: fontSize,
-    color: color,
+    color: color ?? Get.theme.colorScheme.onBackground,
     decoration: decoration,
     decorationColor: decorationColor,
     textStyle: textStyle,

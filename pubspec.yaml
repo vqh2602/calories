@@ -30,23 +30,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
+  intl: ^0.17.0
+  collection: ^1.17.0
   get: ^4.6.5
-  dio: ^5.0.0
-  local_auth: ^2.1.3
+  dio: ^5.0.1
+  local_auth: ^2.1.5
   connectivity_plus: ^3.0.3
   google_fonts: ^4.0.3
-  shared_preferences: ^2.0.17
+  shared_preferences: ^2.0.18
   lucide_icons: ^0.115.0
   animated_text_kit: ^4.2.2
-  flashy_tab_bar2: ^0.0.6
-  sqflite: ^2.2.4+1
+  sqflite: ^2.2.5
   getwidget: ^3.0.1
-  bruno: ^3.3.0
+  syncfusion_flutter_charts: ^20.4.51
+  image_picker: ^0.8.6+3
+  lottie: ^2.2.0
+  quickalert: ^1.0.1
+  onyxsio_grid_view: ^1.0.4
+  blurrycontainer: ^1.0.2
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -58,9 +66,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.11.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo_ic.png"
+  min_sdk_android: 21
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -73,6 +87,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
+     - assets/animate/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

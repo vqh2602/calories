@@ -1,10 +1,13 @@
+import 'package:calories/modules/blog/blog_screen.dart';
+import 'package:calories/modules/dashboard/dashboard_controller.dart';
 import 'package:calories/widgets/base/base.dart';
-import 'package:calories/widgets/image_custom.dart';
+import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
+import 'package:calories/widgets/theme_textinput.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/getwidget.dart';
+import 'package:quickalert/quickalert.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -15,98 +18,191 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  DashboardController dashboardController = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return buildBody(
         context: context,
+        isCheckBeforePop: true,
         body: _buildBody(),
-        appBar: AppBar(
-          titleSpacing: 0,
-          backgroundColor: Get.theme.colorScheme.background,
-          surfaceTintColor: Get.theme.colorScheme.background,
-          title: Container(
-            width: Get.width,
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(width: 1, color: Colors.grey.shade400))),
-            child: Container(
-                padding: alignment_20_8(),
-                child: textTitleLarge(text: 'TRANG CHỦ')),
-          ),
-        ));
+        appBar: appBarCustom(title: 'TRANG CHỦ'.toUpperCase()));
   }
 
   Widget _buildBody() {
-    return SafeArea(
-        child: Container(
-      margin: alignment_20_0(),
-      child: Container(
-        padding: EdgeInsets.zero,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 4 * 3,
-              ),
-              textHeadlineSmall(text: 'Thống kê'),
-              const SizedBox(
-                height: 4 * 6,
-              ),
-              blockStatisticalToday(),
-              const SizedBox(
-                height: 4 * 14,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  textHeadlineSmall(text: 'Blog tập luyện'),
-                  textBodySmall(
-                    text: 'xem thêm',
-                    decoration: TextDecoration.underline,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 4 * 6,
-              ),
-              GFCarousel(
-                  hasPagination: true,
-                  autoPlay: true,
-                  activeIndicator: Colors.white,
-                  autoPlayInterval: const Duration(seconds: 1),
-                  viewportFraction: 1.0,
-                  items: imageList.map((url) {
-                    return SizedBox(
-                      // margin: EdgeInsets.all(8.0),
-                      width: Get.width,
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5.0)),
-                        child: Image.network(url,
-                            fit: BoxFit.cover, width: 1000.0),
-                      ),
-                    );
-                  }).toList()),
-              Container(
-                height: 400,
-                color: Colors.red,
-                child: Stack(
+    return dashboardController.obx(
+        (state) => SafeArea(
+                child: Container(
+              padding: EdgeInsets.zero,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    imageNetwork(
-                        url:
-                            'https://i0.wp.com/post.healthline.com/wp-content/uploads/2021/04/barbell-lift-squat-1296x728-header.jpg?w=1155&h=1528',
-                        fit: BoxFit.cover,
-                        height: double.infinity)
+                    Container(
+                      margin: alignment_20_0(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 4 * 3,
+                          ),
+                          textHeadlineSmall(text: 'Thống kê'),
+                          const SizedBox(
+                            height: 4 * 6,
+                          ),
+                          blockStatisticalToday(),
+                          const SizedBox(
+                            height: 4 * 14,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              textHeadlineSmall(text: 'Blog tập luyện'),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(BlogScreen.routeName);
+                                },
+                                child: Ink(
+                                  child: textBodySmall(
+                                    text: 'xem thêm',
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4 * 6,
+                    ),
+                    buildCarousel(listData: imageList),
+                    const SizedBox(
+                      height: 4 * 6,
+                    ),
+                    Container(
+                      margin: alignment_20_0(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 4 * 12,
+                          ),
+                          buildTitleImageButton(
+                              title: 'Tính toán calo',
+                              des: 'TÌM HIỂU LƯỢNG CALO TIÊU THỤ MỖI NGÀY?',
+                              image: 'assets/images/bg_calo.png',
+                              onTap: () {}),
+                          const SizedBox(
+                            height: 4 * 25,
+                          ),
+                          buildTitleImageButton(
+                              title: 'Tính toán BMI',
+                              des: 'THEO DÕI SỐ LIỆU BMI QUA TỪNG NGÀY',
+                              image: 'assets/images/bg_bmi.png',
+                              onTap: () {
+                                Get.bottomSheet(_showAddBMI(),
+                                    backgroundColor: Colors.white);
+                              }),
+                          const SizedBox(
+                            height: 4 * 25,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 4 * 5),
+                      color: const Color(0xfff8f8f8),
+                      width: Get.width,
+                      child: buildTitleImageButton(
+                          title: '',
+                          des: 'TÌM KIẾM THÊM?\nHãy vào tập luyện',
+                          image: 'assets/images/bg_gray.png',
+                          textAlign: TextAlign.start,
+                          fontSize: 4 * 5,
+                          titleButton: 'VÀO TẬP LUYỆN',
+                          alignmentDes: Alignment.centerLeft,
+                          paddingButton: const EdgeInsets.all(4 * 5),
+                          onTap: () {}),
+                    ),
+                    Container(
+                      color: const Color(0xfff8f8f8),
+                      width: Get.width,
+                      height: 120,
+                    )
                   ],
                 ),
-              )
+              ),
+            )),
+        onLoading: const LoadingCustom());
+  }
+
+  Widget _showAddBMI() {
+    return Container(
+      padding: alignment_20_8(),
+      height: 300,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(onPressed: () {}, child: textBodyMedium(text: 'Hủy')),
+              TextButton(
+                  onPressed: () {},
+                  child: textTitleMedium(text: 'Cập nhật BMI')),
+              TextButton(
+                  onPressed: () {
+                    QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.info,
+                        text: 'Cập nhật và thay thê dữ liệu hôm nay?'
+                            '\n Chiều cao: 120 cm'
+                            '\n Cân nặng: 60 kg',
+                        title: 'Thông báo',
+                        confirmBtnText: 'Xác nhận',
+                        confirmBtnColor: Colors.black,
+                        cancelBtnText: 'Hủy',
+                        showCancelBtn: true,
+                        onCancelBtnTap: () {
+                          Get.back();
+                        },
+                        onConfirmBtnTap: () {
+                          Get.back();
+                        });
+                  },
+                  child: textBodyMedium(text: 'Lưu')),
             ],
           ),
-        ),
+          const SizedBox(
+            height: 4 * 5,
+          ),
+          Expanded(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextField(
+                onTap: () {},
+                style: josefinSans(fontSize: 16),
+                decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 4 * 5,
+              ),
+              TextField(
+                onTap: () {},
+                style: josefinSans(fontSize: 16),
+                keyboardType: TextInputType.number,
+                decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
+              ),
+            ],
+          ))
+        ],
       ),
-    ));
+    );
   }
 }
 

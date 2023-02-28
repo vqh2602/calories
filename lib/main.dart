@@ -4,12 +4,15 @@ import 'package:calories/c_theme/c_theme.dart';
 import 'package:calories/modules/routers.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/widgets/base/custom_error.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -23,6 +26,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: routes,
       theme: SThemeTask.lightTheme,
+      darkTheme:  SThemeTask.darkTheme,
+      themeMode: ThemeService().theme,
       builder: (context, child) {
         ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
           return CustomError(errorDetails: errorDetails);
@@ -35,7 +40,11 @@ class MyApp extends StatelessWidget {
       },
       localizationsDelegates: const [
         // Add this line
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
+      supportedLocales: const [Locale('vi')],
       locale: const Locale('vi'),
       transitionDuration: const Duration(milliseconds: 300),
       defaultTransition: Transition.fadeIn,

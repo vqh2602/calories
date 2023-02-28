@@ -5,6 +5,10 @@ class DashboardController extends GetxController
   @override
   Future<void> onInit() async {
     super.onInit();
+    loadingUI();
+    Future.delayed(const Duration(seconds: 4), () {
+      changeUI();
+    });
   }
 
   changeUI() {
