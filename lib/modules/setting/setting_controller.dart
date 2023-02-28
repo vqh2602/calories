@@ -4,19 +4,21 @@ import 'package:get/get.dart';
 
 class SettingController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
-
   @override
   Future<void> onInit() async {
+    changeUI();
     super.onInit();
   }
 
   changeUI() {
     change(null, status: RxStatus.success());
   }
-  updateUI(){
+
+  updateUI() {
     update();
   }
-  loadingUI(){
-    change(null,status: RxStatus.loading());
+
+  loadingUI() {
+    change(null, status: RxStatus.loading());
   }
 }

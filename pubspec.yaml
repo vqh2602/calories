@@ -46,7 +46,6 @@ dependencies:
   shared_preferences: ^2.0.18
   lucide_icons: ^0.115.0
   animated_text_kit: ^4.2.2
-  flashy_tab_bar2: ^0.0.6
   sqflite: ^2.2.5
   getwidget: ^3.0.1
   syncfusion_flutter_charts: ^20.4.51
@@ -55,6 +54,7 @@ dependencies:
   quickalert: ^1.0.1
   onyxsio_grid_view: ^1.0.4
   blurrycontainer: ^1.0.2
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

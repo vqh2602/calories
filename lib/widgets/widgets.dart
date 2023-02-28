@@ -336,6 +336,7 @@ AppBar appBarCustom(
       width: Get.width,
       padding: const EdgeInsets.only(top: 4, bottom: 3),
       decoration: BoxDecoration(
+          color: Get.theme.colorScheme.background,
           border: Border(
               bottom: isBorder
                   ? BorderSide(width: 1, color: Colors.grey.shade400)
@@ -417,7 +418,7 @@ Widget buttonSetting({
 }) {
   return Container(
     decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.colorScheme.background,
         border: Border(
             bottom: BorderSide(color: Colors.grey.shade300, width: 0.5))),
     padding: const EdgeInsets.only(top: 4 * 5, bottom: 4 * 5),
