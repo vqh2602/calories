@@ -159,8 +159,7 @@ Widget buildTitleImageButton(
                   fontWeight: FontWeight.w700,
                   maxLines: 3,
                   textAlign: textAlign,
-                  overflow: TextOverflow.ellipsis,
-                  color: Colors.black),
+                  overflow: TextOverflow.ellipsis,),
             ),
             Align(
               alignment: alignmentButton,
@@ -175,7 +174,7 @@ Widget buildTitleImageButton(
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero, // <-- Radius
                       ),
-                      backgroundColor: Colors.black,
+                      backgroundColor: Get.theme.colorScheme.onBackground,
                       padding: paddingButton ?? const EdgeInsets.all(4 * 2)),
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
@@ -185,13 +184,13 @@ Widget buildTitleImageButton(
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w500,
                           fontSize: fontSize ?? 18.5,
-                          color: Colors.white),
+                          color: Get.theme.colorScheme.background),
                       const SizedBox(
                         width: 8,
                       ),
-                      const Icon(
+                      Icon(
                         LucideIcons.arrowRight,
-                        color: Colors.white,
+                        color: Get.theme.colorScheme.background,
                       )
                     ],
                   ),
