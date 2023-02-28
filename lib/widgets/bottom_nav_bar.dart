@@ -1,4 +1,3 @@
-import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_screen.dart';
 import 'package:calories/modules/setting/setting_screen.dart';
 import 'package:calories/modules/statistical/statistical_screen.dart';
@@ -53,8 +52,7 @@ List<FlashyTabBarItem> items = [
 ];
 
 List<Widget> widgetOptions = <Widget>[
-  // const DashboardScreen(),
-  const LoginScreen(),
+  const DashboardScreen(),
   const WorkoutScreen(),
   const StatisticalScreen(),
   const SettingScreen()
