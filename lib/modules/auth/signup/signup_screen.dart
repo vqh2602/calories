@@ -197,7 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            sex = !sex;
+                            sex = true;
                           });
                         },
                         child: Container(
@@ -205,11 +205,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1,
-                                  color: !sex ? Colors.grey : Colors.black)),
+                                  color: !sex
+                                      ? Colors.grey
+                                      : Get.theme.colorScheme.onBackground)),
                           child: Center(
                             child: textBodyMedium(
                                 text: 'Nam',
-                                color: !sex ? Colors.grey : Colors.black),
+                                color: !sex
+                                    ? Colors.grey
+                                    : Get.theme.colorScheme.onBackground),
                           ),
                         ),
                       ),
@@ -219,7 +223,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            sex = !sex;
+                            sex = false;
                           });
                         },
                         child: Container(
@@ -227,11 +231,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1,
-                                  color: sex ? Colors.grey : Colors.black)),
+                                  color: sex
+                                      ? Colors.grey
+                                      : Get.theme.colorScheme.onBackground)),
                           child: Center(
                             child: textBodyMedium(
                                 text: 'Nữ',
-                                color: sex ? Colors.grey : Colors.black),
+                                color: sex
+                                    ? Colors.grey
+                                    : Get.theme.colorScheme.onBackground),
                           ),
                         ),
                       ),
