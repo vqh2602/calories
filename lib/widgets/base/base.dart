@@ -17,6 +17,7 @@ Widget buildBody(
           extendBodyBehindAppBar: true,
           extendBody: true,
           appBar: appBar,
+          backgroundColor: Get.theme.colorScheme.background,
           bottomNavigationBar: bottomNavigationBar,
           floatingActionButton: createFloatingActionButton,
           floatingActionButtonLocation: floatingActionButtonLocation,

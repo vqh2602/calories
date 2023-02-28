@@ -1,3 +1,4 @@
+import 'package:calories/c_theme/c_theme.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ class LoadingCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.zero,
+      color: Get.theme.colorScheme.background,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,8 +26,12 @@ class LoadingCustom extends StatelessWidget {
                 // color: Colors.cyan,
                 margin: EdgeInsets.zero,
                 height: 20,
-                child: Lottie.asset('assets/animate/line_loading.json',
-                    width: Get.width, fit: BoxFit.fill)),
+                child: Lottie.asset(
+                    !ThemeService().loadThemeFromBox()
+                        ? 'assets/animate/line_loading.json'
+                        : 'assets/animate/line_loading_w.json',
+                    width: Get.width,
+                    fit: BoxFit.fill)),
           ],
         ),
       ),

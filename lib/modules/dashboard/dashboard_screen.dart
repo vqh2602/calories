@@ -1,4 +1,6 @@
+import 'package:calories/modules/blog/blog_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_controller.dart';
+import 'package:calories/modules/home/home_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -18,6 +20,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   DashboardController dashboardController = Get.put(DashboardController());
+  HomeController homeController = Get.find();
+  GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormBMI');
   @override
   Widget build(BuildContext context) {
     return buildBody(
@@ -57,9 +61,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               textHeadlineSmall(text: 'Blog tập luyện'),
-                              textBodySmall(
-                                text: 'xem thêm',
-                                decoration: TextDecoration.underline,
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(BlogScreen.routeName);
+                                },
+                                child: Ink(
+                                  child: textBodySmall(
+                                    text: 'xem thêm',
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -114,9 +125,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           textAlign: TextAlign.start,
                           fontSize: 4 * 5,
                           titleButton: 'VÀO TẬP LUYỆN',
+                          desColor: Get.theme.primaryColor,
                           alignmentDes: Alignment.centerLeft,
                           paddingButton: const EdgeInsets.all(4 * 5),
-                          onTap: () {}),
+                          onTap: () {
+                            homeController.selectItemScreen = 1;
+                            homeController.changeUI();
+                          }),
                     ),
                     Container(
                       color: const Color(0xfff8f8f8),
@@ -133,66 +148,78 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _showAddBMI() {
     return Container(
       padding: alignment_20_8(),
+      color: Get.theme.colorScheme.background,
       height: 300,
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(onPressed: () {}, child: textBodyMedium(text: 'Hủy')),
-              TextButton(
-                  onPressed: () {},
-                  child: textTitleMedium(text: 'Cập nhật BMI')),
-              TextButton(
-                  onPressed: () {
-                    QuickAlert.show(
-                        context: context,
-                        type: QuickAlertType.info,
-                        text: 'Cập nhật và thay thê dữ liệu hôm nay?'
-                            '\n Chiều cao: 120 cm'
-                            '\n Cân nặng: 60 kg',
-                        title: 'Thông báo',
-                        confirmBtnText: 'Xác nhận',
-                        confirmBtnColor: Colors.black,
-                        cancelBtnText: 'Hủy',
-                        showCancelBtn: true,
-                        onCancelBtnTap: () {
-                          Get.back();
-                        },
-                        onConfirmBtnTap: () {
-                          Get.back();
-                        });
-                  },
-                  child: textBodyMedium(text: 'Lưu')),
-            ],
-          ),
-          const SizedBox(
-            height: 4 * 5,
-          ),
-          Expanded(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                onTap: () {},
-                style: josefinSans(fontSize: 16),
-                decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(
-                height: 4 * 5,
-              ),
-              TextField(
-                onTap: () {},
-                style: josefinSans(fontSize: 16),
-                keyboardType: TextInputType.number,
-                decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
-              ),
-            ],
-          ))
-        ],
+      child: Form(
+        key: keyForm1,
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: textBodyMedium(text: 'Hủy')),
+                TextButton(
+                    onPressed: () {},
+                    child: textTitleMedium(text: 'Cập nhật BMI')),
+                TextButton(
+                    onPressed: () {
+                      if (keyForm1.currentState?.validate() ?? false) {
+                        QuickAlert.show(
+                            context: context,
+                            type: QuickAlertType.info,
+                            text: 'Cập nhật và thay thê dữ liệu hôm nay?'
+                                '\n Chiều cao: 120 cm'
+                                '\n Cân nặng: 60 kg',
+                            title: 'Thông báo',
+                            confirmBtnText: 'Xác nhận',
+                            confirmBtnColor: Colors.black,
+                            cancelBtnText: 'Hủy',
+                            showCancelBtn: true,
+                            onCancelBtnTap: () {
+                              Get.close(1);
+                            },
+                            onConfirmBtnTap: () {
+                              Get.close(2);
+                            });
+                      }
+                    },
+                    child: textBodyMedium(text: 'Lưu')),
+              ],
+            ),
+            const SizedBox(
+              height: 4 * 5,
+            ),
+            Expanded(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextFormField(
+                  onTap: () {},
+                  style: josefinSans(fontSize: 16),
+                  decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
+                  keyboardType: TextInputType.number,
+                  validator: dashboardController.numberValidator,
+                ),
+                const SizedBox(
+                  height: 4 * 5,
+                ),
+                TextFormField(
+                  onTap: () {},
+                  style: josefinSans(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
+                  validator: dashboardController.numberValidator,
+                ),
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }

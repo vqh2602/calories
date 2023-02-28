@@ -131,6 +131,7 @@ Widget buildTitleImageButton(
     Alignment alignmentButton = Alignment.bottomLeft,
     String? titleButton,
     double height = 300,
+    Color? desColor,
     EdgeInsets? paddingButton,
     required Function onTap}) {
   return Column(
@@ -156,12 +157,13 @@ Widget buildTitleImageButton(
             Align(
               alignment: alignmentDes,
               child: textHeadlineMedium(
-                  text: des.toUpperCase(),
-                  fontWeight: FontWeight.w700,
-                  maxLines: 3,
-                  textAlign: textAlign,
-                  overflow: TextOverflow.ellipsis,
-                  color: Colors.black),
+                text: des.toUpperCase(),
+                fontWeight: FontWeight.w700,
+                maxLines: 3,
+                color: desColor,
+                textAlign: textAlign,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             Align(
               alignment: alignmentButton,
@@ -176,7 +178,7 @@ Widget buildTitleImageButton(
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero, // <-- Radius
                       ),
-                      backgroundColor: Colors.black,
+                      backgroundColor: Get.theme.colorScheme.onBackground,
                       padding: paddingButton ?? const EdgeInsets.all(4 * 2)),
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
@@ -186,13 +188,13 @@ Widget buildTitleImageButton(
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.w500,
                           fontSize: fontSize ?? 18.5,
-                          color: Colors.white),
+                          color: Get.theme.colorScheme.background),
                       const SizedBox(
                         width: 8,
                       ),
-                      const Icon(
+                      Icon(
                         LucideIcons.arrowRight,
-                        color: Colors.white,
+                        color: Get.theme.colorScheme.background,
                       )
                     ],
                   ),
@@ -339,6 +341,7 @@ AppBar appBarCustom(
       width: Get.width,
       padding: const EdgeInsets.only(top: 4, bottom: 3),
       decoration: BoxDecoration(
+          color: Get.theme.colorScheme.background,
           border: Border(
               bottom: isBorder
                   ? BorderSide(width: 1, color: Colors.grey.shade400)
@@ -461,7 +464,7 @@ Widget buttonSetting({
 }) {
   return Container(
     decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.theme.colorScheme.background,
         border: Border(
             bottom: BorderSide(color: Colors.grey.shade300, width: 0.5))),
     padding: const EdgeInsets.only(top: 4 * 5, bottom: 4 * 5),

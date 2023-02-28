@@ -3,6 +3,7 @@ import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class StatisticalScreen extends StatefulWidget {
@@ -193,7 +194,7 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
       SplineSeries<ChartSampleData, String>(
         dataSource: chartData,
         name: 'Bài tập',
-        color: Colors.black,
+        color: Get.theme.colorScheme.onBackground,
         markerSettings: const MarkerSettings(isVisible: true),
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.threeSeriesYValue,

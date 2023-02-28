@@ -2,24 +2,21 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 
-class HomeController extends GetxController
+class BlogController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
-  int selectItemScreen = 0;
+
   @override
   Future<void> onInit() async {
-    changeUI();
     super.onInit();
   }
 
   changeUI() {
     change(null, status: RxStatus.success());
   }
-
-  updateUI() {
+  updateUI(){
     update();
   }
-
-  loadingUI() {
-    change(null, status: RxStatus.loading());
+  loadingUI(){
+    change(null,status: RxStatus.loading());
   }
 }

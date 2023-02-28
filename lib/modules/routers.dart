@@ -1,5 +1,7 @@
 import 'package:calories/modules/auth/signup/signup_binding.dart';
 import 'package:calories/modules/auth/signup/signup_screen.dart';
+import 'package:calories/modules/blog/blog_binding.dart';
+import 'package:calories/modules/blog/blog_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_binding.dart';
 import 'package:calories/modules/dashboard/dashboard_screen.dart';
 import 'package:calories/modules/home/home_binding.dart';
@@ -58,4 +60,9 @@ List<GetPage> routes = [
       name: SignupScreen.routeName,
       page: () => const SignupScreen(),
       binding: SignupBinding()),
+  GetPage(
+      name: BlogScreen.routeName,
+      page: () => const BlogScreen(),
+      binding: BlogBinding(),
+      transition: Transition.rightToLeft),
 ];
