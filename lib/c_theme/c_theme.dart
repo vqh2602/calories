@@ -121,7 +121,7 @@ class SThemeTask {
         color: Color(0xffeeeeee),
       ),
     ),
-
+    
     /// Other Colors
     splashColor: Colors.white.withAlpha(100),
     indicatorColor: const Color(0xffeeeeee),
@@ -129,6 +129,8 @@ class SThemeTask {
     colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.black,
             primary: Colors.black,
+            onBackground: const Color(0xff000000),
+            background: const Color(0xffffffff),
             brightness: Brightness.light)
         .copyWith(background: const Color(0xffffffff))
         .copyWith(error: const Color(0xfff0323c)),
@@ -251,7 +253,9 @@ class SThemeTask {
     highlightColor: Colors.white.withAlpha(28),
     splashColor: Colors.white.withAlpha(56),
     colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.black, brightness: Brightness.dark)
+            seedColor: Colors.black, brightness: Brightness.dark,
+      onBackground: const Color(0xffffffff),
+      background: const Color(0xff000000),)
         .copyWith(background: const Color(0xff161616))
         .copyWith(error: const Color(0xfff0323c)),
   );

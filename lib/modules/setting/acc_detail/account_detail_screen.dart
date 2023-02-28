@@ -49,6 +49,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
               },
               child: textBodyMedium(
                 text: 'Lưu',
+                color: Get.theme.colorScheme.onBackground
               ))
         ],
         bigTitle: false,
@@ -64,7 +65,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
             child: Container(
               margin: EdgeInsets.zero,
               padding: alignment_20_0(),
-              color: Colors.white,
+              color: Get.theme.colorScheme.background,
               child: Column(
                 children: [
                   const SizedBox(
