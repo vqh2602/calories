@@ -11,6 +11,17 @@ class DashboardController extends GetxController
     });
   }
 
+  String? numberValidator(String? value) {
+    if (value == null || value == '') {
+      return null;
+    }
+    final n = num.tryParse(value);
+    if (n == null) {
+      return '$value không phải kiểu số';
+    }
+    return null;
+  }
+
   changeUI() {
     change(null, status: RxStatus.success());
   }

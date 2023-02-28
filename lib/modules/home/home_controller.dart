@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
+  int selectItemScreen = 0;
   @override
   Future<void> onInit() async {
+    changeUI();
     super.onInit();
   }
 

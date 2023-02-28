@@ -1,6 +1,9 @@
+import 'package:calories/modules/home/home_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/bottom_nav_bar.dart';
+import 'package:calories/widgets/loading_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,21 +13,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    return buildBody(
-        context: context,
-        body: _buildBody(),
-        appBar: null,
-        bottomNavigationBar: bottomNavigationBar(
-            onSelect: (index) => setState(() {
-                  selectedIndex = index;
-                }),
-            selectedIndex: selectedIndex));
+    return homeController.obx(
+        (state) => buildBody(
+            context: context,
+            body: _buildBody(),
+            appBar: null,
+            bottomNavigationBar: bottomNavigationBar(
+                onSelect: (index) => setState(() {
+                      homeController.selectItemScreen = index;
+                      homeController.changeUI();
+                    }),
+                selectedIndex: homeController.selectItemScreen)),
+        onLoading: const LoadingCustom());
   }
 
   Widget _buildBody() {
-    return widgetOptions.elementAt(selectedIndex);
+    return widgetOptions.elementAt(homeController.selectItemScreen);
   }
 }

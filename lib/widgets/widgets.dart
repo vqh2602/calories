@@ -130,6 +130,7 @@ Widget buildTitleImageButton(
     Alignment alignmentButton = Alignment.bottomLeft,
     String? titleButton,
     double height = 300,
+    Color? desColor,
     EdgeInsets? paddingButton,
     required Function onTap}) {
   return Column(
@@ -155,11 +156,13 @@ Widget buildTitleImageButton(
             Align(
               alignment: alignmentDes,
               child: textHeadlineMedium(
-                  text: des.toUpperCase(),
-                  fontWeight: FontWeight.w700,
-                  maxLines: 3,
-                  textAlign: textAlign,
-                  overflow: TextOverflow.ellipsis,),
+                text: des.toUpperCase(),
+                fontWeight: FontWeight.w700,
+                maxLines: 3,
+                color: desColor,
+                textAlign: textAlign,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             Align(
               alignment: alignmentButton,

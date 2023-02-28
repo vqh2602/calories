@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 void dateTimePicker(
     {required Function(dynamic) onchange, required Function onComplete}) {
   Get.bottomSheet(
-      backgroundColor: Colors.white,
+      backgroundColor: Get.theme.colorScheme.background,
       Container(
         height: 200,
         padding: EdgeInsets.zero,
