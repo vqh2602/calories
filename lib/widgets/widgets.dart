@@ -250,6 +250,7 @@ Widget forYouItem({
                         ),
                         child: textTitleSmall(
                           text: level.toUpperCase(),
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(
@@ -262,6 +263,7 @@ Widget forYouItem({
                         ),
                         child: textTitleSmall(
                           text: '$time Phút'.toUpperCase(),
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -279,6 +281,7 @@ Widget forYouItem({
                       text: des,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(
@@ -289,7 +292,10 @@ Widget forYouItem({
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
-                    child: const Icon(LucideIcons.arrowRight),
+                    child: const Icon(
+                      LucideIcons.arrowRight,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -313,6 +319,7 @@ Widget forYouItemTitle({required title}) {
         text: title.toUpperCase(),
         fontStyle: FontStyle.italic,
         maxLines: 2,
+        color: Colors.black,
       ),
     ),
   );
@@ -371,7 +378,7 @@ Widget workoutDetailItem({
 }) {
   return Container(
     decoration: BoxDecoration(
-      color: Colors.white,
+      // color: Colors.white,
       border: Border(
         bottom: BorderSide(color: Colors.grey.shade300, width: 0.5),
       ),
@@ -535,7 +542,9 @@ Widget topPickForYou() {
                   margin: const EdgeInsets.only(right: 4),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.black.withOpacity(0.2),
+                      color: context.isDarkMode
+                          ? Colors.grey.withOpacity(0.2)
+                          : Colors.black.withOpacity(0.2),
                     ),
                   ),
                   child: Column(
@@ -563,7 +572,9 @@ Widget topPickForYou() {
                             textBodySmall(
                               text:
                                   'Xây dựng sự ổn định cốt lõi cho chuyển động hàng ngày',
-                              color: Colors.black.withOpacity(0.5),
+                              color: context.isDarkMode
+                                  ? Colors.grey
+                                  : Colors.black.withOpacity(0.5),
                               fontSize: 10,
                             ),
                           ],

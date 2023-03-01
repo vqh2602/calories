@@ -153,7 +153,7 @@ Widget workoutDetailProperties(
 Container startButton() {
   return Container(
     padding: const EdgeInsets.all(4 * 6),
-    color: Colors.white,
+    color: Get.theme.colorScheme.background,
     width: Get.width,
     child: GFButton(
       onPressed: () {},
@@ -162,17 +162,20 @@ Container startButton() {
         right: 4 * 5,
       ),
       size: 4 * 13,
-      color: Colors.black,
+      color: Get.theme.colorScheme.onBackground,
       type: GFButtonType.solid,
       fullWidthButton: true,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          textTitleSmall(text: 'Bắt đầu'.toUpperCase(), color: Colors.white),
-          const Icon(
+          textTitleSmall(
+            text: 'Bắt đầu'.toUpperCase(),
+            color: Get.theme.colorScheme.background,
+          ),
+          Icon(
             LucideIcons.arrowRight,
             size: 4 * 6,
-            color: Colors.white,
+            color: Get.theme.colorScheme.background,
           )
         ],
       ),
