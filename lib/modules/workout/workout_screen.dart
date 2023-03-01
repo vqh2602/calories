@@ -47,10 +47,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 indicatorColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 dividerColor: Colors.grey.shade400,
-                indicator: const BoxDecoration(
+                indicator: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.black,
+                      color: context.isDarkMode ? Colors.white : Colors.black,
                       width: 2.0,
                     ),
                   ),
@@ -142,6 +142,7 @@ Widget browseItem({required String title, required String des}) {
                       text: des,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      color: Colors.black,
                     ),
                   ),
                 )
