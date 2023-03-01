@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class SignupController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
-  TextEditingController? birthTE;
+  TextEditingController? birthTE, passWTE, confirmPassTE;
 
   @override
   Future<void> onInit() async {
@@ -16,6 +16,8 @@ class SignupController extends GetxController
 
   initTE() {
     birthTE = TextEditingController();
+    passWTE = TextEditingController();
+    confirmPassTE = TextEditingController();
   }
 
   String? validateString(String? text) {
@@ -39,6 +41,21 @@ class SignupController extends GetxController
   String? validateEmail(String? value) {
     bool emailValid = RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value ?? '');
     return emailValid ? null : "Không đúng định dạng email";
+  }
+
+  String? validatePass(String? value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = RegExp(pattern);
+    return (regExp.hasMatch(value ?? '') && ((value ?? '').length > 7))
+        ? null
+        : 'Mật khẩu không đủ mạnh';
+  }
+
+  String? validateConfirmPass(String? value) {
+    return (value == (passWTE?.text ?? '_*#-|'))
+        ? null
+        : 'Mật khẩu không khớp';
   }
 
   changeUI() {

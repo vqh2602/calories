@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+class ThemeService {
+  final _box = GetStorage();
+  final _key = 'isThemeMode';
+
+  ThemeMode get theme => loadThemeFromBox() ? ThemeMode.dark : ThemeMode.light;
+
+  bool loadThemeFromBox() => _box.read(_key) ?? false;
+  saveThemeToBox(bool isDarkMode) => _box.write(_key, isDarkMode);
+
+  void switchTheme() {
+    Get.changeThemeMode(loadThemeFromBox() ? ThemeMode.light : ThemeMode.dark);
+    saveThemeToBox(!loadThemeFromBox());
+  }
+}
 
 class SThemeTask {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     useMaterial3: true,
+
     /// Primary Color
     primaryColor: Colors.black,
     scaffoldBackgroundColor: const Color(0xffffffff),
@@ -30,12 +48,13 @@ class SThemeTask {
         foregroundColor: const Color(0xffeeeeee)),
 
     /// Divider Theme
-    dividerTheme: const DividerThemeData(color: Color(0xffe8e8e8), thickness: 1),
+    dividerTheme:
+        const DividerThemeData(color: Color(0xffe8e8e8), thickness: 1),
     dividerColor: const Color(0xffe8e8e8),
 
     /// Bottom AppBar Theme
     bottomAppBarTheme:
-    const BottomAppBarTheme(color:Colors.black, elevation: 2),
+        const BottomAppBarTheme(color: Colors.black, elevation: 2),
 
     /// Tab bar Theme
     tabBarTheme: const TabBarTheme(
@@ -102,21 +121,26 @@ class SThemeTask {
         color: Color(0xffeeeeee),
       ),
     ),
-
+    
     /// Other Colors
     splashColor: Colors.white.withAlpha(100),
     indicatorColor: const Color(0xffeeeeee),
-    highlightColor: const Color(0xffeeeeee), colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.black,
-      primary: Colors.black,
-      brightness: Brightness.light).copyWith(background: const Color(0xffffffff)).copyWith(error: const Color(0xfff0323c)),
-
+    highlightColor: const Color(0xffeeeeee),
+    colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.black,
+            primary: Colors.black,
+            onBackground: const Color(0xff000000),
+            background: const Color(0xffffffff),
+            brightness: Brightness.light)
+        .copyWith(background: const Color(0xffffffff))
+        .copyWith(error: const Color(0xfff0323c)),
   );
 
   /// -------------------------- Dark Theme  -------------------------------------------- ///
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,
+
     /// Primary Color
     primaryColor: Colors.black,
 
@@ -147,7 +171,8 @@ class SThemeTask {
     ),
 
     /// Divider Color
-    dividerTheme: const DividerThemeData(color: Color(0xff363636), thickness: 1),
+    dividerTheme:
+        const DividerThemeData(color: Color(0xff363636), thickness: 1),
     dividerColor: const Color(0xff363636),
 
     /// Floating Action Theme
@@ -162,7 +187,7 @@ class SThemeTask {
 
     /// Bottom AppBar Theme
     bottomAppBarTheme: const BottomAppBarTheme(
-      color:Colors.black,
+      color: Colors.black,
       elevation: 2,
     ),
 
@@ -186,7 +211,7 @@ class SThemeTask {
           MaterialState.selected,
         };
         if (state.any(interactiveStates.contains)) {
-          return const Color(0xffabb3ea);
+          return const Color(0xffffffff);
         }
         return null;
       }),
@@ -224,8 +249,14 @@ class SThemeTask {
     ///Other Color
     indicatorColor: Colors.white,
     disabledColor: const Color(0xffa3a3a3),
+
     highlightColor: Colors.white.withAlpha(28),
-    splashColor: Colors.white.withAlpha(56), colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.black, brightness: Brightness.dark).copyWith( background: const Color(0xff161616)).copyWith(error: const Color(0xfff0323c)),
+    splashColor: Colors.white.withAlpha(56),
+    colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.black, brightness: Brightness.dark,
+      onBackground: const Color(0xffffffff),
+      background: const Color(0xff000000),)
+        .copyWith(background: const Color(0xff161616))
+        .copyWith(error: const Color(0xfff0323c)),
   );
 }
