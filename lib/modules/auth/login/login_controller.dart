@@ -7,6 +7,11 @@ class LoginController extends GetxController
     super.onInit();
   }
 
+  String? validateEmail(String? value) {
+    bool emailValid = RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value ?? '');
+    return emailValid ? null : "Không đúng định dạng email";
+  }
+
   changeUI() {
     change(null, status: RxStatus.success());
   }
