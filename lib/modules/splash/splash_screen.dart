@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:calories/modules/auth/login/login_screen.dart';
-import 'package:calories/modules/home/home_screen.dart';
+// import 'package:calories/modules/home/home_screen.dart';
+import 'package:calories/modules/splash/splash_controller.dart';
 import 'package:calories/widgets/base/base.dart';
+import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
