@@ -1,3 +1,5 @@
+import 'package:calories/modules/auth/login/login_binding.dart';
+import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:calories/modules/auth/signup/signup_binding.dart';
 import 'package:calories/modules/auth/signup/signup_screen.dart';
 import 'package:calories/modules/blog/blog_binding.dart';
@@ -16,6 +18,8 @@ import 'package:calories/modules/splash/splash_binding.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/modules/statistical/statistical_binding.dart';
 import 'package:calories/modules/statistical/statistical_screen.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_binding.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_screen.dart';
 import 'package:calories/modules/workout/workout_binding.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_binding.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
@@ -59,6 +63,10 @@ List<GetPage> routes = [
       binding: WorkoutDetailBinding(),
       transition: Transition.rightToLeft),
   GetPage(
+      name: LoginScreen.routeName,
+      page: () => const LoginScreen(),
+      binding: LoginBinding()),
+  GetPage(
       name: SignupScreen.routeName,
       page: () => const SignupScreen(),
       binding: SignupBinding()),
@@ -71,4 +79,10 @@ List<GetPage> routes = [
       name: CalorieCalculatorScreen.routeName,
       page: () => const CalorieCalculatorScreen(),
       binding: CalorieCalculatorBinding()),
+  GetPage(
+      name: PlayVideoScreen.routeName,
+      page: () => const PlayVideoScreen(),
+      binding: PlayVideoBinding(),
+      transition: Transition.rightToLeft),
+
 ];
