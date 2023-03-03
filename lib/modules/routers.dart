@@ -84,5 +84,4 @@ List<GetPage> routes = [
       page: () => const PlayVideoScreen(),
       binding: PlayVideoBinding(),
       transition: Transition.rightToLeft),
-
 ];
