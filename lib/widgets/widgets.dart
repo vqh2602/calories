@@ -412,6 +412,35 @@ Widget workoutDetailItem({
   );
 }
 
+Widget searchBar({double width = 1}) {
+  return Container(
+    // margin: const EdgeInsets.symmetric(horizontal: 4 * 5),
+    width: Get.width * width,
+    decoration: BoxDecoration(
+      color: Colors.grey.withOpacity(0.05),
+      borderRadius: BorderRadius.circular(30),
+    ),
+    child: TextField(
+      onChanged: (value) {},
+      decoration: const InputDecoration(
+        contentPadding: EdgeInsets.all(4 * 3),
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        hintText: "Tìm kiếm",
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+        prefixIcon: Icon(
+          LucideIcons.search,
+          size: 12,
+        ),
+      ),
+    ),
+  );
+}
+
 //avater tròn
 Widget avatarImage(
     {required String url,

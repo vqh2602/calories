@@ -4,7 +4,6 @@ import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
@@ -98,7 +97,9 @@ Widget browseTab() {
           const SizedBox(
             height: 4 * 4,
           ),
-          searchBar(),
+          Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4 * 5),
+              child: searchBar()),
           const SizedBox(
             height: 4 * 4,
           ),
@@ -151,34 +152,6 @@ Widget browseItem({required String title, required String des}) {
           ),
         ),
       ],
-    ),
-  );
-}
-
-Widget searchBar() {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 20),
-    decoration: BoxDecoration(
-      color: Colors.grey.withOpacity(0.05),
-      borderRadius: BorderRadius.circular(30),
-    ),
-    child: TextField(
-      onChanged: (value) {},
-      decoration: const InputDecoration(
-        contentPadding: EdgeInsets.all(4 * 3),
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        hintText: "Search",
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-        prefixIcon: Icon(
-          LucideIcons.search,
-          size: 12,
-        ),
-      ),
     ),
   );
 }
