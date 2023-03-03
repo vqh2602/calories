@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.put(LoginController());
+
   // GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormS1');
   int selectedIndex = 0;
   bool passwordVisible = true;
@@ -116,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GFButton(
                   onPressed: () {
                     // if (keyForm1.currentState?.validate() ?? false) {
-                      Get.offAndToNamed(HomeScreen.routeName);
+                    Get.offAndToNamed(HomeScreen.routeName);
                     // }
                   },
                   padding: const EdgeInsets.only(
