@@ -1,4 +1,5 @@
 import 'package:calories/modules/blog/blog_screen.dart';
+import 'package:calories/modules/calorie_calculator/calorie_calculator_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_controller.dart';
 import 'package:calories/modules/home/home_controller.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -93,10 +94,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             height: 4 * 12,
                           ),
                           buildTitleImageButton(
-                              title: 'Tính toán calo',
-                              des: 'TÌM HIỂU LƯỢNG CALO TIÊU THỤ MỖI NGÀY?',
-                              image: 'assets/images/bg_calo.png',
-                              onTap: () {}),
+                            title: 'Tính toán calo',
+                            des: 'TÌM HIỂU LƯỢNG CALO TIÊU THỤ MỖI NGÀY?',
+                            image: 'assets/images/bg_calo.png',
+                            onTap: () {
+                              Get.toNamed(CalorieCalculatorScreen.routeName);
+                            },
+                          ),
                           const SizedBox(
                             height: 4 * 25,
                           ),
