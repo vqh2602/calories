@@ -16,7 +16,11 @@ import 'package:calories/modules/splash/splash_binding.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/modules/statistical/statistical_binding.dart';
 import 'package:calories/modules/statistical/statistical_screen.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_binding.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_screen.dart';
 import 'package:calories/modules/workout/workout_binding.dart';
+import 'package:calories/modules/workout/workout_detail/workout_detail_binding.dart';
+import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/modules/workout/workout_screen.dart';
 import 'package:get/get.dart';
 
@@ -52,6 +56,11 @@ List<GetPage> routes = [
       page: () => const WorkoutScreen(),
       binding: WorkoutBinding()),
   GetPage(
+      name: WorkoutDetailScreen.routeName,
+      page: () => const WorkoutDetailScreen(),
+      binding: WorkoutDetailBinding(),
+      transition: Transition.rightToLeft),
+  GetPage(
       name: LoginScreen.routeName,
       page: () => const LoginScreen(),
       binding: LoginBinding()),
@@ -64,4 +73,10 @@ List<GetPage> routes = [
       page: () => const BlogScreen(),
       binding: BlogBinding(),
       transition: Transition.rightToLeft),
+  GetPage(
+      name: PlayVideoScreen.routeName,
+      page: () => const PlayVideoScreen(),
+      binding: PlayVideoBinding(),
+      transition: Transition.rightToLeft),
+
 ];

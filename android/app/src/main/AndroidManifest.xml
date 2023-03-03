@@ -7,6 +7,7 @@
         android:label="calories"
         android:name="${applicationName}"
        android:requestLegacyExternalStorage="true"
+       android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
