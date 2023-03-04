@@ -134,6 +134,7 @@ class SThemeTask {
             brightness: Brightness.light)
         .copyWith(background: const Color(0xffffffff))
         .copyWith(error: const Color(0xfff0323c)),
+
   );
 
   /// -------------------------- Dark Theme  -------------------------------------------- ///
