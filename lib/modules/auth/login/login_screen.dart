@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 4 * 20,
                   ),
                   textHeadlineLarge(
-                      text: 'Calories', fontWeight: FontWeight.w700),
+                      text: 'Đăng nhập', fontWeight: FontWeight.w700),
                   const SizedBox(
                     height: 4 * 1,
                   ),
@@ -91,56 +91,54 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 4 * 2,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.offAndToNamed(SignupScreen.routeName);
-                        },
-                        child: textBodySmall(
+                  InkWell(
+                    onTap: () {
+                      Get.offAndToNamed(SignupScreen.routeName);
+                    },
+                    child: Ink(
+                      child: textBodyMedium(
                           text: 'Chưa có tài khoản? Đăng kí',
-                          fontSize: 12,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                          decoration: TextDecoration.underline),
+                    ),
                   ),
                   const SizedBox(
                     height: 4 * 20,
                   ),
                 ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: GFButton(
-                  onPressed: () {
-                    // if (keyForm1.currentState?.validate() ?? false) {
-                    Get.offAndToNamed(HomeScreen.routeName);
-                    // }
-                  },
-                  padding: const EdgeInsets.only(
-                    left: 4 * 5,
-                    right: 4 * 5,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GFButton(
+                    onPressed: () {
+                      // if (keyForm1.currentState?.validate() ?? false) {
+                      Get.offAndToNamed(HomeScreen.routeName);
+                      // }
+                    },
+                    padding: const EdgeInsets.only(
+                      left: 4 * 5,
+                      right: 4 * 5,
+                    ),
+                    size: 4 * 13,
+                    color: Colors.black,
+                    fullWidthButton: true,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        textTitleSmall(
+                            text: 'Đăng nhập'.toUpperCase(),
+                            color: Colors.white),
+                        const Icon(
+                          LucideIcons.arrowRight,
+                          size: 4 * 6,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
                   ),
-                  size: 4 * 13,
-                  color: Colors.black,
-                  fullWidthButton: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      textTitleSmall(
-                          text: 'Đăng nhập'.toUpperCase(), color: Colors.white),
-                      const Icon(
-                        LucideIcons.arrowRight,
-                        size: 4 * 6,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
-              )
+                )
+              ),
             ],
           ),
         ),
