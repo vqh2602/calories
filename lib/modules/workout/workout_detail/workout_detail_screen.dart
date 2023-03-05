@@ -1,3 +1,4 @@
+import 'package:calories/modules/workout/play_video_workout/play_video_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -156,7 +157,9 @@ Container startButton() {
     color: Get.theme.colorScheme.background,
     width: Get.width,
     child: GFButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed(PlayVideoScreen.routeName);
+      },
       padding: const EdgeInsets.only(
         left: 4 * 5,
         right: 4 * 5,

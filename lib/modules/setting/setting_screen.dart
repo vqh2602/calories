@@ -181,7 +181,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     Container(
                       padding: alignment_20_8(),
                       child: GFButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(SplashScreen.routeName);
+                        },
                         padding: const EdgeInsets.only(
                           left: 4 * 5,
                           right: 4 * 5,

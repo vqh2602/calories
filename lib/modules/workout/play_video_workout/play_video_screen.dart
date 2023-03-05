@@ -101,15 +101,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
-                            isPortrait
-                                ? Orientation.landscape
-                                : Orientation.portrait;
-
-                            if (isPortrait) {
-                              AutoOrientation.landscapeRightMode();
-                            } else {
-                              AutoOrientation.portraitUpMode();
-                            }
+                            Get.back();
                           },
                           icon: const Icon(
                             LucideIcons.x,
