@@ -138,62 +138,66 @@ Widget searchBox(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 4, bottom: 4 * 4),
+            margin: const EdgeInsets.only(top: 4, bottom: 4),
             child: searchBar(width: 0.75),
           ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: textBodyMedium(text: 'Hủy'),
-                        ),
-                        textTitleMedium(text: 'Lọc'),
-                        TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          style: TextButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          child: textBodyMedium(text: 'Xác nhận'),
-                        ),
-                      ],
-                    ),
-                    content: Wrap(
-                      spacing: 4,
-                      children: List.generate(
-                        tags.length,
-                        (index) => filterChip(
-                          tag: tags[index],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            },
-            icon: const Icon(
-              LucideIcons.filter,
-            ),
-          ),
+          filterButton(context),
         ],
       ),
+    ),
+  );
+}
+
+IconButton filterButton(BuildContext context) {
+  return IconButton(
+    onPressed: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: textBodyMedium(text: 'Hủy'),
+                ),
+                textTitleMedium(text: 'Lọc'),
+                TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: textBodyMedium(text: 'Xác nhận'),
+                ),
+              ],
+            ),
+            content: Wrap(
+              spacing: 4,
+              children: List.generate(
+                tags.length,
+                (index) => filterChip(
+                  tag: tags[index],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    },
+    icon: const Icon(
+      LucideIcons.filter,
     ),
   );
 }
@@ -202,12 +206,11 @@ Column addedFoodList() {
   return Column(
     children: List.generate(
       foodData.length,
-      (index) => foodItem(
+      (index) => addedFoodItem(
         image: foodData[index]['image'],
         foodName: foodData[index]['foodName'],
         calo: foodData[index]['calo'],
-        heigh: 0.08,
-        type: 2,
+        quantity: 10,
       ),
     ),
   );
@@ -223,7 +226,6 @@ Widget foodList() {
           image: foodData[index]['image'],
           foodName: foodData[index]['foodName'],
           calo: foodData[index]['calo'],
-          type: 1,
         ),
       ),
     ),
@@ -234,12 +236,10 @@ Container foodItem({
   required String image,
   required String foodName,
   required int calo,
-  heigh = 0.102,
-  required type,
 }) {
   return Container(
     margin: const EdgeInsets.only(bottom: 4 * 4),
-    height: Get.height * heigh,
+    height: Get.height * 0.102,
     decoration: BoxDecoration(
       border: Border.all(color: Colors.grey.withOpacity(0.2)),
       // borderRadius: BorderRadius.circular(10),
@@ -274,16 +274,71 @@ Container foodItem({
             ),
           ),
         ),
-        type == 1
-            ? IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  LucideIcons.plusCircle,
-                  size: 24,
-                ),
-              )
-            : textBodySmall(text: 'SL: 100'),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            LucideIcons.plusCircle,
+            size: 24,
+          ),
+        ),
         const SizedBox(width: 4 * 4),
+      ],
+    ),
+  );
+}
+
+Container addedFoodItem({
+  required String image,
+  required String foodName,
+  required int calo,
+  required int quantity,
+}) {
+  return Container(
+    margin: const EdgeInsets.only(bottom: 4 * 4),
+    height: Get.height * 0.08,
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.grey.withOpacity(0.2)),
+      // borderRadius: BorderRadius.circular(10),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AspectRatio(
+          aspectRatio: 1,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                alignment: FractionalOffset.topCenter,
+                image: NetworkImage(image),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 4 * 4),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4 * 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                textHeadlineSmall(text: foodName, fontSize: 20),
+                const SizedBox(height: 4),
+                textBodySmall(text: '$calo calo/100g', color: Colors.grey[600]),
+              ],
+            ),
+          ),
+        ),
+        textBodySmall(text: 'SL: $quantity'),
+        const SizedBox(width: 4 * 4),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            LucideIcons.edit,
+            size: 18,
+          ),
+        ),
       ],
     ),
   );
