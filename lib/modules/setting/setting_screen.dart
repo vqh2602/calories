@@ -4,6 +4,7 @@ import 'package:calories/modules/setting/setting_controller.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/loading_custom.dart';
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   void initState() {
+    settingController.isGetBiometric();
     super.initState();
   }
 
@@ -117,7 +119,20 @@ class _SettingScreenState extends State<SettingScreen> {
                                 iconEnd: LucideIcons.chevronRight,
                                 title: 'Tự động phát video',
                                 isToggle: true,
-                                onChangeToggle: (val) {}),
+                                onChangeToggle: (val) {
+                                  buildToast(
+                                      title: 'Bật đăng nhập nhanh thành công', type: TypeToast.success);
+                                }),
+                            buttonSetting(
+                                iconStart: LucideIcons.fingerprint,
+                                iconEnd: LucideIcons.chevronRight,
+                                title: 'Đăng nhập nhanh',
+                                isToggle: true,
+                                valToggle: settingController.isBiometric,
+                                onChangeToggle: (val) {
+                                  settingController
+                                      .initBiometric(val);
+                                }),
                             buttonSetting(
                                 iconStart: LucideIcons.listVideo,
                                 iconEnd: LucideIcons.chevronRight,
@@ -137,6 +152,8 @@ class _SettingScreenState extends State<SettingScreen> {
                             buttonSetting(
                                 iconStart: LucideIcons.shield,
                                 iconEnd: LucideIcons.chevronRight,
+                                onTap: (){ buildToast(
+                                    title: 'Bật đăng nhập nhanh thất bại', type: TypeToast.failure);},
                                 title: 'Dữ liệu người dùng'),
                             const SizedBox(
                               height: 4 * 5,

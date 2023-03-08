@@ -377,26 +377,26 @@ packages:
     dependency: "direct main"
     description:
       name: local_auth
-      sha256: "1625a217c599db02044df992509eb52584cfdaa8219958d516b74f644ef2c626"
+      sha256: "0cf238be2bfa51a6c9e7e9cfc11c05ea39f2a3a4d3e5bb255d0ebc917da24401"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   local_auth_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: local_auth_android
-      sha256: cfcbc4936e288d61ef85a04feef6b95f49ba496d4fd98364e6abafb462b06a1f
+      sha256: "6e97e997530f7bfcc696cc0ed84a019209719dd6e854675da81803d02f10d8fc"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.18"
+    version: "1.0.20"
   local_auth_ios:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: local_auth_ios
-      sha256: aa32478d7513066564139af57e11e2cad1bbd535c1efd224a88a8764c5665e3b
+      sha256: b4b7a02eec2bd8ffea78026658264e7a720c841cca7732dfa27e36af2f727dd8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.12"
+    version: "1.1.0"
   local_auth_platform_interface:
     dependency: transitive
     description:
@@ -425,10 +425,10 @@ packages:
     dependency: "direct main"
     description:
       name: lucide_icons
-      sha256: "757abb1c7e583d0e04692f3248298af0be191e04c3954ee430f434505db8bf6e"
+      sha256: "8632bf49640ed223b96550d2118e7fd1a3b889c1faa44210d7bfe6c94f666d7a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.119.0"
+    version: "0.123.0"
   matcher:
     dependency: transitive
     description:
@@ -750,10 +750,10 @@ packages:
     dependency: "direct main"
     description:
       name: video_player
-      sha256: "6cec15c21974282994577ffcfb5b42e64a699d38583138ec8dcb3d0a6902a41c"
+      sha256: "58dc3d6ceb199b82e652ec27f16485e33167ef021fe4221a954ff1aa12b1a5c0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.2"
+    version: "2.5.3"
   video_player_android:
     dependency: transitive
     description:
