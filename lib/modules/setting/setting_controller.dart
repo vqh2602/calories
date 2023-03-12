@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
