@@ -109,39 +109,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GFButton(
-                    onPressed: () {
-                      if (keyForm1.currentState?.validate() ?? false) {
-                        loginController.loadingUI();
-                        loginController.login();
-                      }
-                    },
-                    padding: const EdgeInsets.only(
-                      left: 4 * 5,
-                      right: 4 * 5,
-                    ),
-                    size: 4 * 13,
-                    color: Colors.black,
-                    fullWidthButton: true,
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textTitleSmall(
-                            text: 'Đăng nhập'.toUpperCase(),
-                            color: Colors.white),
-                        const Icon(
-                          LucideIcons.arrowRight,
-                          size: 4 * 6,
-                          color: Colors.white,
-                        )
+                        Expanded(
+                          child: GFButton(
+                            onPressed: () {
+                              if (keyForm1.currentState?.validate() ?? false) {
+                                loginController.loadingUI();
+                                loginController.login();
+                              }
+                            },
+                            padding: const EdgeInsets.only(
+                              left: 4 * 5,
+                              right: 4 * 5,
+                            ),
+                            size: 4 * 13,
+                            color: Colors.black,
+                            fullWidthButton: true,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                textTitleSmall(
+                                    text: 'Đăng nhập'.toUpperCase(),
+                                    color: Colors.white),
+                                const Icon(
+                                  LucideIcons.arrowRight,
+                                  size: 4 * 6,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              loginController.login(isLoginBiometric: true);
+                            },
+                            icon: const Icon(LucideIcons.scanFace))
                       ],
                     ),
-                  ),
-                )
-              ),
+                  )),
             ],
           ),
         ),

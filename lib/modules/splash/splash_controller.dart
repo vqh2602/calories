@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
+  GetStorage box = GetStorage();
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -15,9 +16,8 @@ class SplashController extends GetxController
   }
 
   Future<void> checkLogin() async {
-    final box = GetStorage();
-    var dataUser = box.read(Storages.dataUser);
-    // kiểm tra dữ liệu user và thời gian đăng nhập
+    var dataUser = await box.read(Storages.dataUser);
+    //kiểm tra dữ liệu user và thời gian đăng nhập
     if (dataUser != null && await checkLoginTimeOut()) {
       Future.delayed(const Duration(seconds: 4), () {
         Get.offAndToNamed(HomeScreen.routeName);
@@ -30,8 +30,7 @@ class SplashController extends GetxController
   }
 
   Future<bool> checkLoginTimeOut() async {
-    final box = GetStorage();
-    var dataTimeOut = box.read(Storages.dataLoginTime);
+    var dataTimeOut = await box.read(Storages.dataLoginTime);
     if (dataTimeOut != null) {
       // Kiểm tra một thời điểm có nằm trong một khoảng thời gian hay không
       try {

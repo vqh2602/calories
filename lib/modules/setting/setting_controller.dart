@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:calories/data/storage.dart';
+import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,13 +12,19 @@ import 'package:local_auth_ios/local_auth_ios.dart';
 class SettingController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
   final LocalAuthentication auth = LocalAuthentication();
-  final box = GetStorage();
+  GetStorage box = GetStorage();
   bool isBiometric = false;
   @override
   Future<void> onInit() async {
     changeUI();
     isGetBiometric();
     super.onInit();
+  }
+
+  Future<void> logout() async {
+    box.write(Storages.dataLoginTime, null);
+    box.write(Storages.dataUser, null);
+    Get.offAllNamed(SplashScreen.routeName);
   }
 
   Future<void> initBiometric(bool? isBiometric) async {
@@ -51,18 +58,18 @@ class SettingController extends GetxController
       }
     }
     if (didAuthenticate) {
-      box.write(Storages.dataBiometric, true);
+      await box.write(Storages.dataBiometric, true);
       buildToast(
           title: 'Bật đăng nhập nhanh thành công', type: TypeToast.success);
     } else {
-      box.write(Storages.dataBiometric, false);
+      await box.write(Storages.dataBiometric, false);
       // buildToast(
       //     title: 'Bật đăng nhập nhanh thất bại', type: TypeToast.failure);
     }
     isGetBiometric();
   }
 
-  void isGetBiometric() {
+  Future<void> isGetBiometric() async {
     isBiometric = box.read(Storages.dataBiometric) ?? false;
     changeUI();
   }

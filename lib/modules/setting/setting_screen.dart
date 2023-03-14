@@ -121,7 +121,8 @@ class _SettingScreenState extends State<SettingScreen> {
                                 isToggle: true,
                                 onChangeToggle: (val) {
                                   buildToast(
-                                      title: 'Bật đăng nhập nhanh thành công', type: TypeToast.success);
+                                      title: 'Bật đăng nhập nhanh thành công',
+                                      type: TypeToast.success);
                                 }),
                             buttonSetting(
                                 iconStart: LucideIcons.fingerprint,
@@ -130,8 +131,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 isToggle: true,
                                 valToggle: settingController.isBiometric,
                                 onChangeToggle: (val) {
-                                  settingController
-                                      .initBiometric(val);
+                                  settingController.initBiometric(val);
                                 }),
                             buttonSetting(
                                 iconStart: LucideIcons.listVideo,
@@ -152,8 +152,11 @@ class _SettingScreenState extends State<SettingScreen> {
                             buttonSetting(
                                 iconStart: LucideIcons.shield,
                                 iconEnd: LucideIcons.chevronRight,
-                                onTap: (){ buildToast(
-                                    title: 'Bật đăng nhập nhanh thất bại', type: TypeToast.failure);},
+                                onTap: () {
+                                  buildToast(
+                                      title: 'Bật đăng nhập nhanh thất bại',
+                                      type: TypeToast.failure);
+                                },
                                 title: 'Dữ liệu người dùng'),
                             const SizedBox(
                               height: 4 * 5,
@@ -199,7 +202,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       padding: alignment_20_8(),
                       child: GFButton(
                         onPressed: () {
-                          Get.toNamed(SplashScreen.routeName);
+                          settingController.logout();
                         },
                         padding: const EdgeInsets.only(
                           left: 4 * 5,
