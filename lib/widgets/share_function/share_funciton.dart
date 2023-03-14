@@ -21,30 +21,39 @@ void dateTimePicker(
 
 enum TypeToast { success, failure, transparent, custom }
 
-void buildToast(
+buildToast(
     {required TypeToast type,
     required String title,
     String? message,
     SnackPosition snackPosition = SnackPosition.TOP,
     Function? snackBarCustom}) {
+  if( type == TypeToast.failure){
+    Get.snackbar(title, message ?? ' ',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+        snackPosition: snackPosition);
+  }
   switch (type) {
     case TypeToast.success:
       Get.snackbar(title, message ?? '',
           backgroundColor: Colors.green,
           colorText: Colors.white,
-          duration: const Duration(microseconds: 1500),
+          duration: const Duration(seconds: 2),
           snackPosition: snackPosition);
       break;
     case TypeToast.failure:
-      Get.snackbar(title, message ?? '',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          duration: const Duration(microseconds: 1500),
-          snackPosition: snackPosition);
-      break;
+      {
+        Get.snackbar(title, message ?? ' ',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2),
+            snackPosition: snackPosition);
+        break;
+      }
     case TypeToast.transparent:
       Get.snackbar(title, message ?? '',
-          duration: const Duration(microseconds: 1500),
+          duration: const Duration(seconds: 2),
           snackPosition: snackPosition);
       break;
     case TypeToast.custom:

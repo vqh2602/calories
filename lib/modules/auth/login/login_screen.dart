@@ -1,6 +1,5 @@
 import 'package:calories/modules/auth/login/login_controller.dart';
 import 'package:calories/modules/auth/signup/signup_screen.dart';
-import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/theme_textinput.dart';
@@ -20,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.put(LoginController());
 
-  // GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormS1');
+  GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormL1');
   int selectedIndex = 0;
   bool passwordVisible = true;
 
@@ -35,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildBody() {
     return SafeArea(
-      child: Container(
-        padding: EdgeInsets.zero,
+      child: Form(
+        key: keyForm1,
         child: Container(
           height: Get.height,
           margin: alignment_20_0(),
@@ -61,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextFormField(
                     onTap: () {},
+                    controller: loginController.emailTE,
                     style: josefinSans(fontSize: 16),
                     keyboardType: TextInputType.emailAddress,
                     decoration: textFieldInputStyle(label: 'Email'),
@@ -70,8 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 4 * 6,
                   ),
-                  TextField(
+                  TextFormField(
                     onTap: () {},
+                    controller: loginController.passWTE,
                     obscureText: passwordVisible,
                     decoration: textFieldInputStyle(
                         label: 'Mật khẩu',
@@ -87,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : LucideIcons.eyeOff),
                           ),
                         )),
+                    validator: loginController.validateString,
                   ),
                   const SizedBox(
                     height: 4 * 2,
@@ -107,38 +109,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GFButton(
-                    onPressed: () {
-                      // if (keyForm1.currentState?.validate() ?? false) {
-                      Get.offAndToNamed(HomeScreen.routeName);
-                      // }
-                    },
-                    padding: const EdgeInsets.only(
-                      left: 4 * 5,
-                      right: 4 * 5,
-                    ),
-                    size: 4 * 13,
-                    color: Colors.black,
-                    fullWidthButton: true,
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textTitleSmall(
-                            text: 'Đăng nhập'.toUpperCase(),
-                            color: Colors.white),
-                        const Icon(
-                          LucideIcons.arrowRight,
-                          size: 4 * 6,
-                          color: Colors.white,
-                        )
+                        Expanded(
+                          child: GFButton(
+                            onPressed: () {
+                              if (keyForm1.currentState?.validate() ?? false) {
+                                loginController.loadingUI();
+                                loginController.login();
+                              }
+                            },
+                            padding: const EdgeInsets.only(
+                              left: 4 * 5,
+                              right: 4 * 5,
+                            ),
+                            size: 4 * 13,
+                            color: Colors.black,
+                            fullWidthButton: true,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                textTitleSmall(
+                                    text: 'Đăng nhập'.toUpperCase(),
+                                    color: Colors.white),
+                                const Icon(
+                                  LucideIcons.arrowRight,
+                                  size: 4 * 6,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              loginController.login(isLoginBiometric: true);
+                            },
+                            icon: const Icon(LucideIcons.scanFace))
                       ],
                     ),
-                  ),
-                )
-              ),
+                  )),
             ],
           ),
         ),

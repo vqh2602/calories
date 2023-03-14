@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:calories/modules/auth/signup/signup_controller.dart';
 import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -316,7 +317,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 4 * 5,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(LoginScreen.routeName);
+                    },
                     child: Ink(
                       child: textBodyMedium(
                           text: 'Đã có tài khoản? Đăng nhập',
