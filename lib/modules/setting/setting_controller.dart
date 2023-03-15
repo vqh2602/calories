@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:calories/data/storage.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
@@ -14,10 +15,14 @@ class SettingController extends GetxController
   final LocalAuthentication auth = LocalAuthentication();
   GetStorage box = GetStorage();
   bool isBiometric = false;
+  bool autoPlayVideo = false;
+  Uint8List? base64Image;
   @override
   Future<void> onInit() async {
     changeUI();
     isGetBiometric();
+    isGetAutoPlayVideo();
+    initData();
     super.onInit();
   }
 
@@ -25,6 +30,12 @@ class SettingController extends GetxController
     box.write(Storages.dataLoginTime, null);
     box.write(Storages.dataUser, null);
     Get.offAllNamed(SplashScreen.routeName);
+  }
+
+  Future<void> initData() async {
+    base64Image = await convertImageToBase64(
+        base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
+    updateUI();
   }
 
   Future<void> initBiometric(bool? isBiometric) async {
@@ -71,6 +82,17 @@ class SettingController extends GetxController
 
   Future<void> isGetBiometric() async {
     isBiometric = box.read(Storages.dataBiometric) ?? false;
+    changeUI();
+  }
+
+  Future<void> isGetAutoPlayVideo() async {
+    autoPlayVideo = box.read(Storages.dataPlayVideo) ?? false;
+    changeUI();
+  }
+
+  Future<void> setAutoPlayVideo() async {
+    await box.write(Storages.dataPlayVideo, autoPlayVideo ? false : true);
+    isGetAutoPlayVideo();
     changeUI();
   }
 

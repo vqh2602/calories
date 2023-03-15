@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +32,7 @@ buildToast(
     String? message,
     SnackPosition snackPosition = SnackPosition.TOP,
     Function? snackBarCustom}) {
-  if( type == TypeToast.failure){
+  if (type == TypeToast.failure) {
     Get.snackbar(title, message ?? ' ',
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -53,8 +58,7 @@ buildToast(
       }
     case TypeToast.transparent:
       Get.snackbar(title, message ?? '',
-          duration: const Duration(seconds: 2),
-          snackPosition: snackPosition);
+          duration: const Duration(seconds: 2), snackPosition: snackPosition);
       break;
     case TypeToast.custom:
       if (snackBarCustom != null) snackBarCustom();
@@ -78,5 +82,31 @@ String formatDate({required TypeDate type, required DateTime dateTime}) {
       return dateTime.year.toString();
     case TypeDate.mM:
       return dateTime.month.toString();
+  }
+}
+
+String splitNameUser({required String name, bool isLastName = false}) {
+  var splitted = name.split('@');
+  return isLastName
+      ? splitted.length > 1
+          ? splitted[0]
+          : ''
+      : splitted.length > 1
+          ? splitted[1]
+          : name;
+}
+
+Future<dynamic> convertImageToBase64({File? file, String? base64String}) async {
+  // nếu là kiẻu file thì convert ra base64 string
+  if (file != null) {
+    Uint8List imagebytes = await file.readAsBytes(); //convert to bytes
+    String base64string = base64.encode(imagebytes);
+    log('convert image to base64: $base64string');
+    return base64string;
+  }
+  // nếu là kiểu string thì convert ra ảnh
+  if (base64String != null) {
+    Uint8List decodedbytes = base64.decode(base64String);
+    return decodedbytes;
   }
 }

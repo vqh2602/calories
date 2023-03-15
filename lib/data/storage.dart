@@ -11,6 +11,8 @@ class Storages{
   static const String dataBiometric = 'data_biometric';
 // tự động phát video
   static const String dataPlayVideo = 'data_auto_play_video';
+  // url hỉnh ảnh ng dùng
+  static const String dataUrlAvatarUser = 'data_avatar_user';
 }
 
 class Config{

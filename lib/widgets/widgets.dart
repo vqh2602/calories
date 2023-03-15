@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -446,7 +446,7 @@ Widget avatarImage(
     {required String url,
     double? radius,
     bool isFileImage = false,
-    File? imageF}) {
+    Uint8List? imageF}) {
   bool loadImageError = false;
   return StatefulBuilder(builder: (context, setState) {
     return !isFileImage
@@ -478,7 +478,7 @@ Widget avatarImage(
                         'assets/images/image_notfound.jpg',
                         fit: BoxFit.cover,
                       )
-                    : Image.file(
+                    : Image.memory(
                         imageF,
                         fit: BoxFit.cover,
                       ),
