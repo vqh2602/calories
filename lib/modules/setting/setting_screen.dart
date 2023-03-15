@@ -7,10 +7,12 @@ import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -60,8 +62,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             avatarImage(
-                                url:
-                                    'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                                url: '',
+                                imageF: settingController.base64Image,
+                                isFileImage: true,
                                 radius: 60),
                             const SizedBox(
                               height: 4 * 5,
@@ -111,6 +114,9 @@ class _SettingScreenState extends State<SettingScreen> {
                               height: 4 * 5,
                             ),
                             buttonSetting(
+                                onTap: () {
+                                  Get.toNamed(AccountDetailScreen.routeName);
+                                },
                                 iconStart: LucideIcons.userCog,
                                 iconEnd: LucideIcons.chevronRight,
                                 title: 'Chỉnh sửa hồ sơ'),
@@ -118,10 +124,15 @@ class _SettingScreenState extends State<SettingScreen> {
                                 iconStart: LucideIcons.listVideo,
                                 iconEnd: LucideIcons.chevronRight,
                                 title: 'Tự động phát video',
+                                valToggle: settingController.autoPlayVideo,
                                 isToggle: true,
                                 onChangeToggle: (val) {
+                                  settingController.setAutoPlayVideo();
                                   buildToast(
-                                      title: 'Bật đăng nhập nhanh thành công',
+                                      title: 'Thao tác thành công',
+                                      message: (val != null && !val)
+                                          ? 'Tắt tự phát video thành công'
+                                          : 'Bật tự phát video thành công',
                                       type: TypeToast.success);
                                 }),
                             buttonSetting(
@@ -152,10 +163,11 @@ class _SettingScreenState extends State<SettingScreen> {
                             buttonSetting(
                                 iconStart: LucideIcons.shield,
                                 iconEnd: LucideIcons.chevronRight,
-                                onTap: () {
-                                  buildToast(
-                                      title: 'Bật đăng nhập nhanh thất bại',
-                                      type: TypeToast.failure);
+                                onTap: () async {
+                                  final url = Uri.parse('https://dieukhoanvqhapps.blogspot.com/');
+                                  if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                  }
                                 },
                                 title: 'Dữ liệu người dùng'),
                             const SizedBox(
@@ -183,14 +195,32 @@ class _SettingScreenState extends State<SettingScreen> {
                             buttonSetting(
                                 iconStart: LucideIcons.messageCircle,
                                 iconEnd: LucideIcons.chevronRight,
+                                onTap: () async {
+                                  final url = Uri.parse('mailto:vqh2602@gmail.com?subject=Hỗ trợ va phản hồi&body=nội dung');
+                                  if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                  }
+                                },
                                 title: 'Hỗ trợ & Phản hồi'),
                             buttonSetting(
                               iconStart: LucideIcons.siren,
+                              onTap: () async {
+                                final url = Uri.parse('https://dieukhoanvqhapps.blogspot.com/');
+                                if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                                }
+                              },
                               iconEnd: LucideIcons.chevronRight,
                               title: 'Chính sách bảo mật',
                             ),
                             buttonSetting(
                                 iconStart: LucideIcons.penTool,
+                                onTap: () async {
+                                  final url = Uri.parse('https://dieukhoanvqhapps.blogspot.com/');
+                                  if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                  }
+                                },
                                 iconEnd: LucideIcons.chevronRight,
                                 title: 'Điều khoản & Điều kiện'),
                             const SizedBox(
@@ -202,7 +232,34 @@ class _SettingScreenState extends State<SettingScreen> {
                       padding: alignment_20_8(),
                       child: GFButton(
                         onPressed: () {
-                          settingController.logout();
+                          Get.dialog(CupertinoAlertDialog(
+                            title: textBodyLarge(text: "Thông báo", fontWeight: FontWeight.w700),
+                            content: Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child:
+                              textBodyMedium(text: "Bạn có chắc chắn muốn đăng xuất?"),
+                            ),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: textBodyMedium(
+                                  text: "Hủy",
+                                  color: Get.theme.colorScheme.error,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: textBodyMedium(
+                                  text: 'Xác nhận',
+                                ),
+                                onPressed: () {
+                                  settingController.logout();
+                                },
+                              ),
+                            ],
+
+                          ));
                         },
                         padding: const EdgeInsets.only(
                           left: 4 * 5,

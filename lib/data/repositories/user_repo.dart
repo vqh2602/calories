@@ -5,13 +5,13 @@ import 'package:calories/data/models/user.dart';
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
-import 'package:calories/widgets/text_custom.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
 import 'package:local_auth_ios/types/auth_messages_ios.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class UserRepo extends Repo {
   GetStorage box = GetStorage();
@@ -27,7 +27,7 @@ class UserRepo extends Repo {
       var result = jsonDecode(res.toString());
       if (result["success"]) {
         user = User.fromJson(result['data']);
-       await box.write(Storages.dataUser, jsonEncode(result['data']));
+        await box.write(Storages.dataUser, jsonEncode(result['data']));
       } else {
         buildToast(type: TypeToast.failure, title: result["message"]);
       }
@@ -96,9 +96,14 @@ class UserRepo extends Repo {
           email: box.read(Storages.dataEmail),
           passW: box.read(Storages.dataPassWord));
     } else {
-      Get.dialog(CupertinoAlertDialog(
-        title: textBodyMedium(text: 'chưa bật đăng nhập bằng sinh trắc học'),
-      ));
+      QuickAlert.show(
+          context: Get.context!,
+          type: QuickAlertType.warning,
+          text: 'chưa bật đăng nhập bằng sinh trắc học',
+          confirmBtnColor: Get.theme.colorScheme.onBackground);
+      // Get.dialog(CupertinoAlertDialog(
+      //   title: textBodyMedium(text: 'chưa bật đăng nhập bằng sinh trắc học'),
+      // ));
     }
     log('Đăng nhập sinh trac học, user: ${user?.toJson().toString()}');
     return user;
@@ -117,5 +122,35 @@ class UserRepo extends Repo {
       buildToast(type: TypeToast.failure, title: result["message"]);
     }
     return user;
+  }
+
+  // sửa
+  Future<void> updateUser(
+      {required String userID,
+      required String name,
+      String? avatar,
+      String? address,
+      required num sex,
+      required double h,
+      required double w}) async {
+    var res = await dioRepo.put('/api/v1/users/$userID', data: {
+      "name": name,
+      "avatar": avatar ?? ' ',
+      "address": address ?? ' ',
+      "gender": sex,
+      "weight": h,
+      "height": w,
+      "updated_at": DateTime.now().toString()
+    });
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      buildToast(
+        type: TypeToast.success,
+        title: 'Cập nhật thành công',
+      );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
   }
 }

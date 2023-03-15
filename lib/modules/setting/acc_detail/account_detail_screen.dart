@@ -1,3 +1,4 @@
+
 import 'package:calories/modules/setting/acc_detail/account_detail_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -5,7 +6,6 @@ import 'package:calories/widgets/theme_textinput.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AccountDetailScreen extends StatefulWidget {
@@ -19,7 +19,6 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
   AccountDetailController accountDetailController =
       Get.put(AccountDetailController());
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormA1');
-  bool sex = true;
   @override
   void initState() {
     super.initState();
@@ -44,13 +43,11 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
           TextButton(
               onPressed: () {
                 if (keyForm1.currentState?.validate() ?? false) {
-                  //Get.offAndToNamed(HomeScreen.routeName);
+                  accountDetailController.updateUser();
                 }
               },
               child: textBodyMedium(
-                text: 'Lưu',
-                color: Get.theme.colorScheme.onBackground
-              ))
+                  text: 'Lưu', color: Get.theme.colorScheme.onBackground))
         ],
         bigTitle: false,
       ),
@@ -75,14 +72,13 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          //final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
+                          accountDetailController.setAvatar();
                         },
                         child: Ink(
                           child: avatarImage(
-                              url:
-                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                              url: '',
+                              imageF: accountDetailController.base64Image,
+                              isFileImage: true,
                               radius: 60),
                         ),
                       ),
@@ -95,6 +91,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                             TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
+                              controller: accountDetailController.lastNameTE,
                               validator: accountDetailController.validateString,
                               decoration:
                                   textFieldInputStyle(label: 'Họ & đệm (*)'),
@@ -105,6 +102,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                             TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
+                              controller: accountDetailController.firstNameTE,
                               validator: accountDetailController.validateString,
                               decoration: textFieldInputStyle(label: 'Tên (*)'),
                             ),
@@ -120,6 +118,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     onTap: () {},
                     style: josefinSans(fontSize: 16),
                     readOnly: true,
+                    controller: accountDetailController.emailTE,
                     decoration: textFieldInputStyle(label: 'Email'),
                     maxLines: 1,
                   ),
@@ -131,6 +130,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     style: josefinSans(fontSize: 16),
                     showCursor: false,
                     readOnly: true,
+                    controller: accountDetailController.birtTE,
                     decoration: textFieldInputStyle(label: 'Năm sinh (*)'),
                   ),
                   const SizedBox(
@@ -140,20 +140,21 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            sex = !sex;
-                          });
+                          accountDetailController.sex = 1;
+                          accountDetailController.updateUI();
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1,
-                                  color: !sex ? Colors.grey : Colors.black)),
+                                  color: accountDetailController.sex == 1
+                                      ? Colors.black
+                                      : Colors.grey)),
                           child: Center(
                             child: textBodyMedium(
                                 text: 'Nam',
-                                color: !sex ? Colors.grey : Colors.black),
+                                color: accountDetailController.sex == 1 ? Colors.black : Colors.grey),
                           ),
                         ),
                       ),
@@ -162,20 +163,19 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            sex = !sex;
-                          });
+                          accountDetailController.sex = 0;
+                          accountDetailController.updateUI();
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   width: 1,
-                                  color: sex ? Colors.grey : Colors.black)),
+                                  color: accountDetailController.sex == 0 ? Colors.black : Colors.grey)),
                           child: Center(
                             child: textBodyMedium(
                                 text: 'Nữ',
-                                color: sex ? Colors.grey : Colors.black),
+                                color: accountDetailController.sex == 0 ? Colors.black : Colors.grey),
                           ),
                         ),
                       ),
@@ -187,6 +187,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                   TextField(
                     onTap: () {},
                     style: josefinSans(fontSize: 16),
+                    controller: accountDetailController.addressTE,
                     decoration: textFieldInputStyle(label: 'Địa chỉ'),
                     maxLines: 3,
                   ),
@@ -199,6 +200,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                         child: TextFormField(
                           onTap: () {},
                           style: josefinSans(fontSize: 16),
+                          controller: accountDetailController.heightTE,
                           validator: accountDetailController.numberValidator,
                           decoration:
                               textFieldInputStyle(label: 'Chiều cao (cm)'),
@@ -212,6 +214,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                         child: TextFormField(
                           onTap: () {},
                           style: josefinSans(fontSize: 16),
+                          controller: accountDetailController.weightTE,
                           keyboardType: TextInputType.number,
                           validator: accountDetailController.numberValidator,
                           decoration:
