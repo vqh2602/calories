@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -101,7 +100,7 @@ Future<dynamic> convertImageToBase64({File? file, String? base64String}) async {
   if (file != null) {
     Uint8List imagebytes = await file.readAsBytes(); //convert to bytes
     String base64string = base64.encode(imagebytes);
-    log('convert image to base64: $base64string');
+    // log('convert image to base64: $base64string');
     return base64string;
   }
   // nếu là kiểu string thì convert ra ảnh

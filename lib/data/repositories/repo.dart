@@ -1,30 +1,36 @@
-
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:dio/dio.dart';
 
-class Repo{
+class Repo {
   final dioRepo = Dio(BaseOptions(
-   // baseUrl: 'http://localhost:8080',
+    // baseUrl: 'http://localhost:8080',
     baseUrl: 'http://192.168.0.196:8080',
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 10),
     receiveDataWhenStatusError: true,
     // 5s
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     contentType: Headers.jsonContentType,
     // Transform the response data to a String encoded with UTF8.
     // The default value is [ResponseType.JSON].
     responseType: ResponseType.plain,
-    validateStatus: (statusCode){
-      if(statusCode == null){
+    validateStatus: (statusCode) {
+      if (statusCode == null) {
         return false;
       }
-      if(statusCode == 422 || statusCode == 400){ // your http status code
+      if (statusCode == 422 || statusCode == 400) {
+        // your http status code
         return true;
-      }else{
-        return statusCode >= 200 && statusCode < 300;
+      }
+      if (statusCode >= 200 && statusCode < 300) {
+        return true;
+      } else {
+        buildToast(
+            type: TypeToast.failure,
+            title: 'Không thể kết nối đến máy chủ',
+            message:
+                'Vui lòng kiểm tra lại kết nối mạng hoặc liên hệ hỗ trợ báo cáo sự cố');
+        return false;
       }
     },
   ));

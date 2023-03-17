@@ -51,7 +51,7 @@ class UserRepo extends Repo {
       buildToast(
           type: TypeToast.success,
           title: 'Đăng nhập thành công',
-          message: 'Chào mừng ${user.name}');
+          message: 'Chào mừng ${splitNameUser(name: user.name ?? '')}');
     } else {
       buildToast(
           type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
