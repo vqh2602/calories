@@ -36,8 +36,10 @@ class UserRepo extends Repo {
   }
 
   // đăng nhập
-  Future<User?> loginWithEmail(
-      {required String email, required String passW}) async {
+  Future<User?> loginWithEmail({
+    required String email,
+    required String passW,
+  }) async {
     User? user;
     var res = await dioRepo
         .post('/api/login', data: {"email": email, "password": passW});
@@ -109,19 +111,36 @@ class UserRepo extends Repo {
     return user;
   }
 
-  // đăng k
-  Future<User?> signupWithEmail(
-      {required String email, required String passW}) async {
-    User user = User();
-    var res = await dioRepo.get('/api/register');
+  // đăng ký
+  Future<void> signupWithEmail({
+    required String name,
+    required String email,
+    required String passW,
+    required String birth,
+    required bool sex,
+    required double height,
+    required double weight,
+    required String address,
+    required String avatar,
+  }) async {
+    var res = await dioRepo.post('/api/register', data: {
+      "name": name,
+      "email": email,
+      "birthday": birth,
+      "gender": sex,
+      "password": passW,
+      "address": address,
+      "weight": weight,
+      "height": height,
+      "avatar": avatar,
+    });
+
     var result = jsonDecode(res.toString());
     if (result["success"]) {
-      user = User.fromJson(result['data']);
-      box.write(Storages.dataUser, jsonEncode(result['data']));
+      buildToast(type: TypeToast.success, title: result['message']);
     } else {
       buildToast(type: TypeToast.failure, title: result["message"]);
     }
-    return user;
   }
 
   // sửa
@@ -140,7 +159,7 @@ class UserRepo extends Repo {
       "gender": sex,
       "weight": h,
       "height": w,
-      "updated_at": DateTime.now().toString()
+      "updated_at": DateTime.now().toString(),
     });
     var result = jsonDecode(res.toString());
     if (result["success"] ?? false) {

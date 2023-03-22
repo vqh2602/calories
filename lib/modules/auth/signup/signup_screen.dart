@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:calories/modules/auth/signup/signup_controller.dart';
-import 'package:calories/modules/home/home_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -77,9 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         },
                         child: Ink(
                           child: avatarImage(
-                              url: '',
-                              isFileImage: false,
-                              radius: 60),
+                              url: '', isFileImage: false, radius: 60),
                         ),
                       ),
                       const SizedBox(
@@ -94,6 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               decoration:
                                   textFieldInputStyle(label: 'Họ & đệm (*)'),
                               validator: signupController.validateString,
+                              controller: signupController.firstNameTE,
                             ),
                           ),
                           const SizedBox(
@@ -105,6 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               style: josefinSans(fontSize: 16),
                               decoration: textFieldInputStyle(label: 'Tên (*)'),
                               validator: signupController.validateString,
+                              controller: signupController.lastNameTE,
                             ),
                           ),
                         ],
@@ -121,6 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     decoration: textFieldInputStyle(label: 'Email (*)'),
                     maxLines: 1,
                     validator: signupController.validateEmail,
+                    controller: signupController.emailTE,
                   ),
                   const SizedBox(
                     height: 4 * 5,
@@ -146,6 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )),
                     maxLines: 1,
                     validator: signupController.validatePass,
+                    controller: signupController.passWTE,
                   ),
                   const SizedBox(
                     height: 4 * 5,
@@ -170,6 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )),
                     maxLines: 1,
                     validator: signupController.validateConfirmPass,
+                    controller: signupController.confirmPassTE,
                   ),
                   const SizedBox(
                     height: 4 * 5,
@@ -178,8 +180,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     onTap: () {
                       dateTimePicker(
                           onchange: (dt) {
-                            signupController.birthTE?.text = formatDate(
-                                type: TypeDate.ddMMyyyy, dateTime: dt);
+                            signupController.birthTE.text = formatDate(
+                                type: TypeDate.yyyyMMdd, dateTime: dt);
+                            // signupController.birthTE?.text = formatDate(
+                            //     type: TypeDate.ddMMyyyy, dateTime: dt);
                           },
                           onComplete: () {});
                     },
@@ -198,6 +202,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           setState(() {
                             sex = true;
+                            signupController.sex = true;
                           });
                         },
                         child: Container(
@@ -224,6 +229,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           setState(() {
                             sex = false;
+                            signupController.sex = false;
                           });
                         },
                         child: Container(
@@ -250,6 +256,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   TextFormField(
                     onTap: () {},
+                    controller: signupController.addressTE,
                     style: josefinSans(fontSize: 16),
                     decoration: textFieldInputStyle(label: 'Địa chỉ'),
                     maxLines: 3,
@@ -264,6 +271,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           onTap: () {},
                           style: josefinSans(fontSize: 16),
                           validator: signupController.numberValidator,
+                          controller: signupController.heightTE,
                           decoration:
                               textFieldInputStyle(label: 'Chiều cao (cm)'),
                           keyboardType: TextInputType.number,
@@ -277,6 +285,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           onTap: () {},
                           keyboardType: TextInputType.number,
                           validator: signupController.numberValidator,
+                          controller: signupController.weightTE,
                           decoration:
                               textFieldInputStyle(label: 'Cân nặng (kg)'),
                         ),
@@ -289,7 +298,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   GFButton(
                     onPressed: () {
                       if (keyForm1.currentState?.validate() ?? false) {
-                        Get.offAndToNamed(HomeScreen.routeName);
+                        signupController.loadingUI();
+                        signupController.signup();
                       }
                     },
                     padding: const EdgeInsets.only(
