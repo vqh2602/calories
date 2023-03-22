@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:calories/data/models/user.dart';
 import 'package:calories/data/repositories/user_repo.dart';
 import 'package:calories/data/storage.dart';
+import 'package:calories/modules/setting/setting_controller.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 
 class AccountDetailController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
+  SettingController settingController = Get.find();
   late TextEditingController emailTE,
       birtTE,
       addressTE,
@@ -27,6 +29,7 @@ class AccountDetailController extends GetxController
   late User user;
   Uint8List? base64Image;
   String base64ImageConvert = '';
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -44,7 +47,7 @@ class AccountDetailController extends GetxController
     lastNameTE.text = splitNameUser(name: user.name ?? '', isLastName: true);
     birtTE.text = user.birthday ?? '';
     sex = user.gender ?? 1;
-    addressTE.text = user.address ?? '';
+    addressTE.text = user.address ?? ' ';
     heightTE.text = user.height?.toString() ?? '';
     weightTE.text = user.weight?.toString() ?? '';
     base64Image = await convertImageToBase64(
@@ -79,13 +82,16 @@ class AccountDetailController extends GetxController
     loadingUI();
     await userRepo.updateUser(
         userID: user.id.toString(),
-        name: '${lastNameTE.text}@${firstNameTE.text}',
+        name: '${firstNameTE.text}@${lastNameTE.text}',
         sex: sex,
         h: double.parse(heightTE.text),
         w: double.parse(weightTE.text),
-        avatar: base64ImageConvert,
+        //avatar: base64ImageConvert,
+        avatar: 'test',
         address: addressTE.text);
     await userRepo.getUserByID(userID: user.id.toString());
+    settingController.base64Image = base64Image;
+    settingController.updateUI();
     changeUI();
   }
 

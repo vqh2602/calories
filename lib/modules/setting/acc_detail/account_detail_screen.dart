@@ -91,7 +91,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                             TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
-                              controller: accountDetailController.lastNameTE,
+                              controller: accountDetailController.firstNameTE,
                               validator: accountDetailController.validateString,
                               decoration:
                                   textFieldInputStyle(label: 'Họ & đệm (*)'),
@@ -102,7 +102,7 @@ class _AccountDetailScreenState extends State<AccountDetailScreen> {
                             TextFormField(
                               onTap: () {},
                               style: josefinSans(fontSize: 16),
-                              controller: accountDetailController.firstNameTE,
+                              controller: accountDetailController.lastNameTE,
                               validator: accountDetailController.validateString,
                               decoration: textFieldInputStyle(label: 'Tên (*)'),
                             ),
