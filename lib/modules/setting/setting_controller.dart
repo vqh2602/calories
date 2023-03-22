@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:calories/data/models/user.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
@@ -17,6 +19,7 @@ class SettingController extends GetxController
   bool isBiometric = false;
   bool autoPlayVideo = false;
   Uint8List? base64Image;
+  User? user;
   @override
   Future<void> onInit() async {
     changeUI();
@@ -26,15 +29,24 @@ class SettingController extends GetxController
     super.onInit();
   }
 
+  getDataUser() async {
+    user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
+    base64Image = await convertImageToBase64(
+        base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
+    updateUI();
+  }
+
   Future<void> logout() async {
-    box.write(Storages.dataLoginTime, null);
-    box.write(Storages.dataUser, null);
+    await box.write(Storages.dataLoginTime, null);
+    await box.write(Storages.dataUser, null);
+    await box.write(Storages.dataUrlAvatarUser, ' ');
     Get.offAllNamed(SplashScreen.routeName);
   }
 
   Future<void> initData() async {
-    base64Image = await convertImageToBase64(
-        base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
+    getDataUser();
+    // base64Image = await convertImageToBase64(
+    //     base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
     updateUI();
   }
 
