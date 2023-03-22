@@ -65,12 +65,14 @@ buildToast(
   }
 }
 
-enum TypeDate { ddMMyyyy, ddMMyyyyhhmm, hhmm, dd, yyyy, mM }
+enum TypeDate { ddMMyyyy, yyyyMMdd, ddMMyyyyhhmm, hhmm, dd, yyyy, mM }
 
 String formatDate({required TypeDate type, required DateTime dateTime}) {
   switch (type) {
     case TypeDate.ddMMyyyy:
       return DateFormat('dd-MM-yyyy').format(dateTime);
+    case TypeDate.yyyyMMdd:
+      return DateFormat('yyyy-MM-dd').format(dateTime);
     case TypeDate.ddMMyyyyhhmm:
       return DateFormat('dd-MM-yyyy hh:mm').format(dateTime);
     case TypeDate.hhmm:

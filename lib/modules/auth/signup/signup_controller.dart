@@ -1,11 +1,28 @@
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:calories/data/repositories/user_repo.dart';
+import 'package:calories/modules/auth/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SignupController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
-  TextEditingController? birthTE, passWTE, confirmPassTE;
+  UserRepo userRepo = UserRepo();
+  GetStorage box = GetStorage();
+  bool sex = true;
+  Uint8List? base64Image;
+  String base64ImageConvert = '';
+  late TextEditingController firstNameTE,
+      lastNameTE,
+      emailTE,
+      passWTE,
+      confirmPassTE,
+      birthTE,
+      heightTE,
+      weightTE,
+      addressTE;
 
   @override
   Future<void> onInit() async {
@@ -15,9 +32,32 @@ class SignupController extends GetxController
   }
 
   initTE() {
-    birthTE = TextEditingController();
+    firstNameTE = TextEditingController();
+    lastNameTE = TextEditingController();
+    emailTE = TextEditingController();
     passWTE = TextEditingController();
     confirmPassTE = TextEditingController();
+    birthTE = TextEditingController();
+    heightTE = TextEditingController();
+    weightTE = TextEditingController();
+    addressTE = TextEditingController();
+  }
+
+  Future<void> signup() async {
+    await userRepo.signupWithEmail(
+      name: '${firstNameTE.text}@${lastNameTE.text}',
+      email: emailTE.text,
+      passW: passWTE.text,
+      birth: birthTE.text,
+      sex: sex,
+      height: double.parse(heightTE.text),
+      weight: double.parse(weightTE.text),
+      address: addressTE.text,
+      avatar: ' ',
+    );
+
+    Get.offAllNamed(LoginScreen.routeName);
+    changeUI();
   }
 
   String? validateString(String? text) {
@@ -53,9 +93,7 @@ class SignupController extends GetxController
   }
 
   String? validateConfirmPass(String? value) {
-    return (value == (passWTE?.text ?? '_*#-|'))
-        ? null
-        : 'Mật khẩu không khớp';
+    return (value == passWTE.text ? null : 'Mật khẩu không khớp');
   }
 
   changeUI() {
