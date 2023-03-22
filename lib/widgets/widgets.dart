@@ -480,7 +480,7 @@ Widget avatarImage(
                       )
                     : Image.memory(
                         imageF,
-                        errorBuilder: (BuildContext, Object, StackTrace) =>
+                        errorBuilder: (buildContext, object, stackTrace) =>
                             Image.asset(
                           'assets/images/image_notfound.jpg',
                           fit: BoxFit.cover,

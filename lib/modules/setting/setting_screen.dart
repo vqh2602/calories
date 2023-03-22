@@ -70,7 +70,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               height: 4 * 5,
                             ),
                             textTitleMedium(
-                                text: 'VƯƠNG quang Huy'.toUpperCase()),
+                                text: settingController.user?.name?.replaceAll('@', ' ').toUpperCase() ?? ''),
                             const SizedBox(
                               height: 4 * 10,
                             ),
