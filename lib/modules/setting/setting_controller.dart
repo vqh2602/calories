@@ -39,7 +39,7 @@ class SettingController extends GetxController
   Future<void> logout() async {
     await box.write(Storages.dataLoginTime, null);
     await box.write(Storages.dataUser, null);
-    await box.write(Storages.dataUrlAvatarUser, ' ');
+    await box.write(Storages.historyDataEmail, user?.email);
     Get.offAllNamed(SplashScreen.routeName);
   }
 

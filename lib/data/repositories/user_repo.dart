@@ -50,6 +50,11 @@ class UserRepo extends Repo {
       await box.write(Storages.dataEmail, email);
       await box.write(Storages.dataPassWord, passW);
       await box.write(Storages.dataLoginTime, DateTime.now().toString());
+      if (await box.read(Storages.historyDataEmail) != null &&
+         await  box.read(Storages.historyDataEmail) == email) {
+      } else {
+        await box.write(Storages.dataUrlAvatarUser, null);
+      }
       buildToast(
           type: TypeToast.success,
           title: 'Đăng nhập thành công',

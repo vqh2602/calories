@@ -5,13 +5,15 @@ class Storages{
 // chứa tài khoản
   static const String dataEmail = 'data_email';
   static const String dataPassWord = 'data_password';
+  // lịch sử email đăng nhập trước đó
+  static const String historyDataEmail = 'data_email';
 // chứa thời gian đăng nhập
   static const String dataLoginTime = 'data_login_time';
 // đăng nhập sinh trắc học
   static const String dataBiometric = 'data_biometric';
 // tự động phát video
   static const String dataPlayVideo = 'data_auto_play_video';
-  // url hỉnh ảnh ng dùng
+  // url hỉnh ảnh ng dùng => base64
   static const String dataUrlAvatarUser = 'data_avatar_user';
 }
 
