@@ -31,8 +31,10 @@ class SettingController extends GetxController
 
   getDataUser() async {
     user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
+    // base64Image = await convertImageToBase64(
+    //     base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
     base64Image = await convertImageToBase64(
-        base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
+        base64String: user?.avatar ?? '');
     updateUI();
   }
 

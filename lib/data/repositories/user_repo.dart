@@ -154,6 +154,7 @@ class UserRepo extends Repo {
       required String name,
       String? avatar,
       String? address,
+        required String birthday,
       required num sex,
       required double h,
       required double w}) async {
@@ -164,6 +165,7 @@ class UserRepo extends Repo {
       "gender": sex,
       "weight": h,
       "height": w,
+      "birthday": birthday,
       "updated_at": DateTime.now().toString(),
     });
     var result = jsonDecode(res.toString());

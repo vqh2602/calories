@@ -15,6 +15,8 @@ class Storages{
   static const String dataPlayVideo = 'data_auto_play_video';
   // url hỉnh ảnh ng dùng => base64
   static const String dataUrlAvatarUser = 'data_avatar_user';
+  // dữ liệu workout
+  static const String dataWorkout = 'data_workout';
 }
 
 class Config{
