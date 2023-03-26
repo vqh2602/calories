@@ -72,24 +72,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             ),
           ),
         ),
-        body: _buildBody(context),
+        body: _buildBody(),
       ),
     );
   }
 }
 
-Widget _buildBody(BuildContext context) {
+Widget _buildBody() {
   return TabBarView(
     physics: const NeverScrollableScrollPhysics(),
     children: [
-      forYouTab(),
-      browseTab(context),
+      _forYouTab(),
+      _browseTab(),
     ],
   );
 }
 
 //tab browse cho bạn ở màn Workout
-Widget browseTab(BuildContext context) {
+Widget _browseTab() {
   return SafeArea(
     child: SingleChildScrollView(
       child: Column(
@@ -120,7 +120,7 @@ Widget browseTab(BuildContext context) {
           Column(
             children: List.generate(
               browseList.length,
-              (index) => browseItem(
+              (index) => _browseItem(
                 image: browseList[index]["image"],
                 title: browseList[index]["title"],
                 des: browseList[index]["des"],
@@ -133,7 +133,7 @@ Widget browseTab(BuildContext context) {
   );
 }
 
-Widget browseItem(
+Widget _browseItem(
     {required String image, required String title, required String des}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 4 * 4),
@@ -141,7 +141,7 @@ Widget browseItem(
       onTap: () {},
       child: Stack(
         children: [
-          imageNetwork(url: image),
+          imageNetwork(url: image, width: Get.width),
           Positioned(
             bottom: 0,
             child: Container(
@@ -179,7 +179,7 @@ Widget browseItem(
 }
 
 //tab dành cho bạn ở màn Workout
-Widget forYouTab() {
+Widget _forYouTab() {
   return SafeArea(
     child: SingleChildScrollView(
       child: Column(
