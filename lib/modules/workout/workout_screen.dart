@@ -19,7 +19,6 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
   WorkoutController workoutController = Get.put(WorkoutController());
-
   @override
   void initState() {
     super.initState();
@@ -89,12 +88,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   Widget _buildBody() {
     return workoutController.obx(
-        (state) => TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                forYouTab(),
-                browseTab(),
-              ],
+        (state) => SafeArea(
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  forYouTab(),
+                  browseTab(),
+                ],
+              ),
             ),
         onLoading: const LoadingCustom());
   }
@@ -135,18 +136,24 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               const SizedBox(height: 4 * 4),
               Expanded(
                   child: workoutController.listWorkoutsResult.isNotEmpty
-                      ? ListView.builder(
-                          itemCount:
-                              workoutController.listWorkoutsResult.length,
-                          itemBuilder: (context, index) => browseItem(
-                            image:
-                                '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
-                            title: workoutController
-                                    .listWorkoutsResult[index]?.title ??
-                                '',
-                            des: workoutController
-                                    .listWorkoutsResult[index]?.description ??
-                                '',
+                      ? RefreshIndicator(
+                          onRefresh: () async {
+                            await Future.delayed(const Duration(seconds: 2),
+                                () => workoutController.onRefresh());
+                          },
+                          child: ListView.builder(
+                            itemCount:
+                                workoutController.listWorkoutsResult.length,
+                            itemBuilder: (context, index) => browseItem(
+                              image:
+                                  '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
+                              title: workoutController
+                                      .listWorkoutsResult[index]?.title ??
+                                  '',
+                              des: workoutController
+                                      .listWorkoutsResult[index]?.description ??
+                                  '',
+                            ),
                           ),
                         )
                       : noData(inReload: () {
@@ -209,7 +216,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
 //tab dành cho bạn ở màn Workout
   Widget forYouTab() {
-    return workoutController.obx((state) => SafeArea(
+    return workoutController.obx((state) => RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 2),
+                () => workoutController.onRefresh());
+          },
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -39,16 +39,16 @@ dependencies:
   intl: ^0.17.0
   collection: ^1.17.0
   get: ^4.6.5
-  dio: ^5.0.2
+  dio: ^5.1.0
   local_auth: ^2.1.6
   connectivity_plus: ^3.0.3
   google_fonts: ^4.0.3
-  shared_preferences: ^2.0.18
-  lucide_icons: ^0.125.0
+  shared_preferences: ^2.0.20
+  lucide_icons: ^0.127.0
   animated_text_kit: ^4.2.2
   sqflite: ^2.2.6
   getwidget: ^3.0.1
-  syncfusion_flutter_charts: ^20.4.54
+  syncfusion_flutter_charts: ^21.1.35
   image_picker: ^0.8.7
   lottie: ^2.3.0
   quickalert: ^1.0.1
@@ -62,7 +62,7 @@ dependencies:
   local_auth_ios: ^1.1.1
   local_auth_android: ^1.0.21
   uuid: ^3.0.7
-  path_provider: ^2.0.13
+  path_provider: ^2.0.14
   url_launcher: ^6.1.10
 
 dev_dependencies:

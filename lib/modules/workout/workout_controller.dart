@@ -32,6 +32,14 @@ class WorkoutController extends GetxController
     super.onInit();
   }
 
+  onRefresh() async {
+    loadingUI();
+    initUser();
+    getDataWorkOut();
+    searchTE.clear();
+    changeUI();
+  }
+
   initUser() async {
     user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
   }
