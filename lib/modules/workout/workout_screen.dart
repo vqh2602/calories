@@ -1,5 +1,9 @@
+import 'package:calories/data/repositories/repo.dart';
+import 'package:calories/modules/workout/workout_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
+import 'package:calories/widgets/loading_custom.dart';
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +13,17 @@ import 'package:lucide_icons/lucide_icons.dart';
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
   static const String routeName = '/workout';
-
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
+  WorkoutController workoutController = Get.put(WorkoutController());
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -76,213 +85,214 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       ),
     );
   }
-}
 
-Widget _buildBody() {
-  return TabBarView(
-    physics: const NeverScrollableScrollPhysics(),
-    children: [
-      _forYouTab(),
-      _browseTab(),
-    ],
-  );
-}
+  Widget _buildBody() {
+    return workoutController.obx(
+        (state) => SafeArea(
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  forYouTab(),
+                  browseTab(),
+                ],
+              ),
+            ),
+        onLoading: const LoadingCustom());
+  }
 
 //tab browse cho bạn ở màn Workout
-Widget _browseTab() {
-  return SafeArea(
-    child: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 4 * 4),
-          Container(
-            decoration: const BoxDecoration(color: Colors.white),
-            child: Container(
-              margin: alignment_20_0(),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 4, bottom: 4),
-                    child: searchBar(width: 0.75),
+  Widget browseTab() {
+    return workoutController.obx((state) => SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 4 * 4),
+              Container(
+                decoration: const BoxDecoration(color: Colors.white),
+                child: Container(
+                  margin: alignment_20_0(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 4, bottom: 4),
+                        child: searchBar(
+                            width: 0.75,
+                            controller: workoutController.searchTE,
+                            onChange: (value) {
+                              workoutController.searchListWorkouts(
+                                  search: value);
+                            }),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(LucideIcons.filter),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(LucideIcons.filter),
-                  ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(height: 4 * 4),
+              Expanded(
+                  child: workoutController.listWorkoutsResult.isNotEmpty
+                      ? RefreshIndicator(
+                          onRefresh: () async {
+                            await Future.delayed(const Duration(seconds: 2),
+                                () => workoutController.onRefresh());
+                          },
+                          child: ListView.builder(
+                            itemCount:
+                                workoutController.listWorkoutsResult.length,
+                            itemBuilder: (context, index) => browseItem(
+                              image:
+                                  '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
+                              title: workoutController
+                                      .listWorkoutsResult[index]?.title ??
+                                  '',
+                              des: workoutController
+                                      .listWorkoutsResult[index]?.description ??
+                                  '',
+                            ),
+                          ),
+                        )
+                      : noData(inReload: () {
+                          workoutController.listWorkoutsResult
+                              .addAll(workoutController.listWorkouts);
+                          workoutController.searchTE.clear();
+                          workoutController.updateUI();
+                        }))
+            ],
           ),
-          const SizedBox(height: 4 * 4),
-          Column(
-            children: List.generate(
-              browseList.length,
-              (index) => _browseItem(
-                image: browseList[index]["image"],
-                title: browseList[index]["title"],
-                des: browseList[index]["des"],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-}
+        ));
+  }
 
-Widget _browseItem(
-    {required String image, required String title, required String des}) {
-  return Container(
-    margin: const EdgeInsets.only(bottom: 4 * 4),
-    child: InkWell(
-      onTap: () {},
-      child: Stack(
-        children: [
-          imageNetwork(url: image, width: Get.width),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              margin: const EdgeInsets.all(4 * 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  forYouItemTitle(title: title),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  LimitedBox(
-                    maxWidth: Get.width - 4 * 20,
-                    child: Container(
-                      padding: const EdgeInsets.all(4 * 2),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: textBodySmall(
-                        text: des,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        color: Colors.black,
-                      ),
+  Widget browseItem(
+      {required String image, required String title, required String des}) {
+    // print('url: $image | title: $title | des $des ');
+    return Container(
+      margin: const EdgeInsets.only(bottom: 4 * 4),
+      child: InkWell(
+        onTap: () {},
+        child: Stack(
+          children: [
+            imageNetwork(
+                url: image, width: Get.width, height: 250, fit: BoxFit.cover),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                margin: const EdgeInsets.all(4 * 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    forYouItemTitle(title: title),
+                    const SizedBox(
+                      height: 4,
                     ),
-                  )
-                ],
+                    LimitedBox(
+                      maxWidth: Get.width - 4 * 20,
+                      child: Container(
+                        padding: const EdgeInsets.all(4 * 2),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: textBodySmall(
+                          text: des,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-//tab dành cho bạn ở màn Workout
-Widget _forYouTab() {
-  return SafeArea(
-    child: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          forYou(),
-          const SizedBox(height: 4 * 4),
-          topPickForYou(),
-          const SizedBox(height: 4 * 4),
-          topPickForYou(),
-          const SizedBox(height: 4 * 4),
-        ],
-      ),
-    ),
-  );
-}
-
-//dành cho bạn
-Widget forYou() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const SizedBox(height: 4 * 4),
-      Container(
-        margin: alignment_20_0(),
-        child: textHeadlineSmall(text: 'Dành cho bạn'),
-      ),
-      const SizedBox(height: 4 * 4),
-      SizedBox(
-        height: 440,
-        child: PageView.builder(
-          itemCount: forYouList.length,
-          pageSnapping: true,
-          controller: PageController(
-            initialPage: 0,
-            viewportFraction: 0.9,
-          ),
-          itemBuilder: (context, pagePosition) {
-            return forYouItem(
-              image: forYouList[pagePosition]["image"],
-              name: forYouList[pagePosition]["name"],
-              level: forYouList[pagePosition]["level"],
-              time: forYouList[pagePosition]["time"],
-              des: forYouList[pagePosition]["des"],
-              pagePosition: pagePosition,
-            );
-          },
+          ],
         ),
       ),
-    ],
-  );
+    );
+  }
+
+//tab dành cho bạn ở màn Workout
+  Widget forYouTab() {
+    return workoutController.obx((state) => RefreshIndicator(
+          onRefresh: () async {
+            await Future.delayed(const Duration(seconds: 2),
+                () => workoutController.onRefresh());
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                forYou(),
+                const SizedBox(height: 4 * 4),
+                topPickForYou(
+                    itemCount: (workoutController.listWorkoutsHome.length > 5)
+                        ? 5
+                        : workoutController.listWorkoutsHome.length,
+                    listWorkout: workoutController.listWorkoutsHome,
+                    title: 'Bài tập ở nhà',
+                    onTap: (e) {}),
+                const SizedBox(height: 4 * 4),
+                topPickForYou(
+                    itemCount: (workoutController.listWorkoutsRandom.length > 5)
+                        ? 5
+                        : workoutController.listWorkoutsRandom.length,
+                    listWorkout: workoutController.listWorkoutsRandom,
+                    title: 'Có thể bạn sẽ thích',
+                    onTap: (e) {}),
+                const SizedBox(height: 4 * 4),
+              ],
+            ),
+          ),
+        ));
+  }
+
+//dành cho bạn
+  Widget forYou() {
+    return workoutController.obx((state) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4 * 4),
+            Container(
+              margin: alignment_20_0(),
+              child: textHeadlineSmall(text: 'Dành cho bạn'),
+            ),
+            const SizedBox(height: 4 * 4),
+            SizedBox(
+              height: 440,
+              child: PageView.builder(
+                itemCount: (workoutController.listWorkoutsForYou.length > 5)
+                    ? 5
+                    : workoutController.listWorkoutsForYou.length,
+                pageSnapping: true,
+                controller: PageController(
+                  initialPage: 0,
+                  viewportFraction: 0.9,
+                ),
+                itemBuilder: (context, index) {
+                  return forYouItem(
+                    image:
+                        '$baserUrlMedia${workoutController.listWorkoutsForYou[index]?.image ?? ''}',
+                    name: workoutController.listWorkoutsForYou[index]?.title ??
+                        '',
+                    level: convertLevelToString(int.parse(workoutController
+                            .listWorkoutsForYou[index]?.level
+                            .toString() ??
+                        '1')),
+                    time: workoutController.listWorkoutsForYou[index]?.time
+                            .toString() ??
+                        '',
+                    des: workoutController
+                            .listWorkoutsForYou[index]?.description ??
+                        '',
+                    pagePosition: index,
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
+  }
 }
-
-List forYouList = [
-  {
-    "image":
-        "https://images.unsplash.com/photo-1562771379-eafdca7a02f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    "name": "Bài tập gập chân và tay và chân",
-    "level": 'Trung bình',
-    "time": "62",
-    "des": "Tập bụng một cách hiệu quả giúp cơ bụng săn chắc",
-  },
-  {
-    "image":
-        "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    "name": "Bài tập gập mông",
-    "level": 'Khó',
-    "time": "55",
-    "des": "Tập bụng một cách hiệu quả giúp cơ bụng săn chắc",
-  },
-  {
-    "image":
-        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=920&q=80",
-    "name": "Bài tập gập đầu",
-    "level": 'Dễ',
-    "time": "45",
-    "des": "Tập bụng một cách hiệu quả giúp cơ bụng săn chắc",
-  },
-];
-
-List browseList = [
-  {
-    "image":
-        "https://phantom-marca.unidadeditorial.es/efa9740df47cff7f9466ea78fd720074/crop/0x93/899x599/resize/1320/f/jpg/assets/multimedia/imagenes/2022/01/19/16426036798831.jpg",
-    "title": "Chống đẩy",
-    "des": "Chống đẩy một tay có tư thế bắt đầu tương tự plank",
-  },
-  {
-    "image":
-        "https://plus.unsplash.com/premium_photo-1668613403427-7455f029f2be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    "title": "Nhảy dây",
-    "des": "Chống đẩy một tay có tư thế bắt đầu tương tự plank",
-  },
-  {
-    "image":
-        "https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=904&q=80",
-    "title": "Squats",
-    "des": "Chống đẩy một tay có tư thế bắt đầu tương tự plank",
-  },
-  {
-    "image":
-        "https://images.unsplash.com/photo-1607962776853-346ec26811db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
-    "title": "Gập bụng",
-    "des": "Chống đẩy một tay có tư thế bắt đầu tương tự plank",
-  },
-];

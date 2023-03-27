@@ -20,13 +20,17 @@ class CustomError extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-                'assets/images/error.jpg'),
+              'assets/images/error.jpg',
+              width: double.infinity * 0.5,
+              height: double.infinity * 0.5,
+              fit: BoxFit.cover,
+            ),
             textHeadlineMedium(
-             text: kDebugMode
-                  ? errorDetails.summary.toString()
-                  : 'Oups! Hình như đã có lỗi sảy ra!',
-                  textAlign: TextAlign.center,
-                  color: kDebugMode ? Colors.red : Colors.black),
+                text: kDebugMode
+                    ? errorDetails.summary.toString()
+                    : 'Oups! Hình như đã có lỗi sảy ra!',
+                textAlign: TextAlign.center,
+                color: kDebugMode ? Colors.red : Colors.black),
             const SizedBox(height: 12),
             const Text(
               kDebugMode

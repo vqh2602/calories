@@ -50,8 +50,11 @@ class AccountDetailController extends GetxController
     addressTE.text = user.address ?? ' ';
     heightTE.text = user.height?.toString() ?? '';
     weightTE.text = user.weight?.toString() ?? '';
+    // base64Image = await convertImageToBase64(
+    //     base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
     base64Image = await convertImageToBase64(
-        base64String: box.read(Storages.dataUrlAvatarUser) ?? '');
+        base64String: user.avatar ?? '');
+    base64ImageConvert = user.avatar ?? '';
     updateUI();
   }
 
@@ -84,10 +87,11 @@ class AccountDetailController extends GetxController
         userID: user.id.toString(),
         name: '${firstNameTE.text}@${lastNameTE.text}',
         sex: sex,
+        birthday: user.birthday ??'',
         h: double.parse(heightTE.text),
         w: double.parse(weightTE.text),
-        //avatar: base64ImageConvert,
-        avatar: 'test',
+        avatar: base64ImageConvert,
+        //avatar: 'test',
         address: addressTE.text);
     await userRepo.getUserByID(userID: user.id.toString());
     settingController.base64Image = base64Image;

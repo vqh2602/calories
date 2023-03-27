@@ -50,6 +50,11 @@ class UserRepo extends Repo {
       await box.write(Storages.dataEmail, email);
       await box.write(Storages.dataPassWord, passW);
       await box.write(Storages.dataLoginTime, DateTime.now().toString());
+      if (await box.read(Storages.historyDataEmail) != null &&
+         await  box.read(Storages.historyDataEmail) == email) {
+      } else {
+        await box.write(Storages.dataUrlAvatarUser, null);
+      }
       buildToast(
           type: TypeToast.success,
           title: 'Đăng nhập thành công',
@@ -149,6 +154,7 @@ class UserRepo extends Repo {
       required String name,
       String? avatar,
       String? address,
+        required String birthday,
       required num sex,
       required double h,
       required double w}) async {
@@ -159,6 +165,7 @@ class UserRepo extends Repo {
       "gender": sex,
       "weight": h,
       "height": w,
+      "birthday": birthday,
       "updated_at": DateTime.now().toString(),
     });
     var result = jsonDecode(res.toString());
