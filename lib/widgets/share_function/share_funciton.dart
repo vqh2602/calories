@@ -111,3 +111,33 @@ Future<dynamic> convertImageToBase64({File? file, String? base64String}) async {
     return decodedbytes;
   }
 }
+
+String convertLevelToString(int level) {
+  switch (level) {
+    case 1:
+      return 'Dễ';
+    case 2:
+      return 'Trung bình';
+    case 3:
+      return 'Khó';
+    default:
+      return '';
+  }
+}
+
+double calculateBMI({required double h, required double w}) {
+  return w / ((h * 0.01) * 2);
+}
+
+int getBMI({required double bmi}) {
+  if (bmi < 18.5) {
+    return 20; // thiếu cân
+  }
+  if (bmi >= 18.5 && bmi <= 24.9) {
+    return 21; // bình thường
+  }
+  if (bmi >= 25 && bmi <= 29) {
+    return 22; // thừa cân
+  }
+  return 23; // béo phì
+}

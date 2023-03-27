@@ -139,7 +139,7 @@ Widget searchBox(BuildContext context) {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 4, bottom: 4),
-            child: searchBar(width: 0.75),
+            child: searchBar(width: 0.75, controller: TextEditingController()),
           ),
           filterButton(context),
         ],

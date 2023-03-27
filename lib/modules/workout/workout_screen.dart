@@ -3,6 +3,7 @@ import 'package:calories/modules/workout/workout_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/loading_custom.dart';
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:lucide_icons/lucide_icons.dart';
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({Key? key}) : super(key: key);
   static const String routeName = '/workout';
-
   @override
   State<WorkoutScreen> createState() => _WorkoutScreenState();
 }
@@ -116,7 +116,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(top: 4, bottom: 4),
-                        child: searchBar(width: 0.75),
+                        child: searchBar(
+                            width: 0.75,
+                            controller: workoutController.searchTE,
+                            onChange: (value) {
+                              workoutController.searchListWorkouts(
+                                  search: value);
+                            }),
                       ),
                       IconButton(
                         onPressed: () {},
@@ -128,15 +134,27 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               ),
               const SizedBox(height: 4 * 4),
               Expanded(
-                child: ListView.builder(
-                  itemCount: workoutController.listWorkouts.length,
-                  itemBuilder: (context, index) => browseItem(
-                    image: '$baserUrlMedia${workoutController.listWorkouts[index]?.image ?? ''}',
-                    title:workoutController.listWorkouts[index]?.title ?? '',
-                    des:workoutController.listWorkouts[index]?.description ?? '',
-                  ),
-                ),
-              )
+                  child: workoutController.listWorkoutsResult.isNotEmpty
+                      ? ListView.builder(
+                          itemCount:
+                              workoutController.listWorkoutsResult.length,
+                          itemBuilder: (context, index) => browseItem(
+                            image:
+                                '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
+                            title: workoutController
+                                    .listWorkoutsResult[index]?.title ??
+                                '',
+                            des: workoutController
+                                    .listWorkoutsResult[index]?.description ??
+                                '',
+                          ),
+                        )
+                      : noData(inReload: () {
+                          workoutController.listWorkoutsResult
+                              .addAll(workoutController.listWorkouts);
+                          workoutController.searchTE.clear();
+                          workoutController.updateUI();
+                        }))
             ],
           ),
         ));
@@ -191,56 +209,79 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
 //tab dành cho bạn ở màn Workout
   Widget forYouTab() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            forYou(),
-            const SizedBox(height: 4 * 4),
-            topPickForYou(),
-            const SizedBox(height: 4 * 4),
-            topPickForYou(),
-            const SizedBox(height: 4 * 4),
-          ],
-        ),
-      ),
-    );
+    return workoutController.obx((state) => SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                forYou(),
+                const SizedBox(height: 4 * 4),
+                topPickForYou(
+                    itemCount: (workoutController.listWorkoutsHome.length > 5)
+                        ? 5
+                        : workoutController.listWorkoutsHome.length,
+                    listWorkout: workoutController.listWorkoutsHome,
+                    title: 'Bài tập ở nhà',
+                    onTap: (e) {}),
+                const SizedBox(height: 4 * 4),
+                topPickForYou(
+                    itemCount: (workoutController.listWorkoutsRandom.length > 5)
+                        ? 5
+                        : workoutController.listWorkoutsRandom.length,
+                    listWorkout: workoutController.listWorkoutsRandom,
+                    title: 'Có thể bạn sẽ thích',
+                    onTap: (e) {}),
+                const SizedBox(height: 4 * 4),
+              ],
+            ),
+          ),
+        ));
   }
 
 //dành cho bạn
   Widget forYou() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 4 * 4),
-        Container(
-          margin: alignment_20_0(),
-          child: textHeadlineSmall(text: 'Dành cho bạn'),
-        ),
-        const SizedBox(height: 4 * 4),
-        SizedBox(
-          height: 440,
-          child: PageView.builder(
-            itemCount: 5,
-            pageSnapping: true,
-            controller: PageController(
-              initialPage: 0,
-              viewportFraction: 0.9,
+    return workoutController.obx((state) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 4 * 4),
+            Container(
+              margin: alignment_20_0(),
+              child: textHeadlineSmall(text: 'Dành cho bạn'),
             ),
-            itemBuilder: (context, index) {
-              return forYouItem(
-                image: '$baserUrlMedia${workoutController.listWorkouts[index]?.image ?? ''}',
-                name: workoutController.listWorkouts[index]?.title ?? '',
-                level: workoutController.listWorkouts[index]?.level.toString() ?? '',
-                time: workoutController.listWorkouts[index]?.time.toString() ?? '',
-                des: workoutController.listWorkouts[index]?.description ?? '',
-                pagePosition: index,
-              );
-            },
-          ),
-        ),
-      ],
-    );
+            const SizedBox(height: 4 * 4),
+            SizedBox(
+              height: 440,
+              child: PageView.builder(
+                itemCount: (workoutController.listWorkoutsForYou.length > 5)
+                    ? 5
+                    : workoutController.listWorkoutsForYou.length,
+                pageSnapping: true,
+                controller: PageController(
+                  initialPage: 0,
+                  viewportFraction: 0.9,
+                ),
+                itemBuilder: (context, index) {
+                  return forYouItem(
+                    image:
+                        '$baserUrlMedia${workoutController.listWorkoutsForYou[index]?.image ?? ''}',
+                    name: workoutController.listWorkoutsForYou[index]?.title ??
+                        '',
+                    level: convertLevelToString(int.parse(workoutController
+                            .listWorkoutsForYou[index]?.level
+                            .toString() ??
+                        '1')),
+                    time: workoutController.listWorkoutsForYou[index]?.time
+                            .toString() ??
+                        '',
+                    des: workoutController
+                            .listWorkoutsForYou[index]?.description ??
+                        '',
+                    pagePosition: index,
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
   }
 }
