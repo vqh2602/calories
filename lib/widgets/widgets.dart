@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:calories/data/models/workouts.dart';
+import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
@@ -7,6 +9,7 @@ import 'package:calories/widgets/text_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -412,7 +415,10 @@ Widget workoutDetailItem({
   );
 }
 
-Widget searchBar({double width = 1}) {
+Widget searchBar(
+    {double width = 1,
+    Function(String)? onChange,
+    required TextEditingController controller}) {
   return Container(
     // margin: const EdgeInsets.symmetric(horizontal: 4 * 5),
     width: Get.width * width,
@@ -421,7 +427,8 @@ Widget searchBar({double width = 1}) {
       borderRadius: BorderRadius.circular(30),
     ),
     child: TextField(
-      onChanged: (value) {},
+      onChanged: onChange,
+      controller: controller,
       decoration: const InputDecoration(
         contentPadding: EdgeInsets.all(4 * 3),
         border: InputBorder.none,
@@ -547,31 +554,37 @@ Widget buttonSetting({
   );
 }
 
-Widget topPickForYou() {
+Widget topPickForYou(
+    {required int itemCount,
+    required List<Workout?> listWorkout,
+    required Function(dynamic) onTap,
+    required String title}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const SizedBox(height: 4 * 4),
       Container(
         margin: alignment_20_0(),
-        child: textHeadlineSmall(text: 'Top pick for you'),
+        child: textHeadlineSmall(text: title),
       ),
       const SizedBox(height: 4 * 4),
       Container(
         //item
         margin: const EdgeInsets.only(right: 4),
         child: SizedBox(
-          height: 200,
+          height: 210,
           child: PageView.builder(
-            itemCount: 3,
+            itemCount: itemCount,
             pageSnapping: true,
             controller: PageController(
               initialPage: 0,
               viewportFraction: 0.9,
             ),
-            itemBuilder: (context, pagePosition) {
+            itemBuilder: (context, index) {
               return InkWell(
-                onTap: () {},
+                onTap: () {
+                  onTap(listWorkout[index]);
+                },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
                   decoration: BoxDecoration(
@@ -585,8 +598,7 @@ Widget topPickForYou() {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       imageNetwork(
-                        url:
-                            "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80",
+                        url: '$baserUrlMedia${listWorkout[index]?.image ?? ''}',
                         fit: BoxFit.cover,
                         height: 140,
                         width: double.infinity,
@@ -600,12 +612,17 @@ Widget topPickForYou() {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textTitleSmall(
-                              text: 'Plank'.toUpperCase(),
+                              text:
+                                  listWorkout[index]?.title ?? ''.toUpperCase(),
                               fontSize: 12,
                             ),
+                            const SizedBox(
+                              height: 4,
+                            ),
                             textBodySmall(
-                              text:
-                                  'Xây dựng sự ổn định cốt lõi cho chuyển động hàng ngày',
+                              text: listWorkout[index]?.description ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               color: context.isDarkMode
                                   ? Colors.grey
                                   : Colors.black.withOpacity(0.5),
@@ -652,6 +669,39 @@ Widget chartCustom({dynamic series, double height = 450}) {
           majorTickLines: const MajorTickLines(size: 0)),
       series: series,
       tooltipBehavior: TooltipBehavior(enable: true),
+    ),
+  );
+}
+
+Widget noData({required Function inReload}) {
+  return Container(
+    margin: EdgeInsets.zero,
+    color: Get.theme.colorScheme.background,
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              // color: Colors.cyan,
+              margin: EdgeInsets.zero,
+              //height: 20,
+              child: Lottie.asset('assets/animate/nodata.json',
+                  width: Get.width, fit: BoxFit.fill)),
+          textBodyMedium(
+            text: 'Không có dữ liệu',
+            color: Get.theme.colorScheme.onBackground,
+          ),
+          GFButton(
+            onPressed: () {
+              inReload();
+            },
+            color: Get.theme.colorScheme.onBackground,
+            colorScheme: Get.theme.colorScheme,
+            text: 'Làm mới',
+          )
+        ],
+      ),
     ),
   );
 }
