@@ -231,16 +231,27 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
   Widget foodList() {
     return Container(
       margin: const EdgeInsets.only(bottom: 4 * 12),
-      child: Column(
-        children: List.generate(
-          foodController.listFoods.length,
-          (index) => foodItem(
-            image: '$baserUrlMedia${foodController.listFoods[index]?.image}',
-            foodName: foodController.listFoods[index]?.name ?? '',
-            calo: foodController.listFoods[index]?.calo ?? 0,
-          ),
-        ),
-      ),
+      child: foodController.listFoods.isNotEmpty
+          ? RefreshIndicator(
+              onRefresh: () async {
+                await Future.delayed(const Duration(seconds: 2),
+                    () => foodController.onRefresh());
+              },
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: foodController.listFoods.length,
+                itemBuilder: (context, index) => foodItem(
+                  image:
+                      '$baserUrlMedia${foodController.listFoods[index]?.image}',
+                  foodName: foodController.listFoods[index]?.name ?? '',
+                  calo: foodController.listFoods[index]?.calo ?? 0,
+                ),
+              ),
+            )
+          : noData(
+              inReload: () {},
+            ),
     );
   }
 

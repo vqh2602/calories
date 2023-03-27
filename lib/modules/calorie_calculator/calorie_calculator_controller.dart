@@ -29,6 +29,13 @@ class CalorieCalculatorController extends GetxController
     updateUI();
   }
 
+  onRefresh() async {
+    loadingUI();
+    getDataFood();
+    getDataFoodType();
+    changeUI();
+  }
+
   changeUI() {
     change(null, status: RxStatus.success());
   }
