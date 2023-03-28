@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:calories/data/models/tag.dart';
 import 'package:calories/data/models/workouts.dart';
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
@@ -701,6 +702,91 @@ Widget noData({required Function inReload}) {
             text: 'Làm mới',
           )
         ],
+      ),
+    ),
+  );
+}
+
+Widget filterChip(
+    {required Tag? tag,
+    required bool isSelect,
+    required Function(Tag?) onChange}) {
+  return ChoiceChip(
+    label: textBodySmall(
+        text: tag?.name ?? '',
+        color: isSelect
+            ? Get.theme.colorScheme.background
+            : Get.theme.colorScheme.onBackground),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+    selectedColor: Get.theme.colorScheme.onBackground,
+    disabledColor: Get.theme.colorScheme.background,
+    selected: isSelect,
+    avatar: isSelect
+        ? Icon(LucideIcons.check,
+            color: isSelect
+                ? Get.theme.colorScheme.background
+                : Get.theme.colorScheme.onBackground)
+        : null,
+    onSelected: (bool value) {
+      onChange(tag);
+    },
+  );
+}
+
+filterAlertTags(
+    {required List<Tag?> result,
+    required List<Tag?> choices,
+    required Function(Tag?) onChange,
+    required Function onSubmit}) {
+  Get.dialog(
+    AlertDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: textBodyMedium(text: 'Hủy'),
+          ),
+          textTitleMedium(text: 'Lọc'),
+          TextButton(
+            onPressed: () {
+              Get.back();
+              onSubmit();
+            },
+            style: TextButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: EdgeInsets.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: textBodyMedium(text: 'Xác nhận'),
+          ),
+        ],
+      ),
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) => Wrap(
+          spacing: 4,
+          children: [
+            for (var item1 in result) ...[
+              filterChip(
+                tag: item1,
+                isSelect: choices.contains(item1) ? true : false,
+                onChange: (item1) {
+                  onChange(item1);
+                  setState(() {});
+                },
+              )
+            ]
+          ],
+        ),
       ),
     ),
   );

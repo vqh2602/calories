@@ -44,13 +44,13 @@ dependencies:
   connectivity_plus: ^3.0.3
   google_fonts: ^4.0.3
   shared_preferences: ^2.0.20
-  lucide_icons: ^0.127.0
+  lucide_icons: ^0.128.0
   animated_text_kit: ^4.2.2
   sqflite: ^2.2.6
   getwidget: ^3.0.1
   syncfusion_flutter_charts: ^21.1.35
   image_picker: ^0.8.7
-  lottie: ^2.3.0
+  lottie: ^2.3.1
   quickalert: ^1.0.1
   onyxsio_grid_view: ^1.0.4
   blurrycontainer: ^1.0.2
@@ -64,6 +64,7 @@ dependencies:
   uuid: ^3.0.7
   path_provider: ^2.0.14
   url_launcher: ^6.1.10
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

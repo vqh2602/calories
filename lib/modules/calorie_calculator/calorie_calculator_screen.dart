@@ -118,16 +118,6 @@ Container totalCalorie(BuildContext context) {
   );
 }
 
-Widget filterChip({required String tag}) {
-  return FilterChip(
-    label: textBodySmall(text: tag),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0),
-    ),
-    onSelected: (bool value) {},
-  );
-}
-
 Widget searchBox(BuildContext context) {
   return Container(
     decoration: const BoxDecoration(color: Colors.white),
@@ -185,12 +175,13 @@ IconButton filterButton(BuildContext context) {
             ),
             content: Wrap(
               spacing: 4,
-              children: List.generate(
-                tags.length,
-                (index) => filterChip(
-                  tag: tags[index],
-                ),
-              ),
+              children: const []
+              // List.generate(
+              //   tags.length,
+              //   (index) => filterChip(
+              //     tag: tags[index], isSelect: true,
+              //   ),
+              // ),
             ),
           );
         },
