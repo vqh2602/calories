@@ -126,7 +126,39 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             }),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          filterAlertTags(
+                              result: workoutController.listTagsWorkouts,
+                              choices:
+                                  workoutController.listTagsWorkoutsChoices,
+                              onChange: (tag) {
+                                bool add = true;
+                                if (workoutController
+                                    .listTagsWorkoutsChoices.isNotEmpty) {
+                                  for (var item in workoutController
+                                      .listTagsWorkoutsChoices) {
+                                    if (item?.id == tag?.id) {
+                                      workoutController.listTagsWorkoutsChoices
+                                          .remove(item);
+                                      add = false;
+                                      break;
+                                    }
+                                  }
+                                } else {
+                                  // workoutController.listTagsWorkoutsChoices
+                                  //     .add(tag);
+                                }
+                                add
+                                    ? workoutController.listTagsWorkoutsChoices
+                                        .add(tag)
+                                    : null;
+                                workoutController.changeUI();
+                                workoutController.updateUI();
+                              },
+                              onSubmit: () {
+                                workoutController.searchListWorkoutsInTag();
+                              });
+                        },
                         icon: const Icon(LucideIcons.filter),
                       ),
                     ],
@@ -138,6 +170,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   child: workoutController.listWorkoutsResult.isNotEmpty
                       ? RefreshIndicator(
                           onRefresh: () async {
+                            workoutController.loadingUI();
                             await Future.delayed(const Duration(seconds: 2),
                                 () => workoutController.onRefresh());
                           },
@@ -218,6 +251,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget forYouTab() {
     return workoutController.obx((state) => RefreshIndicator(
           onRefresh: () async {
+            workoutController.loadingUI();
             await Future.delayed(const Duration(seconds: 2),
                 () => workoutController.onRefresh());
           },
