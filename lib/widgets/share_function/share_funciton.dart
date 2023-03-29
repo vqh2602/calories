@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:calories/data/models/tag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,10 +91,10 @@ String splitNameUser({required String name, bool isLastName = false}) {
   var splitted = name.split('@');
   return isLastName
       ? splitted.length > 1
-          ? splitted[0]
+          ? splitted[1]
           : ''
       : splitted.length > 1
-          ? splitted[1]
+          ? splitted[0]
           : name;
 }
 
@@ -140,4 +141,17 @@ int getBMI({required double bmi}) {
     return 22; // thừa cân
   }
   return 23; // béo phì
+}
+
+String getNameTags(
+    {required List<Tag?> listTag, required List<dynamic> listTagResult}) {
+  String result = '';
+  for (var item1 in listTagResult) {
+    for (var item2 in listTag) {
+      if (item1?.id == item2?.id && item1?.id != null && item2?.id != null) {
+        result += '${item1.name}, ';
+      }
+    }
+  }
+  return result;
 }
