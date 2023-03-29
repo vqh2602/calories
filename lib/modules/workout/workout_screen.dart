@@ -1,5 +1,6 @@
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/workout/workout_controller.dart';
+import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/loading_custom.dart';
@@ -178,15 +179,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             itemCount:
                                 workoutController.listWorkoutsResult.length,
                             itemBuilder: (context, index) => browseItem(
-                              image:
-                                  '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
-                              title: workoutController
-                                      .listWorkoutsResult[index]?.title ??
-                                  '',
-                              des: workoutController
-                                      .listWorkoutsResult[index]?.description ??
-                                  '',
-                            ),
+                                image:
+                                    '$baserUrlMedia${workoutController.listWorkoutsResult[index]?.image ?? ''}',
+                                title: workoutController
+                                        .listWorkoutsResult[index]?.title ??
+                                    '',
+                                des: workoutController.listWorkoutsResult[index]
+                                        ?.description ??
+                                    '',
+                                onTap: () {
+                                  Get.toNamed(WorkoutDetailScreen.routeName,
+                                      arguments: workoutController
+                                          .listWorkoutsResult[index]);
+                                }),
                           ),
                         )
                       : noData(inReload: () {
@@ -201,12 +206,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Widget browseItem(
-      {required String image, required String title, required String des}) {
+      {required String image,
+      required String title,
+      required String des,
+      required Function onTap}) {
     // print('url: $image | title: $title | des $des ');
     return Container(
       margin: const EdgeInsets.only(bottom: 4 * 4),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onTap();
+        },
         child: Stack(
           children: [
             imageNetwork(
@@ -267,7 +277,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         : workoutController.listWorkoutsHome.length,
                     listWorkout: workoutController.listWorkoutsHome,
                     title: 'Bài tập ở nhà',
-                    onTap: (e) {}),
+                    onTap: (e) {
+                      Get.toNamed(WorkoutDetailScreen.routeName, arguments: e);
+                    }),
                 const SizedBox(height: 4 * 4),
                 topPickForYou(
                     itemCount: (workoutController.listWorkoutsRandom.length > 5)
@@ -275,7 +287,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         : workoutController.listWorkoutsRandom.length,
                     listWorkout: workoutController.listWorkoutsRandom,
                     title: 'Có thể bạn sẽ thích',
-                    onTap: (e) {}),
+                    onTap: (e) {
+                      Get.toNamed(WorkoutDetailScreen.routeName, arguments: e);
+                    }),
                 const SizedBox(height: 4 * 4),
               ],
             ),
@@ -311,10 +325,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         '$baserUrlMedia${workoutController.listWorkoutsForYou[index]?.image ?? ''}',
                     name: workoutController.listWorkoutsForYou[index]?.title ??
                         '',
-                    level: convertLevelToString(int.parse(workoutController
-                            .listWorkoutsForYou[index]?.level
-                            .toString() ??
-                        '1')),
+                    level: convertLevelToString(
+                      int.parse(workoutController
+                              .listWorkoutsForYou[index]?.level
+                              .toString() ??
+                          '1'),
+                    ),
                     time: workoutController.listWorkoutsForYou[index]?.time
                             .toString() ??
                         '',
@@ -322,6 +338,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             .listWorkoutsForYou[index]?.description ??
                         '',
                     pagePosition: index,
+                    onTap: () {
+                      Get.toNamed(WorkoutDetailScreen.routeName,
+                          arguments:
+                              workoutController.listWorkoutsForYou[index]);
+                    },
                   );
                 },
               ),
