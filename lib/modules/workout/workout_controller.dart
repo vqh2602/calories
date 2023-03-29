@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:calories/data/models/tag.dart';
 import 'package:calories/data/models/workouts.dart';
+import 'package:calories/data/repositories/tag_repo.dart';
 import 'package:calories/data/repositories/workout_repo.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
@@ -15,6 +17,7 @@ class WorkoutController extends GetxController
   WorkoutRepo workoutRepo = WorkoutRepo();
   GetStorage box = GetStorage();
   User user = User();
+  TagRepo tagRepo = TagRepo();
   TextEditingController searchTE = TextEditingController();
 
   List<Workout?> listWorkouts = [];
@@ -22,18 +25,20 @@ class WorkoutController extends GetxController
   List<Workout?> listWorkoutsForYou = [];
   List<Workout?> listWorkoutsHome = [];
   List<Workout?> listWorkoutsRandom = [];
+  List<Tag?> listTagsWorkouts = [];
+  List<Tag?> listTagsWorkoutsChoices = [];
 
   @override
   Future<void> onInit() async {
     loadingUI();
     initUser();
+    initTag();
     getDataWorkOut();
     changeUI();
     super.onInit();
   }
 
   onRefresh() async {
-    loadingUI();
     initUser();
     getDataWorkOut();
     searchTE.clear();
@@ -42,6 +47,20 @@ class WorkoutController extends GetxController
 
   initUser() async {
     user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
+  }
+
+  initTag() async {
+    listTagsWorkouts.clear();
+    listTagsWorkoutsChoices.clear();
+    List<Tag?> lst = await tagRepo.getTags(isCached: true);
+    listTagsWorkouts = lst
+        .where((element) =>
+            element?.type == 3 &&
+            element?.id != 20 &&
+            element?.id != 21 &&
+            element?.id != 22 &&
+            element?.id != 23)
+        .toList();
   }
 
   Future<void> getDataWorkOut() async {
@@ -88,12 +107,36 @@ class WorkoutController extends GetxController
     updateUI();
   }
 
+  void searchListWorkoutsInTag() {
+    listWorkoutsResult.clear();
+    
+    if (listTagsWorkoutsChoices.isEmpty) {
+      listWorkoutsResult.addAll(listWorkouts);
+      return;
+    }
+
+    for (var item1 in listWorkouts) {
+      for (var item2 in item1?.tags ?? []) {
+        for (var item3 in listTagsWorkoutsChoices) {
+          if (item2?.id == item3?.id &&
+              item2?.id != null &&
+              item3?.id != null) {
+            listWorkoutsResult.add(item1);
+          }
+        }
+      }
+    }
+    changeUI();
+    updateUI();
+  }
+
   void clearData() {
     listWorkouts.clear();
     listWorkoutsResult.clear();
     listWorkoutsHome.clear();
     listWorkoutsRandom.clear();
     listWorkoutsResult.clear();
+    listTagsWorkoutsChoices.clear();
   }
 
   changeUI() {

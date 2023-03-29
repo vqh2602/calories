@@ -4,11 +4,9 @@ import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:local_auth/local_auth.dart';
 
 class WorkoutRepo extends Repo {
   GetStorage box = GetStorage();
-  final LocalAuthentication auth = LocalAuthentication();
   // lấy thông tin danh sách bài tập
   Future<List<Workout?>> getWorkout({bool isCached = false}) async {
     List<Workout?> lstWorkout = [];

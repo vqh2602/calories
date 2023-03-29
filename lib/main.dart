@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:calories/c_theme/c_theme.dart';
 import 'package:calories/modules/routers.dart';
 import 'package:calories/modules/splash/splash_screen.dart';
-import 'package:calories/widgets/base/custom_error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -28,16 +27,16 @@ class MyApp extends StatelessWidget {
       theme: SThemeTask.lightTheme,
       darkTheme:  SThemeTask.darkTheme,
       themeMode: ThemeService().theme,
-      builder: (context, child) {
-        ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-          return CustomError(errorDetails: errorDetails);
-        };
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          // textDirection: AppTheme.textDirection,
-          child: child!,
-        );
-      },
+      // builder: (context, child) {
+      //   ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+      //     return CustomError(errorDetails: errorDetails);
+      //   };
+      //   return MediaQuery(
+      //     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      //     // textDirection: AppTheme.textDirection,
+      //     child: child!,
+      //   );
+      // },
       localizationsDelegates: const [
         // Add this line
         GlobalMaterialLocalizations.delegate,

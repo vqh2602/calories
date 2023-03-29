@@ -17,6 +17,8 @@ class Storages {
   static const String dataUrlAvatarUser = 'data_avatar_user';
   // dữ liệu workout
   static const String dataWorkout = 'data_workout';
+  // dữ liệu tag
+  static const String dataTag = 'data_workout';
 
   //data blog
   static const String dataBlog = 'data_blog';
