@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:calories/data/models/tag.dart';
 import 'package:calories/data/models/workouts.dart';
 import 'package:calories/data/repositories/repo.dart';
-import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -219,10 +218,11 @@ Widget forYouItem({
   required String time,
   required String des,
   required int pagePosition,
+  required Function onTap,
 }) {
   return InkWell(
     onTap: () {
-      Get.toNamed(WorkoutDetailScreen.routeName);
+      onTap();
     },
     child: Container(
       margin: const EdgeInsets.only(right: 4),
@@ -406,7 +406,6 @@ Widget workoutDetailItem({
               child: textTitleSmall(
                 text: title,
                 fontWeight: FontWeight.w200,
-                fontSize: 14,
               ),
             ),
           ],
@@ -558,7 +557,7 @@ Widget buttonSetting({
 Widget topPickForYou(
     {required int itemCount,
     required List<Workout?> listWorkout,
-    required Function(dynamic) onTap,
+    required Function(Workout) onTap,
     required String title}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -573,7 +572,7 @@ Widget topPickForYou(
         //item
         margin: const EdgeInsets.only(right: 4),
         child: SizedBox(
-          height: 210,
+          height: 230,
           child: PageView.builder(
             itemCount: itemCount,
             pageSnapping: true,
@@ -584,7 +583,7 @@ Widget topPickForYou(
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  onTap(listWorkout[index]);
+                  onTap(listWorkout[index]!);
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 4),
@@ -615,7 +614,6 @@ Widget topPickForYou(
                             textTitleSmall(
                               text:
                                   listWorkout[index]?.title ?? ''.toUpperCase(),
-                              fontSize: 12,
                             ),
                             const SizedBox(
                               height: 4,
@@ -627,7 +625,6 @@ Widget topPickForYou(
                               color: context.isDarkMode
                                   ? Colors.grey
                                   : Colors.black.withOpacity(0.5),
-                              fontSize: 10,
                             ),
                           ],
                         ),

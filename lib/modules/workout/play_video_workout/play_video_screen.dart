@@ -24,12 +24,12 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   final isPortrait = false;
   bool showOpacity = false;
   bool isVolume = true;
+  String url = Get.arguments;
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
       playVideoController.initLoadVideo(
-          url:
-              'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+          url:url);
       //Get.offAndToNamed(SignupScreen.routeName);
     });
     super.initState();
@@ -37,6 +37,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
 
   @override
   void dispose() {
+    playVideoController.videoPlayerController?.dispose();
     super.dispose();
   }
 
@@ -101,6 +102,13 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                     children: [
                       IconButton(
                           onPressed: () {
+                            playVideoController.onClose();
+                            Wakelock.disable();
+                            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                                overlays: SystemUiOverlay.values);
+                            AutoOrientation.portraitUpMode();
+                            Orientation.portrait;
+
                             Get.back();
                           },
                           icon: const Icon(

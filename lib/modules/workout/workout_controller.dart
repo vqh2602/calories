@@ -126,6 +126,8 @@ class WorkoutController extends GetxController
         }
       }
     }
+
+    listWorkoutsResult = listWorkoutsResult.toSet().toList();
     changeUI();
     updateUI();
   }

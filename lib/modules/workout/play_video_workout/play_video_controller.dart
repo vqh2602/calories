@@ -12,7 +12,6 @@ class PlayVideoController extends GetxController
     super.onInit();
     changeUI();
   }
-
   Future<void> initLoadVideo({String? url}) async {
     videoPlayerController = VideoPlayerController.network(url!,
         videoPlayerOptions: VideoPlayerOptions(allowBackgroundPlayback: true,mixWithOthers: true));
