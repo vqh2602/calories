@@ -1,6 +1,8 @@
+import 'package:calories/data/models/food.dart';
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/calorie_calculator/calorie_calculator_controller.dart';
 import 'package:calories/widgets/base/base.dart';
+import 'package:calories/widgets/image_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -45,37 +47,35 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return foodController.obx(
-      (state) => SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                margin: alignment_20_0(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 4 * 18),
-                    foodList(),
-                  ],
-                ),
+    return SafeArea(
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              margin: alignment_20_0(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 4 * 18),
+                  foodList(),
+                ],
               ),
             ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: searchBox(context),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: totalCalorie(context),
-            ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: searchBox(context),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: totalCalorie(context),
+          ),
+        ],
       ),
     );
   }
 
-  Container totalCalorie(BuildContext context) {
+  Widget totalCalorie(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -107,7 +107,11 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
                             textTitleMedium(text: 'Danh sách'),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: textBodyMedium(text: 'Tổng calo: 1500'),
+                              child: foodController.obx(
+                                (state) => textBodyMedium(
+                                    text:
+                                        'Tổng calo: ${foodController.totalCalori}'),
+                              ),
                             ),
                             const SizedBox(height: 4 * 4),
                             addedFoodList(),
@@ -121,7 +125,11 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
               style: ButtonStyle(
                 overlayColor: MaterialStateProperty.all(Colors.transparent),
               ),
-              child: textHeadlineMedium(text: 'Calo: 1500'),
+              child: foodController.obx(
+                (state) => textHeadlineMedium(
+                  text: 'Calo: ${foodController.totalCalori}',
+                ),
+              ),
             )
           ],
         ),
@@ -150,10 +158,43 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
           children: [
             Container(
               margin: const EdgeInsets.only(top: 4, bottom: 4),
-              child:
-                  searchBar(width: 0.75, controller: TextEditingController()),
+              child: searchBar(
+                width: 0.75,
+                controller: foodController.searchTE,
+                onChange: (value) {
+                  foodController.searchListFood(search: value);
+                },
+              ),
             ),
-            filterButton(context),
+            // filterButton(context),
+            IconButton(
+              onPressed: () => filterAlertTags(
+                result: foodController.listTagFoods,
+                choices: foodController.listTagFoodsChoice,
+                onChange: (tag) {
+                  bool add = true;
+                  if (foodController.listTagFoodsChoice.isNotEmpty) {
+                    for (var item in foodController.listTagFoodsChoice) {
+                      if (item?.id == tag?.id) {
+                        foodController.listTagFoodsChoice.remove(item);
+                        add = false;
+                        break;
+                      }
+                    }
+                  } else {
+                    // foodController.listTagsWorkoutsChoices
+                    //     .add(tag);
+                  }
+                  add ? foodController.listTagFoodsChoice.add(tag) : null;
+                  foodController.changeUI();
+                  foodController.updateUI();
+                },
+                onSubmit: () {
+                  foodController.searchListFoodsInTag();
+                },
+              ),
+              icon: const Icon(LucideIcons.filter),
+            )
           ],
         ),
       ),
@@ -195,15 +236,15 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
                   ),
                 ],
               ),
-              content: Wrap(
-                spacing: 4,
-                children: List.generate(
-                  foodController.listFoodTypes.length,
-                  (index) => filterChip(
-                    tag: foodController.listFoodTypes[index].toString(),
-                  ),
-                ),
-              ),
+              // content: Wrap(
+              //   spacing: 4,
+              //   children: List.generate(
+              //     foodController.listFoodTypes.length,
+              //     (index) => filterChip(
+              //       tag: foodController.listFoodTypes[index].toString(),
+              //     ),
+              //   ),
+              // ),
             );
           },
         );
@@ -214,52 +255,64 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  Column addedFoodList() {
-    return Column(
-      children: List.generate(
-        foodData.length,
-        (index) => addedFoodItem(
-          image: foodData[index]['image'],
-          foodName: foodData[index]['foodName'],
-          calo: foodData[index]['calo'],
-          quantity: 10,
+  Widget addedFoodList() {
+    return foodController.obx(
+      (state) => ListView.builder(
+        itemCount: foodController.listAddedFood.length,
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) => addedFoodItem(
+          image: '$baserUrlMedia${foodController.listAddedFood[index]?.image}',
+          foodName: foodController.listAddedFood[index]?.name ?? '',
+          calo: foodController.listAddedFood[index]?.calo ?? 0,
+          quantity: foodController.listAddedFood[index]?.quantity ?? 0,
+          id: foodController.listAddedFood[index]?.id ?? 0,
         ),
       ),
     );
   }
 
   Widget foodList() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4 * 12),
-      child: foodController.listFoods.isNotEmpty
-          ? RefreshIndicator(
-              onRefresh: () async {
-                await Future.delayed(const Duration(seconds: 2),
-                    () => foodController.onRefresh());
-              },
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: foodController.listFoods.length,
-                itemBuilder: (context, index) => foodItem(
-                  image:
-                      '$baserUrlMedia${foodController.listFoods[index]?.image}',
-                  foodName: foodController.listFoods[index]?.name ?? '',
-                  calo: foodController.listFoods[index]?.calo ?? 0,
+    return foodController.obx(
+      (state) => Container(
+        margin: const EdgeInsets.only(bottom: 4 * 12),
+        child: foodController.listFoodResult.isNotEmpty
+            ? RefreshIndicator(
+                onRefresh: () async {
+                  foodController.loadingUI();
+                  await Future.delayed(const Duration(seconds: 2),
+                      () => foodController.onRefresh());
+                },
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: foodController.listFoodResult.length,
+                  itemBuilder: (context, index) => foodItem(
+                    image:
+                        '$baserUrlMedia${foodController.listFoodResult[index]?.image}',
+                    foodName: foodController.listFoodResult[index]?.name ?? '',
+                    calo: foodController.listFoodResult[index]?.calo ?? 0,
+                    food: foodController.listFoodResult[index],
+                  ),
                 ),
+              )
+            : noData(
+                inReload: () {
+                  foodController.listFoodResult
+                      .addAll(foodController.listFoods);
+                  foodController.searchTE.clear();
+                  foodController.updateUI();
+                },
               ),
-            )
-          : noData(
-              inReload: () {},
-            ),
+      ),
     );
   }
 
-  Container foodItem({
-    required String image,
-    required String foodName,
-    required num calo,
-  }) {
+  Container foodItem(
+      {required String image,
+      required String foodName,
+      required num calo,
+      required Food? food}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4 * 4),
       height: Get.height * 0.102,
@@ -272,14 +325,9 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
         children: [
           AspectRatio(
             aspectRatio: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  alignment: FractionalOffset.topCenter,
-                  image: NetworkImage(image),
-                ),
-              ),
+            child: imageNetwork(
+              url: image,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 4 * 4),
@@ -299,7 +347,34 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              foodController.addFood(food: food);
+            },
+            // () {
+            //   final itemExist = foodController.listAddedFood
+            //       .firstWhere((e) => e?.id == food?.id, orElse: () => null);
+            //   if (itemExist != null) {
+            //     var add = itemExist.quantity;
+            //     if (add != null) add++;
+            //     itemExist.quantity = add;
+            //   } else {
+            //     foodController.listAddedFood.add(
+            //       FoodAdded(
+            //         id: food?.id,
+            //         name: food?.name,
+            //         calo: food?.calo,
+            //         image: food?.image,
+            //       ),
+            //     );
+            //   }
+
+            //   foodController.updateUI();
+            //   foodController.changeUI();
+            //   buildToast(
+            //     type: TypeToast.success,
+            //     title: 'Đã thêm ${food?.name}',
+            //   );
+            // },
             icon: const Icon(
               LucideIcons.plusCircle,
               size: 24,
@@ -311,11 +386,12 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  Container addedFoodItem({
+  Widget addedFoodItem({
     required String image,
     required String foodName,
-    required int calo,
-    required int quantity,
+    required num calo,
+    required num quantity,
+    required num id,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 4 * 4),
@@ -329,14 +405,9 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
         children: [
           AspectRatio(
             aspectRatio: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  alignment: FractionalOffset.topCenter,
-                  image: NetworkImage(image),
-                ),
-              ),
+            child: imageNetwork(
+              url: image,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 4 * 4),
@@ -355,12 +426,14 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
               ),
             ),
           ),
-          textBodySmall(text: 'SL: $quantity'),
+          foodController.obx((state) => textBodySmall(text: 'x $quantity')),
           const SizedBox(width: 4 * 4),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              foodController.removeFood(id: id);
+            },
             icon: const Icon(
-              LucideIcons.edit,
+              LucideIcons.delete,
               size: 18,
             ),
           ),
@@ -413,17 +486,4 @@ List foodData = [
     "foodName": "Bí ngô",
     "calo": 245,
   },
-];
-
-List<String> tags = [
-  'Thịt',
-  'Rau',
-  'Quả',
-  'Củ',
-  'Hải sản',
-  'Hạt',
-  'Sữa',
-  'Ngũ cốc',
-  'Bơ',
-  'Tinh bột',
 ];
