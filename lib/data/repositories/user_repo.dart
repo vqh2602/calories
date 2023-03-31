@@ -51,7 +51,7 @@ class UserRepo extends Repo {
       await box.write(Storages.dataPassWord, passW);
       await box.write(Storages.dataLoginTime, DateTime.now().toString());
       if (await box.read(Storages.historyDataEmail) != null &&
-         await  box.read(Storages.historyDataEmail) == email) {
+          await box.read(Storages.historyDataEmail) == email) {
       } else {
         await box.write(Storages.dataUrlAvatarUser, null);
       }
@@ -154,7 +154,7 @@ class UserRepo extends Repo {
       required String name,
       String? avatar,
       String? address,
-        required String birthday,
+      required String birthday,
       required num sex,
       required double h,
       required double w}) async {
@@ -173,6 +173,25 @@ class UserRepo extends Repo {
       buildToast(
         type: TypeToast.success,
         title: 'Cập nhật thành công',
+      );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+  }
+
+  Future<void> addUserWorkOut(
+      {required String userId,
+      required String workoutId,
+      required int min,
+      required int calo}) async {
+    var res = await dioRepo.post('/api/v1/users/$userId/workouts/$workoutId',
+        data: {"workout_realtime": min, "calo_real": calo});
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      buildToast(
+        type: TypeToast.success,
+        title: 'thêm bài tập thành công',
       );
     } else {
       buildToast(

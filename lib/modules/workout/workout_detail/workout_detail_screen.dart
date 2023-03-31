@@ -110,7 +110,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: startButton('$baserUrlMedia${workout?.video}'),
+                  child: startButton(workout!),
                 ),
                 SafeArea(
                     child: Row(
@@ -157,14 +157,14 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
     );
   }
 
-  Container startButton(String url) {
+  Container startButton(Workout workout) {
     return Container(
       padding: const EdgeInsets.all(4 * 6),
       color: Get.theme.colorScheme.background,
       width: Get.width,
       child: GFButton(
         onPressed: () {
-          Get.toNamed(PlayVideoScreen.routeName, arguments: url);
+          Get.toNamed(PlayVideoScreen.routeName, arguments: workout);
         },
         padding: const EdgeInsets.only(
           left: 4 * 5,
