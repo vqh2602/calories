@@ -1,4 +1,4 @@
-class Storages{
+class Storages {
   /* biến local lưu data storage */
   // chứa thông tin đối tượng user sau khi đăng nhập
   static const String dataUser = 'data_user';
@@ -19,9 +19,12 @@ class Storages{
   static const String dataWorkout = 'data_workout';
   // dữ liệu tag
   static const String dataTag = 'data_workout';
+
+  //data blog
+  static const String dataBlog = 'data_blog';
 }
 
-class Config{
+class Config {
   // thời gian buộc đăng xuất (giờ)
   static const int dataLoginTimeOut = 168;
 }

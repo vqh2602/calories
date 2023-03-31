@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 // String baseUrl =  'http://localhost:8080'; // ios
 // String baseUrl =  'http://127.0.0.1:8080'; // ios
-String baseUrl =  'http://10.0.2.2:8080'; // android
+String baseUrl = 'http://10.0.2.2:8080'; // android
 String baserUrlMedia = '$baseUrl/storage/';
 //baseUrl:'http://127.0.0.1:8080',
 
@@ -11,7 +11,7 @@ class Repo {
   final dioRepo = Dio(BaseOptions(
     baseUrl: baseUrl,
     //baseUrl:'http://127.0.0.1:8080',
-   // baseUrl: 'http://192.168.0.196:8080',
+    // baseUrl: 'http://192.168.0.196:8080',
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 10),
     receiveDataWhenStatusError: true,
