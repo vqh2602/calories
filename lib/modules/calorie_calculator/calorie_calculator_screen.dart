@@ -3,6 +3,7 @@ import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/calorie_calculator/calorie_calculator_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/image_custom.dart';
+import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -47,30 +48,42 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Container(
-              margin: alignment_20_0(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 4 * 18),
-                  foodList(),
-                ],
+    return foodController.obx(
+      onLoading: const LoadingCustom(),
+      (state) => SafeArea(
+        child: Stack(
+          children: [
+            foodController.obx(
+              (state) => RefreshIndicator(
+                onRefresh: () async {
+                  foodController.loadingUI();
+                  await Future.delayed(const Duration(seconds: 2),
+                      () => foodController.onRefresh());
+                },
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: alignment_20_0(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4 * 18),
+                        foodList(),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: searchBox(context),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: totalCalorie(context),
-          ),
-        ],
+            Align(
+              alignment: Alignment.topCenter,
+              child: searchBox(context),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: totalCalorie(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -94,29 +107,53 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
+                  isScrollControlled: true,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
                   builder: (BuildContext context) {
                     return Container(
+                      height: Get.height * 0.8,
                       margin: const EdgeInsets.symmetric(horizontal: 4 * 8),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 4 * 2),
-                            textTitleMedium(text: 'Danh sách'),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: foodController.obx(
-                                (state) => textBodyMedium(
-                                    text:
-                                        'Tổng calo: ${foodController.totalCalori}'),
+                      // child: SingleChildScrollView(
+                      //   child: Column(
+                      //     children: [
+                      //       const SizedBox(height: 4 * 2),
+                      //       textTitleMedium(text: 'Danh sách'),
+                      //       Align(
+                      //         alignment: Alignment.centerLeft,
+                      //         child: foodController.obx(
+                      //           (state) => textBodyMedium(
+                      //               text:
+                      //                   'Tổng calo: ${foodController.totalCalori}'),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(height: 4 * 4),
+                      //       addedFoodList(),
+                      //     ],
+                      //   ),
+                      // ),
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              const SizedBox(height: 4 * 2),
+                              textTitleMedium(text: 'Danh sách'),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: foodController.obx(
+                                  (state) => textBodyMedium(
+                                      text:
+                                          'Tổng calo: ${foodController.totalCalori}'),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4 * 4),
-                            addedFoodList(),
-                          ],
-                        ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4 * 20),
+                            child: addedFoodList(),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -280,8 +317,10 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
             ? RefreshIndicator(
                 onRefresh: () async {
                   foodController.loadingUI();
-                  await Future.delayed(const Duration(seconds: 2),
-                      () => foodController.onRefresh());
+                  await Future.delayed(
+                    const Duration(seconds: 2),
+                    () => foodController.onRefresh(),
+                  );
                 },
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -442,48 +481,3 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 }
-
-List foodData = [
-  {
-    "image":
-        'https://images.unsplash.com/photo-1601493700750-58796129ebb5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-    "foodName": "Cà rốt",
-    "calo": 150,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1584615467033-75627d04dffe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-    "foodName": "Súp lơ trắng",
-    "calo": 50,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1582075482299-4123a7b6a3b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=485&q=80',
-    "foodName": "Ngô",
-    "calo": 180,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1608737637507-9aaeb9f4bf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80',
-    "foodName": "Ớt chuông",
-    "calo": 45,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1590165482129-1b8b27698780?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=327&q=80',
-    "foodName": "Khoai tây",
-    "calo": 265,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1601039641847-7857b994d704?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-    "foodName": "Quả bơ",
-    "calo": 185,
-  },
-  {
-    "image":
-        'https://images.unsplash.com/photo-1509622905150-fa66d3906e09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80',
-    "foodName": "Bí ngô",
-    "calo": 245,
-  },
-];

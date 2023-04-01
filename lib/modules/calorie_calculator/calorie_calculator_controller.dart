@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -31,11 +30,11 @@ class CalorieCalculatorController extends GetxController
   int selectItemScreen = 0;
   FoodRepo foodRepo = FoodRepo();
   TagRepo tagRepo = TagRepo();
+
   List<Food?> listFoods = [];
   List<Food?> listFoodResult = [];
   List<Tag?> listTagFoods = [];
   List<Tag?> listTagFoodsChoice = [];
-
   List<FoodAdded?> listAddedFood = [];
 
   num totalCalori = 0;
@@ -45,7 +44,6 @@ class CalorieCalculatorController extends GetxController
   @override
   Future<void> onInit() async {
     loadingUI();
-    initTag();
     getDataFood();
     changeUI();
     super.onInit();
@@ -54,7 +52,7 @@ class CalorieCalculatorController extends GetxController
   Future<void> getDataFood() async {
     listFoods = await foodRepo.getFood();
     listFoodResult.addAll(listFoods);
-
+    initTag();
     updateUI();
   }
 
@@ -72,9 +70,6 @@ class CalorieCalculatorController extends GetxController
       totalCalori = 0;
     } else {
       for (var item in listAddedFood) {
-        // if (item != null) {
-        //   totalCalori += item.calo! * item.quantity!;
-        // }
         totalCalori += (item?.calo ?? 0) * (item?.quantity ?? 0);
       }
     }
@@ -83,6 +78,8 @@ class CalorieCalculatorController extends GetxController
   initTag() async {
     listTagFoods.clear();
     listTagFoodsChoice.clear();
+    listAddedFood.clear();
+    totalCalori = 0;
     List<Tag?> lst = await tagRepo.getTags(isCached: true);
     listTagFoods = lst.where((element) => element?.type == 1).toList();
   }
@@ -145,14 +142,9 @@ class CalorieCalculatorController extends GetxController
 
     updateUI();
     changeUI();
-    buildToast(
-      type: TypeToast.success,
-      title: 'Đã thêm ${food?.name}',
-    );
   }
 
   onRefresh() async {
-    loadingUI();
     getDataFood();
     searchTE.clear();
     changeUI();
