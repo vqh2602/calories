@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:calories/data/models/user.dart';
+import 'package:calories/data/models/user_workout.dart';
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
@@ -197,5 +198,26 @@ class UserRepo extends Repo {
       buildToast(
           type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
     }
+  }
+
+  Future<List<UserWorkout?>> getUserWorkOut(
+      {required String userId, required int month, required int year}) async {
+    List<UserWorkout?> lstUserWorkout = [];
+    var res = await dioRepo.get('/api/v1/users/$userId/workouts',
+        data: {"month": month, "year": year});
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      result['data'].forEach((element) {
+        lstUserWorkout.add(UserWorkout.fromJson(element));
+      });
+      // buildToast(
+      //   type: TypeToast.success,
+      //   title: 'thêm bài tập thành công',
+      // );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+    return lstUserWorkout;
   }
 }
