@@ -39,8 +39,8 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
 
   Widget _buildBody() {
     return statisticalController.obx(
-        (state) => SafeArea(
-                child: Container(
+        (state) => RefreshIndicator(child: SafeArea(
+            child: Container(
               padding: EdgeInsets.zero,
               child: SingleChildScrollView(
                 child: Column(
@@ -74,54 +74,54 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                               ),
                               Expanded(
                                   child: Row(
-                                mainAxisAlignment:
+                                    mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Tooltip(
-                                    message: '7 ngày trước đó',
-                                    child: IconButton(
-                                        onPressed: () {
-                                          statisticalController
-                                              .setDataChartUserWork(
+                                    children: [
+                                      Tooltip(
+                                        message: '7 ngày trước đó',
+                                        child: IconButton(
+                                            onPressed: () {
+                                              statisticalController
+                                                  .setDataChartUserWork(
                                                   isNext: false);
+                                            },
+                                            icon: const Icon(
+                                                LucideIcons.chevronLeft)),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          dateTimePicker(onchange: (dt) async {
+                                            setState(() {
+                                              timeW = 'T${dt.month}/${dt.year}';
+                                              dtW = dt;
+                                            });
+                                          }, onComplete: () async {
+                                            await statisticalController.initData(
+                                                dateTime: dtW, isWorkout: true);
+                                          });
                                         },
-                                        icon: const Icon(
-                                            LucideIcons.chevronLeft)),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      dateTimePicker(onchange: (dt) async {
-                                        setState(() {
-                                          timeW = 'T${dt.month}/${dt.year}';
-                                          dtW = dt;
-                                        });
-                                      }, onComplete: () async {
-                                        await statisticalController.initData(
-                                            dateTime: dtW, isWorkout: true);
-                                      });
-                                    },
-                                    child: Container(
-                                      // width: MediaQuery.of(context).size.width * 0.2,
-                                      //margin: EdgeInsets.all(20),
-                                      child: textBodySmall(
-                                          text: timeW,
-                                          overflow: TextOverflow.ellipsis,
-                                          decoration: TextDecoration.underline),
-                                    ),
-                                  ),
-                                  Tooltip(
-                                    message: '7 ngày sau đó',
-                                    child: IconButton(
-                                        onPressed: () {
-                                          statisticalController
-                                              .setDataChartUserWork(
+                                        child: Container(
+                                          // width: MediaQuery.of(context).size.width * 0.2,
+                                          //margin: EdgeInsets.all(20),
+                                          child: textBodySmall(
+                                              text: timeW,
+                                              overflow: TextOverflow.ellipsis,
+                                              decoration: TextDecoration.underline),
+                                        ),
+                                      ),
+                                      Tooltip(
+                                        message: '7 ngày sau đó',
+                                        child: IconButton(
+                                            onPressed: () {
+                                              statisticalController
+                                                  .setDataChartUserWork(
                                                   isNext: true);
-                                        },
-                                        icon: const Icon(
-                                            LucideIcons.chevronRight)),
-                                  )
-                                ],
-                              ))
+                                            },
+                                            icon: const Icon(
+                                                LucideIcons.chevronRight)),
+                                      )
+                                    ],
+                                  ))
                             ],
                           ),
                           const SizedBox(
@@ -142,54 +142,54 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                               ),
                               Expanded(
                                   child: Row(
-                                mainAxisAlignment:
+                                    mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Tooltip(
-                                    message: '7 ngày trước đó',
-                                    child: IconButton(
-                                        onPressed: () {
-                                          statisticalController
-                                              .setDataChartUserBmi(
+                                    children: [
+                                      Tooltip(
+                                        message: '7 ngày trước đó',
+                                        child: IconButton(
+                                            onPressed: () {
+                                              statisticalController
+                                                  .setDataChartUserBmi(
                                                   isNext: false);
+                                            },
+                                            icon: const Icon(
+                                                LucideIcons.chevronLeft)),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          dateTimePicker(onchange: (dt) async {
+                                            setState(() {
+                                              timeB = 'T${dt.month}/${dt.year}';
+                                              dtB = dt;
+                                            });
+                                          }, onComplete: () async {
+                                            await statisticalController.initData(
+                                                dateTime: dtB, isWorkout: false);
+                                          });
                                         },
-                                        icon: const Icon(
-                                            LucideIcons.chevronLeft)),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      dateTimePicker(onchange: (dt) async {
-                                        setState(() {
-                                          timeB = 'T${dt.month}/${dt.year}';
-                                          dtB = dt;
-                                        });
-                                      }, onComplete: () async {
-                                        await statisticalController.initData(
-                                            dateTime: dtB, isWorkout: false);
-                                      });
-                                    },
-                                    child: Container(
-                                      // width: MediaQuery.of(context).size.width * 0.2,
-                                      //margin: EdgeInsets.all(20),
-                                      child: textBodySmall(
-                                          text: timeB,
-                                          overflow: TextOverflow.ellipsis,
-                                          decoration: TextDecoration.underline),
-                                    ),
-                                  ),
-                                  Tooltip(
-                                    message: '7 ngày sau đó',
-                                    child: IconButton(
-                                        onPressed: () {
-                                          statisticalController
-                                              .setDataChartUserBmi(
+                                        child: Container(
+                                          // width: MediaQuery.of(context).size.width * 0.2,
+                                          //margin: EdgeInsets.all(20),
+                                          child: textBodySmall(
+                                              text: timeB,
+                                              overflow: TextOverflow.ellipsis,
+                                              decoration: TextDecoration.underline),
+                                        ),
+                                      ),
+                                      Tooltip(
+                                        message: '7 ngày sau đó',
+                                        child: IconButton(
+                                            onPressed: () {
+                                              statisticalController
+                                                  .setDataChartUserBmi(
                                                   isNext: true);
-                                        },
-                                        icon: const Icon(
-                                            LucideIcons.chevronRight)),
-                                  )
-                                ],
-                              ))
+                                            },
+                                            icon: const Icon(
+                                                LucideIcons.chevronRight)),
+                                      )
+                                    ],
+                                  ))
                             ],
                           ),
                           chartCustom(
@@ -201,7 +201,11 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                   ],
                 ),
               ),
-            )),
+            )), onRefresh: () async {
+          statisticalController.loadingUI();
+          await Future.delayed(const Duration(seconds: 2),
+                  () => statisticalController.onRefresh());
+        }),
         onLoading: const LoadingCustom());
   }
 }

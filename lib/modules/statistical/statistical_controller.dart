@@ -45,6 +45,7 @@ class StatisticalController extends GetxController
 
   onRefresh() async {
     clearData();
+    clearDataBmi();
     await initUser();
     await initData();
     changeUI();
