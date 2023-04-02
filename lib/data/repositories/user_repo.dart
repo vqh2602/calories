@@ -51,7 +51,7 @@ class UserRepo extends Repo {
       await box.write(Storages.dataPassWord, passW);
       await box.write(Storages.dataLoginTime, DateTime.now().toString());
       if (await box.read(Storages.historyDataEmail) != null &&
-         await  box.read(Storages.historyDataEmail) == email) {
+          await box.read(Storages.historyDataEmail) == email) {
       } else {
         await box.write(Storages.dataUrlAvatarUser, null);
       }
@@ -148,13 +148,35 @@ class UserRepo extends Repo {
     }
   }
 
+  Future<void> updateHeightWeight({
+    required String userID,
+    required double height,
+    required double weight,
+  }) async {
+    var res = await dioRepo.patch('/api/v1/users/$userID', data: {
+      "weight": height,
+      "height": weight,
+    });
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      await box.write(Storages.dataUser, jsonEncode(result['data']));
+      buildToast(
+        type: TypeToast.success,
+        title: 'Cập nhật thành công',
+      );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'Có lỗi xảy ra');
+    }
+  }
+
   // sửa
   Future<void> updateUser(
       {required String userID,
       required String name,
       String? avatar,
       String? address,
-        required String birthday,
+      required String birthday,
       required num sex,
       required double h,
       required double w}) async {

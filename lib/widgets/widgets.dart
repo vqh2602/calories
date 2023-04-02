@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:calories/data/models/blog.dart';
 import 'package:calories/data/models/tag.dart';
 import 'package:calories/data/models/workouts.dart';
 import 'package:calories/data/repositories/repo.dart';
@@ -12,6 +13,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // khối thông tin tập luyện trong ngày
 Widget blockStatisticalToday({Function? onTap}) {
@@ -44,9 +46,10 @@ Widget blockStatisticalToday({Function? onTap}) {
 
 // khoois carousel màn trang chủ
 Widget buildCarousel({
-  required List listData,
+  required List<Blog?> listData,
   double height = 450,
 }) {
+  listData.shuffle();
   return GFCarousel(
       hasPagination: true,
       autoPlay: true,
@@ -54,7 +57,7 @@ Widget buildCarousel({
       activeIndicator: Colors.white,
       autoPlayInterval: const Duration(seconds: 4),
       viewportFraction: 1.0,
-      items: listData.map((url) {
+      items: listData.getRange(0, 3).map((item) {
         return SizedBox(
           // color: Colors.red,
           height: 450,
@@ -63,7 +66,9 @@ Widget buildCarousel({
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                 child: imageNetwork(
-                    url: url, fit: BoxFit.cover, height: double.infinity),
+                    url: '$baserUrlMedia${item?.image}',
+                    fit: BoxFit.cover,
+                    height: double.infinity),
               ),
               Container(
                 color: Colors.black.withOpacity(0.4),
@@ -80,8 +85,7 @@ Widget buildCarousel({
                       runSpacing: 12,
                       children: [
                         textHeadlineMedium(
-                            text: 'Làm sao để tập vùng mông hiệu quả'
-                                .toUpperCase(),
+                            text: (item?.title ?? '').toUpperCase(),
                             fontWeight: FontWeight.w700,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -95,22 +99,32 @@ Widget buildCarousel({
                               ),
                               backgroundColor: Colors.white,
                               padding: const EdgeInsets.all(4 * 3)),
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              textTitleLarge(
+                          child: InkWell(
+                            onTap: () async {
+                              final url =
+                                  Uri.parse('https://vqhapps.blogspot.com/');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            },
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                textTitleLarge(
                                   text: 'Đọc chi tiết',
                                   textAlign: TextAlign.center,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              const Icon(
-                                LucideIcons.arrowRight,
-                                color: Colors.black,
-                              )
-                            ],
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                const Icon(
+                                  LucideIcons.arrowRight,
+                                  color: Colors.black,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
