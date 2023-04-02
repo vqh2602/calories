@@ -16,7 +16,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // khối thông tin tập luyện trong ngày
-Widget blockStatisticalToday({Function? onTap}) {
+Widget blockStatisticalToday(
+    {Function? onTap, String? workout, String? time, String? kcal}) {
   return InkWell(
     onTap: () {
       onTap != null ? onTap() : null;
@@ -26,16 +27,19 @@ Widget blockStatisticalToday({Function? onTap}) {
       children: [
         Column(
           children: [
-            textLableLarge(text: '10'),
+            textLableLarge(text: workout ?? '0'),
             textBodySmall(text: 'BÀI TẬP')
           ],
         ),
         Column(
-          children: [textLableLarge(text: '2000'), textBodySmall(text: 'KCAL')],
+          children: [
+            textLableLarge(text: kcal ?? '0'),
+            textBodySmall(text: 'KCAL')
+          ],
         ),
         Column(
           children: [
-            textLableLarge(text: '200'),
+            textLableLarge(text: time ?? '0'),
             textBodySmall(text: 'PHÚT TẬP')
           ],
         ),

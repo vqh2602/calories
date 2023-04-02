@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:calories/data/models/user.dart';
+import 'package:calories/data/models/user_bmi.dart';
+import 'package:calories/data/models/user_workout.dart';
 import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/data/storage.dart';
 import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
 import 'package:local_auth_ios/types/auth_messages_ios.dart';
@@ -200,5 +203,66 @@ class UserRepo extends Repo {
       buildToast(
           type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
     }
+  }
+
+  Future<void> addUserWorkOut(
+      {required String userId,
+      required String workoutId,
+      required int min,
+      required int calo}) async {
+    var res = await dioRepo.post('/api/v1/users/$userId/workouts/$workoutId',
+        data: {"workout_realtime": min, "calo_real": calo});
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      buildToast(
+        type: TypeToast.success,
+        title: 'thêm bài tập thành công',
+      );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+  }
+
+  Future<List<UserWorkout?>> getUserWorkOut(
+      {required String userId, required int month, required int year}) async {
+    List<UserWorkout?> lstUserWorkout = [];
+    var res = await dioRepo.get('/api/v1/users/$userId/workouts',
+        data: {"month": month, "year": year});
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      result['data'].forEach((element) {
+        lstUserWorkout.add(UserWorkout.fromJson(element));
+      });
+      // buildToast(
+      //   type: TypeToast.success,
+      //   title: 'thêm bài tập thành công',
+      // );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+    return lstUserWorkout;
+  }
+
+  Future<List<UserBmi?>> getUserBmi(
+      {required String userId, required DateTime dateTime}) async {
+    List<UserBmi?> lstUserBmi = [];
+    var res = await dioRepo.get('/api/v1/bmi/$userId',
+        data: {"date": DateFormat('yyyy-MM-dd').format(dateTime)});
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      result['data'].forEach((element) {
+        lstUserBmi.add(UserBmi.fromJson(element));
+      });
+      // buildToast(
+      //   type: TypeToast.success,
+      //   title: 'thêm bài tập thành công',
+      // );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+    return lstUserBmi;
   }
 }

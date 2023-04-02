@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_orientation/auto_orientation.dart';
+import 'package:calories/data/models/workouts.dart';
+import 'package:calories/data/repositories/repo.dart';
 import 'package:calories/modules/workout/play_video_workout/play_video_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/loading_custom.dart';
@@ -24,12 +26,12 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   final isPortrait = false;
   bool showOpacity = false;
   bool isVolume = true;
-  String url = Get.arguments;
+  Workout workout = Get.arguments;
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
       playVideoController.initLoadVideo(
-          url:url);
+          url:'$baserUrlMedia${workout.video}');
       //Get.offAndToNamed(SignupScreen.routeName);
     });
     super.initState();
@@ -108,6 +110,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                                 overlays: SystemUiOverlay.values);
                             AutoOrientation.portraitUpMode();
                             Orientation.portrait;
+
+                            playVideoController.setDataUserWorkout();
 
                             Get.back();
                           },
