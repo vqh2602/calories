@@ -6,6 +6,7 @@ import 'package:calories/widgets/text_custom.dart';
 import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class StatisticalScreen extends StatefulWidget {
   const StatisticalScreen({Key? key}) : super(key: key);
@@ -15,7 +16,9 @@ class StatisticalScreen extends StatefulWidget {
 }
 
 class _StatisticalScreenState extends State<StatisticalScreen> {
-  String time = 'T${DateTime.now().month}/${DateTime.now().year}';
+  String timeW = 'T${DateTime.now().month}/${DateTime.now().year}';
+  String timeB = 'T${DateTime.now().month}/${DateTime.now().year}';
+  DateTime dtW = DateTime.now(), dtB = DateTime.now();
   StatisticalController statisticalController =
       Get.put(StatisticalController());
 
@@ -69,25 +72,56 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                               textHeadlineSmall(
                                 text: 'Biểu đồ tập luyện',
                               ),
-                              InkWell(
-                                onTap: () {
-                                  dateTimePicker(
-                                      onchange: (dt) {
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Tooltip(
+                                    message: '7 ngày trước đó',
+                                    child: IconButton(
+                                        onPressed: () {
+                                          statisticalController
+                                              .setDataChartUserWork(
+                                                  isNext: false);
+                                        },
+                                        icon: const Icon(
+                                            LucideIcons.chevronLeft)),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      dateTimePicker(onchange: (dt) async {
                                         setState(() {
-                                          time = 'T${dt.month}/${dt.year}';
+                                          timeW = 'T${dt.month}/${dt.year}';
+                                          dtW = dt;
                                         });
-                                      },
-                                      onComplete: () {});
-                                },
-                                child: Container(
-                                  // width: MediaQuery.of(context).size.width * 0.2,
-                                  //margin: EdgeInsets.all(20),
-                                  child: textBodySmall(
-                                      text: time,
-                                      overflow: TextOverflow.ellipsis,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              )
+                                      }, onComplete: () async {
+                                        await statisticalController.initData(
+                                            dateTime: dtW, isWorkout: true);
+                                      });
+                                    },
+                                    child: Container(
+                                      // width: MediaQuery.of(context).size.width * 0.2,
+                                      //margin: EdgeInsets.all(20),
+                                      child: textBodySmall(
+                                          text: timeW,
+                                          overflow: TextOverflow.ellipsis,
+                                          decoration: TextDecoration.underline),
+                                    ),
+                                  ),
+                                  Tooltip(
+                                    message: '7 ngày sau đó',
+                                    child: IconButton(
+                                        onPressed: () {
+                                          statisticalController
+                                              .setDataChartUserWork(
+                                                  isNext: true);
+                                        },
+                                        icon: const Icon(
+                                            LucideIcons.chevronRight)),
+                                  )
+                                ],
+                              ))
                             ],
                           ),
                           const SizedBox(
@@ -106,30 +140,61 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                               textHeadlineSmall(
                                 text: 'Biểu đồ BMI',
                               ),
-                              InkWell(
-                                onTap: () {
-                                  dateTimePicker(
-                                      onchange: (dt) {
+                              Expanded(
+                                  child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Tooltip(
+                                    message: '7 ngày trước đó',
+                                    child: IconButton(
+                                        onPressed: () {
+                                          statisticalController
+                                              .setDataChartUserBmi(
+                                                  isNext: false);
+                                        },
+                                        icon: const Icon(
+                                            LucideIcons.chevronLeft)),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      dateTimePicker(onchange: (dt) async {
                                         setState(() {
-                                          time = 'T${dt.month}/${dt.year}';
+                                          timeB = 'T${dt.month}/${dt.year}';
+                                          dtB = dt;
                                         });
-                                      },
-                                      onComplete: () {});
-                                },
-                                child: Container(
-                                  // width: MediaQuery.of(context).size.width * 0.2,
-                                  //margin: EdgeInsets.all(20),
-                                  child: textBodySmall(
-                                      text: time,
-                                      overflow: TextOverflow.ellipsis,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              )
+                                      }, onComplete: () async {
+                                        await statisticalController.initData(
+                                            dateTime: dtB, isWorkout: false);
+                                      });
+                                    },
+                                    child: Container(
+                                      // width: MediaQuery.of(context).size.width * 0.2,
+                                      //margin: EdgeInsets.all(20),
+                                      child: textBodySmall(
+                                          text: timeB,
+                                          overflow: TextOverflow.ellipsis,
+                                          decoration: TextDecoration.underline),
+                                    ),
+                                  ),
+                                  Tooltip(
+                                    message: '7 ngày sau đó',
+                                    child: IconButton(
+                                        onPressed: () {
+                                          statisticalController
+                                              .setDataChartUserBmi(
+                                                  isNext: true);
+                                        },
+                                        icon: const Icon(
+                                            LucideIcons.chevronRight)),
+                                  )
+                                ],
+                              ))
                             ],
                           ),
                           chartCustom(
                               series: statisticalController
-                                  .getDefaultSplineSeries()),
+                                  .getDefaultSplineSeriesBmi()),
                         ],
                       ),
                     ),
