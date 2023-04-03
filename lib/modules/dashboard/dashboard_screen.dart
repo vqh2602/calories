@@ -1,3 +1,4 @@
+import 'package:calories/modules/blog/blog_controller.dart';
 import 'package:calories/modules/blog/blog_screen.dart';
 import 'package:calories/modules/calorie_calculator/calorie_calculator_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_controller.dart';
@@ -20,9 +21,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  DashboardController dashboardController = Get.put(DashboardController());
   HomeController homeController = Get.find();
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormBMI');
+
+  DashboardController dashboardController = Get.put(DashboardController());
+  BlogController blogController = Get.put(BlogController());
+
   @override
   Widget build(BuildContext context) {
     return buildBody(
@@ -81,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(
                       height: 4 * 6,
                     ),
-                    buildCarousel(listData: imageList),
+                    buildCarousel(listData: blogController.listBlogs),
                     const SizedBox(
                       height: 4 * 6,
                     ),
@@ -174,22 +178,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     onPressed: () {
                       if (keyForm1.currentState?.validate() ?? false) {
                         QuickAlert.show(
-                            context: context,
-                            type: QuickAlertType.info,
-                            text: 'Cập nhật và thay thê dữ liệu hôm nay?'
-                                '\n Chiều cao: 120 cm'
-                                '\n Cân nặng: 60 kg',
-                            title: 'Thông báo',
-                            confirmBtnText: 'Xác nhận',
-                            confirmBtnColor: Colors.black,
-                            cancelBtnText: 'Hủy',
-                            showCancelBtn: true,
-                            onCancelBtnTap: () {
-                              Get.close(1);
-                            },
-                            onConfirmBtnTap: () {
-                              Get.close(2);
-                            });
+                          context: context,
+                          type: QuickAlertType.info,
+                          text: 'Cập nhật và thay thê dữ liệu hôm nay?'
+                              '\n Chiều cao: ${dashboardController.heightTE.text} cm'
+                              '\n Cân nặng: ${dashboardController.weightTE.text} kg',
+                          title: 'Thông báo',
+                          confirmBtnText: 'Xác nhận',
+                          confirmBtnColor: Colors.black,
+                          cancelBtnText: 'Hủy',
+                          showCancelBtn: true,
+                          onCancelBtnTap: () {
+                            Get.close(1);
+                          },
+                          onConfirmBtnTap: () {
+                            Get.close(2);
+                            dashboardController.updateBMI();
+                          },
+                        );
                       }
                     },
                     child: textBodyMedium(text: 'Lưu')),
@@ -206,6 +212,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 TextFormField(
                   onTap: () {},
                   style: josefinSans(fontSize: 16),
+                  controller: dashboardController.heightTE,
                   decoration: textFieldInputStyle(label: 'Chiều cao (cm)'),
                   keyboardType: TextInputType.number,
                   validator: dashboardController.numberValidator,
@@ -217,6 +224,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onTap: () {},
                   style: josefinSans(fontSize: 16),
                   keyboardType: TextInputType.number,
+                  controller: dashboardController.weightTE,
                   decoration: textFieldInputStyle(label: 'Cân nặng (kg)'),
                   validator: dashboardController.numberValidator,
                 ),
@@ -228,10 +236,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-final List<String> imageList = [
-  "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
-  "https://cdn.pixabay.com/photo/2017/12/13/00/23/christmas-3015776_960_720.jpg",
-  "https://cdn.pixabay.com/photo/2019/12/19/10/55/christmas-market-4705877_960_720.jpg",
-  "https://cdn.pixabay.com/photo/2019/12/20/00/03/road-4707345_960_720.jpg",
-];

@@ -151,6 +151,28 @@ class UserRepo extends Repo {
     }
   }
 
+  Future<void> updateHeightWeight({
+    required String userID,
+    required double height,
+    required double weight,
+  }) async {
+    var res = await dioRepo.patch('/api/v1/users/$userID', data: {
+      "weight": height,
+      "height": weight,
+    });
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      await box.write(Storages.dataUser, jsonEncode(result['data']));
+      buildToast(
+        type: TypeToast.success,
+        title: 'Cập nhật thành công',
+      );
+    } else {
+      buildToast(
+          type: TypeToast.failure, title: result["message"] ?? 'Có lỗi xảy ra');
+    }
+  }
+
   // sửa
   Future<void> updateUser(
       {required String userID,
