@@ -188,8 +188,8 @@ class UserRepo extends Repo {
       "avatar": avatar ?? ' ',
       "address": address ?? ' ',
       "gender": sex,
-      "weight": h,
-      "height": w,
+      "weight": w,
+      "height": h,
       "birthday": birthday,
       "updated_at": DateTime.now().toString(),
     });

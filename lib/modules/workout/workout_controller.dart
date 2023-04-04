@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:calories/data/models/tag.dart';
+import 'package:calories/data/models/training_plan.dart';
 import 'package:calories/data/models/workouts.dart';
 import 'package:calories/data/repositories/tag_repo.dart';
 import 'package:calories/data/repositories/workout_repo.dart';
@@ -28,12 +29,16 @@ class WorkoutController extends GetxController
   List<Tag?> listTagsWorkouts = [];
   List<Tag?> listTagsWorkoutsChoices = [];
 
+  List<TrainingPlan?> listTrainingPlan = [];
+  late num planTag = 0;
+
   @override
   Future<void> onInit() async {
     loadingUI();
     initUser();
     initTag();
     getDataWorkOut();
+    getTrainingPlan();
     changeUI();
     super.onInit();
   }
@@ -41,6 +46,7 @@ class WorkoutController extends GetxController
   onRefresh() async {
     initUser();
     getDataWorkOut();
+    getTrainingPlan();
     searchTE.clear();
     changeUI();
   }
@@ -61,6 +67,16 @@ class WorkoutController extends GetxController
             element?.id != 22 &&
             element?.id != 23)
         .toList();
+  }
+
+  Future<void> getTrainingPlan() async {
+    user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
+    listTrainingPlan = await workoutRepo.getTrainingPlan(
+      userId: user.id.toString(),
+      tag: planTag,
+    );
+    listTrainingPlan = listTrainingPlan.sublist(0, 3);
+    updateUI();
   }
 
   Future<void> getDataWorkOut() async {
@@ -109,7 +125,7 @@ class WorkoutController extends GetxController
 
   void searchListWorkoutsInTag() {
     listWorkoutsResult.clear();
-    
+
     if (listTagsWorkoutsChoices.isEmpty) {
       listWorkoutsResult.addAll(listWorkouts);
       return;
