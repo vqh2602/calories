@@ -28,7 +28,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   bool isVolume = true;
 
   Workout workout = Get.arguments['workout'];
-  num trainingId = Get.arguments['trainingId'];
+  var trainingId = Get.arguments['trainingId'];
 
   @override
   void initState() {

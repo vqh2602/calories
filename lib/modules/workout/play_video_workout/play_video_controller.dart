@@ -4,6 +4,7 @@ import 'package:calories/data/models/user.dart';
 import 'package:calories/data/models/workouts.dart';
 import 'package:calories/data/repositories/user_repo.dart';
 import 'package:calories/data/storage.dart';
+import 'package:calories/modules/workout/workout_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +12,7 @@ import 'package:video_player/video_player.dart';
 
 class PlayVideoController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
+  WorkoutController workoutController = Get.find();
   VideoPlayerController? videoPlayerController;
   ValueNotifier<VideoPlayerValue?> currentPosition = ValueNotifier(null);
   UserRepo userRepo = UserRepo();
@@ -69,6 +71,8 @@ class PlayVideoController extends GetxController
         trainingId: trainingId,
         status: 1,
       );
+      workoutController.getTrainingPlan();
+      workoutController.updateUI();
     }
     changeUI();
   }
