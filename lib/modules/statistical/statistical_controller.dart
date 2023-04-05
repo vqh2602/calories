@@ -21,10 +21,14 @@ class StatisticalController extends GetxController
   GetStorage box = GetStorage();
   List<UserWorkout?> listUserWorkOut = [];
   List<UserWorkout?> listUserWorkOutResult = [];
+  List<UserWorkout?> listUserWorkOutDays = [];
+
   List<UserBmi?> listUserBmi = [];
   List<UserBmi?> listUserBmiResult = [];
+
   List<ChartSampleData> chartDataWorkout = []; // list biểu đồ workout
-  List<ChartSampleDataBmi> chartDataBmi = []; // list biểu đồ
+  List<ChartSampleDataBmi> chartDataBmi = [];
+  // list biểu đồ
   List<ChartModel> listChartModelWorkout =
       []; // list chứa data sau khi đã gom nhóm
   List<List<ChartModel>> sublistChartModelWorkout =
@@ -39,6 +43,7 @@ class StatisticalController extends GetxController
     clearData();
     await initUser();
     await initData();
+    await initDataToDay();
     changeUI();
     super.onInit();
   }
@@ -48,17 +53,21 @@ class StatisticalController extends GetxController
     clearDataBmi();
     await initUser();
     await initData();
+    await initDataToDay();
     changeUI();
   }
 
-  clearData() {
+  clearData({bool isAll = false}) {
     listUserWorkOut.clear();
     listUserWorkOutResult.clear();
     chartDataWorkout.clear();
     listChartModelWorkout.clear();
-    workout = '0';
-    kcal = '0';
-    time = '0';
+    listUserWorkOutDays.clear();
+    if(isAll) {
+      workout = '0';
+      kcal = '0';
+      time = '0';
+    }
     indexListChartWorkout = 0;
   }
 
@@ -78,13 +87,14 @@ class StatisticalController extends GetxController
     DateTime dateTimeData = dateTime ?? DateTime.now();
     // workout call api
     if (isWorkout == null || isWorkout) {
-      clearData();
+      clearData(isAll: false);
       listUserWorkOut = await userRepo.getUserWorkOut(
           userId: user.id.toString(),
           month: dateTimeData.month,
           year: dateTimeData.year);
       listUserWorkOutResult.addAll(listUserWorkOut);
-      groupListData();
+      groupListData(
+          result: listUserWorkOutResult, chartModel: listChartModelWorkout);
     }
     // //work out bmi
     if (isWorkout == null || !isWorkout) {
@@ -96,34 +106,49 @@ class StatisticalController extends GetxController
     }
   }
 
-  void groupListData() {
-    Map listResult = listUserWorkOutResult.groupListsBy((e) =>
+  Future<void> initDataToDay() async {
+    listUserWorkOutDays = await userRepo.getUserWorkOut(
+        userId: user.id.toString(),
+        month: DateTime.now().month,
+        year: DateTime.now().year);
+    groupListData(
+        result: listUserWorkOutDays, chartModel: null, isGetDays: true);
+  updateUI();
+  }
+
+  void groupListData(
+      {required List<UserWorkout?> result,
+      required List<ChartModel>? chartModel,
+      bool isGetDays = false}) {
+    Map listResult = result.groupListsBy((e) =>
         DateFormat('dd/MM/yyyy').format(DateTime.parse(e?.createdAt ?? '')));
 
     // print('list: ${listResult.toString()}');
     for (var entry in listResult.entries) {
       // print(entry.key);
       // print(entry.value);
-      listChartModelWorkout.add(ChartModel(
-          day: DateFormat('dd/MM/yyyy')
-              .parse(entry.key.toString())
-              .day
-              .toString(),
-          time: getGroupDataUserWorkOut(entry.value, 2),
-          workout: getGroupDataUserWorkOut(entry.value, 1),
-          calo: getGroupDataUserWorkOut(entry.value, 0)));
-
-      // lọc thông tin ngày hôm nay
-      if (DateFormat('dd/MM/yyyy')
-              .format(DateFormat('dd/MM/yyyy').parse(entry.key.toString())) ==
-          DateFormat('dd/MM/yyyy')
-              .format(DateTime.parse(DateTime.now().toString()))) {
-        time = getGroupDataUserWorkOut(entry.value, 2).toString();
-        workout = getGroupDataUserWorkOut(entry.value, 1).toString();
-        kcal = getGroupDataUserWorkOut(entry.value, 0).toString();
+      if (!isGetDays) {
+        chartModel?.add(ChartModel(
+            day: DateFormat('dd/MM/yyyy')
+                .parse(entry.key.toString())
+                .day
+                .toString(),
+            time: getGroupDataUserWorkOut(entry.value, 2),
+            workout: getGroupDataUserWorkOut(entry.value, 1),
+            calo: getGroupDataUserWorkOut(entry.value, 0)));
+      } else {
+        // lọc thông tin ngày hôm nay
+        if (DateFormat('dd/MM/yyyy')
+                .format(DateFormat('dd/MM/yyyy').parse(entry.key.toString())) ==
+            DateFormat('dd/MM/yyyy')
+                .format(DateTime.parse(DateTime.now().toString()))) {
+          time = getGroupDataUserWorkOut(entry.value, 2).toString();
+          workout = getGroupDataUserWorkOut(entry.value, 1).toString();
+          kcal = getGroupDataUserWorkOut(entry.value, 0).toString();
+        }
       }
     }
-    addDataChartUserWork();
+    isGetDays ? null : addDataChartUserWork();
   }
 
   // tính tổng data

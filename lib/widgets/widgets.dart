@@ -72,6 +72,7 @@ Widget buildCarousel({
                 child: imageNetwork(
                     url: '$baserUrlMedia${item?.image}',
                     fit: BoxFit.cover,
+                    width: double.infinity,
                     height: double.infinity),
               ),
               Container(
