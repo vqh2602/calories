@@ -25,6 +25,9 @@ class Storages {
 
   //data dataTrainingPlan
   static const String dataTrainingPlan = 'data_training_plan';
+
+  // data tag training, lưu trạng thái kế hoạch tập luyen
+  static const String dataTrainingTagPlan = 'data_training_tag_plan';
 }
 
 class Config {

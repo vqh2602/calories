@@ -223,31 +223,32 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               const SizedBox(height: 4 * 4),
               ListView.builder(
                 physics: const ScrollPhysics(),
-                itemCount: workoutController.listTrainingPlan.length,
+                itemCount: workoutController.listTrainingPlanResult.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) => trainingPlanItem(
                   image:
-                      '$baserUrlMedia${workoutController.listTrainingPlan[index]?.workout?.image}',
+                      '$baserUrlMedia${workoutController.listTrainingPlanResult[index]?.workout?.image}',
                   title: workoutController
-                          .listTrainingPlan[index]?.workout?.title ??
+                          .listTrainingPlanResult[index]?.workout?.title ??
                       '',
-                  day: workoutController.listTrainingPlan[index]?.date
+                  day: workoutController.listTrainingPlanResult[index]?.date
                           .toString() ??
                       '',
                   des: workoutController
-                          .listTrainingPlan[index]?.workout?.description
+                          .listTrainingPlanResult[index]?.workout?.description
                           .toString() ??
                       '',
                   status:
-                      workoutController.listTrainingPlan[index]?.status ?? 0,
+                      workoutController.listTrainingPlanResult[index]?.status ??
+                          0,
                   onTap: () {
                     Get.toNamed(
                       PlayVideoScreen.routeName,
                       arguments: {
-                        'workout':
-                            workoutController.listTrainingPlan[index]?.workout,
+                        'workout': workoutController
+                            .listTrainingPlanResult[index]?.workout,
                         'trainingId':
-                            workoutController.listTrainingPlan[index]?.id,
+                            workoutController.listTrainingPlanResult[index]?.id,
                       },
                     );
                   },
@@ -259,7 +260,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   GestureDetector(
                     onTap: () {
                       workoutController.planTag = 20;
-                      workoutController.getTrainingPlan();
+                      workoutController.getTrainingPlan(
+                          tag: workoutController.planTag);
                       workoutController.updateUI();
                     },
                     child: Container(
@@ -288,7 +290,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   GestureDetector(
                     onTap: () {
                       workoutController.planTag = 21;
-                      workoutController.getTrainingPlan();
+                      workoutController.getTrainingPlan(
+                          tag: workoutController.planTag);
                       workoutController.updateUI();
                     },
                     child: Container(

@@ -30,15 +30,16 @@ class WorkoutController extends GetxController
   List<Tag?> listTagsWorkoutsChoices = [];
 
   List<TrainingPlan?> listTrainingPlan = [];
+  List<TrainingPlan?> listTrainingPlanResult = [];
   late num planTag = 0;
 
   @override
   Future<void> onInit() async {
     loadingUI();
-    initUser();
-    initTag();
-    getDataWorkOut();
-    getTrainingPlan();
+    await initUser();
+    await initTag();
+    await getDataWorkOut();
+    await getTrainingPlan();
     changeUI();
     super.onInit();
   }
@@ -69,13 +70,29 @@ class WorkoutController extends GetxController
         .toList();
   }
 
-  Future<void> getTrainingPlan() async {
+  Future<void> getTrainingPlan({num? tag}) async {
+    listTrainingPlanResult.clear();
+    listTrainingPlan.clear();
+    // planTag = 0;
+
+    var tagId = await box.read(Storages.dataTrainingTagPlan);
+
+    planTag = (tag != null) ? tag : tagId ?? 0;
+
     user = User.fromJson(jsonDecode(await box.read(Storages.dataUser)));
     listTrainingPlan = await workoutRepo.getTrainingPlan(
       userId: user.id.toString(),
       tag: planTag,
     );
-    listTrainingPlan = listTrainingPlan.sublist(0, 3);
+
+    if (tag != null && listTrainingPlan.isNotEmpty) {
+      await box.write(Storages.dataTrainingTagPlan, tag);
+    }
+
+    listTrainingPlanResult.addAll(listTrainingPlan.length >= 4
+        ? listTrainingPlan.sublist(0, 3)
+        : listTrainingPlan);
+
     updateUI();
   }
 
