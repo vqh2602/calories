@@ -115,7 +115,7 @@ class UserRepo extends Repo {
       //   title: textBodyMedium(text: 'chưa bật đăng nhập bằng sinh trắc học'),
       // ));
     }
-    log('Đăng nhập sinh trac học, user: ${user?.toJson().toString()}');
+    log('Đăng nhập sinh trắc học, user: ${user?.toJson().toString()}');
     return user;
   }
 

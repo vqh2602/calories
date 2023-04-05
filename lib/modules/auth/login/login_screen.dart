@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildBody() {
-    return SafeArea(
+    return loginController.obx((state) => SafeArea(
       child: Form(
         key: keyForm1,
         child: Container(
@@ -156,6 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
