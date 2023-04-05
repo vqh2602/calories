@@ -115,7 +115,7 @@ class UserRepo extends Repo {
       //   title: textBodyMedium(text: 'chưa bật đăng nhập bằng sinh trắc học'),
       // ));
     }
-    log('Đăng nhập sinh trac học, user: ${user?.toJson().toString()}');
+    log('Đăng nhập sinh trắc học, user: ${user?.toJson().toString()}');
     return user;
   }
 
@@ -188,8 +188,8 @@ class UserRepo extends Repo {
       "avatar": avatar ?? ' ',
       "address": address ?? ' ',
       "gender": sex,
-      "weight": h,
-      "height": w,
+      "weight": w,
+      "height": h,
       "birthday": birthday,
       "updated_at": DateTime.now().toString(),
     });
@@ -221,6 +221,28 @@ class UserRepo extends Repo {
     } else {
       buildToast(
           type: TypeToast.failure, title: result["message"] ?? 'có lỗi sảy ra');
+    }
+  }
+
+  Future<void> updateStatusTraining({
+    required String trainingId,
+    required num status,
+  }) async {
+    var res = await dioRepo.patch(
+      '/api/v1/trainings/$trainingId',
+      data: {"status": status},
+    );
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      buildToast(
+        type: TypeToast.success,
+        title: 'Thêm bài tập training thành công',
+      );
+    } else {
+      buildToast(
+        type: TypeToast.failure,
+        title: result["message"] ?? 'Có lỗi xảy ra',
+      );
     }
   }
 

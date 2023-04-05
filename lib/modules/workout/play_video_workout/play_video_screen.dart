@@ -26,12 +26,14 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
   final isPortrait = false;
   bool showOpacity = false;
   bool isVolume = true;
-  Workout workout = Get.arguments;
+
+  Workout workout = Get.arguments['workout'];
+  var trainingId = Get.arguments['trainingId'];
+
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      playVideoController.initLoadVideo(
-          url:'$baserUrlMedia${workout.video}');
+      playVideoController.initLoadVideo(url: '$baserUrlMedia${workout.video}');
       //Get.offAndToNamed(SignupScreen.routeName);
     });
     super.initState();
@@ -106,12 +108,16 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                           onPressed: () {
                             playVideoController.onClose();
                             Wakelock.disable();
-                            SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                            SystemChrome.setEnabledSystemUIMode(
+                                SystemUiMode.manual,
                                 overlays: SystemUiOverlay.values);
                             AutoOrientation.portraitUpMode();
                             Orientation.portrait;
 
                             playVideoController.setDataUserWorkout();
+
+                            playVideoController.updateUserTraining(
+                                trainingId: trainingId.toString());
 
                             Get.back();
                           },

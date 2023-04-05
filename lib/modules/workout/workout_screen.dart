@@ -1,4 +1,5 @@
 import 'package:calories/data/repositories/repo.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_screen.dart';
 import 'package:calories/modules/workout/workout_controller.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -29,7 +30,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
-      length: 2,
+      length: 3,
       child: buildBody(
         context: context,
         appBar: AppBar(
@@ -77,6 +78,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     margin: const EdgeInsets.all(4 * 2),
                     child: textBodySmall(text: 'Danh sách'),
                   ),
+                  Container(
+                    margin: const EdgeInsets.all(4 * 2),
+                    child: textBodySmall(text: 'Kế hoạch tập luyện'),
+                  ),
                 ],
               ),
             ),
@@ -95,6 +100,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 children: [
                   forYouTab(),
                   browseTab(),
+                  trainingPlan(),
                 ],
               ),
             ),
@@ -205,53 +211,244 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         ));
   }
 
+//tab kế hoạch tập luyện ở màn Workout
+  Widget trainingPlan() {
+    return workoutController.obx(
+      (state) => Container(
+        padding: alignment_20_0(),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 4 * 4),
+              ListView.builder(
+                physics: const ScrollPhysics(),
+                itemCount: workoutController.listTrainingPlan.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => trainingPlanItem(
+                  image:
+                      '$baserUrlMedia${workoutController.listTrainingPlan[index]?.workout?.image}',
+                  title: workoutController
+                          .listTrainingPlan[index]?.workout?.title ??
+                      '',
+                  day: workoutController.listTrainingPlan[index]?.date
+                          .toString() ??
+                      '',
+                  des: workoutController
+                          .listTrainingPlan[index]?.workout?.description
+                          .toString() ??
+                      '',
+                  status:
+                      workoutController.listTrainingPlan[index]?.status ?? 0,
+                  onTap: () {
+                    Get.toNamed(
+                      PlayVideoScreen.routeName,
+                      arguments: {
+                        'workout':
+                            workoutController.listTrainingPlan[index]?.workout,
+                        'trainingId':
+                            workoutController.listTrainingPlan[index]?.id,
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 4 * 4),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      workoutController.planTag = 20;
+                      workoutController.getTrainingPlan();
+                      workoutController.updateUI();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: workoutController.planTag == 20
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                      child: Center(
+                        child: textBodyMedium(
+                          text: 'bmi thiếu cân',
+                          color: workoutController.planTag == 20
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4 * 5,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      workoutController.planTag = 21;
+                      workoutController.getTrainingPlan();
+                      workoutController.updateUI();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: workoutController.planTag == 21
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                      child: Center(
+                        child: textBodyMedium(
+                          text: 'bmi bình thường',
+                          color: workoutController.planTag == 21
+                              ? Colors.black
+                              : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget trainingPlanItem({
+    required String image,
+    required String title,
+    required String day,
+    required String des,
+    required Function? onTap,
+    num status = 0,
+  }) {
+    return InkWell(
+      onTap: () {
+        if (onTap != null) onTap();
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4 * 10),
+        height: Get.height * 0.12,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: imageNetwork(
+                url: image,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 4 * 5),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          textLableSmall(text: 'Ngày $day'),
+                          const SizedBox(height: 4 * 2),
+                          textLableSmall(
+                            text: title,
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w100,
+                          ),
+                        ],
+                      ),
+                      workoutController.obx(
+                        (state) => Icon(
+                          LucideIcons.checkCircle2,
+                          color:
+                              status == 1 ? Colors.black : Colors.grey.shade200,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4 * 2),
+                  Expanded(
+                    child: textBodySmall(
+                      text: des,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 12,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget browseItem(
       {required String image,
       required String title,
       required String des,
       required Function onTap}) {
     // print('url: $image | title: $title | des $des ');
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4 * 4),
-      child: InkWell(
-        onTap: () {
-          onTap();
-        },
-        child: Stack(
-          children: [
-            imageNetwork(
-                url: image, width: Get.width, height: 250, fit: BoxFit.cover),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                margin: const EdgeInsets.all(4 * 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    forYouItemTitle(title: title),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    LimitedBox(
-                      maxWidth: Get.width - 4 * 20,
-                      child: Container(
-                        padding: const EdgeInsets.all(4 * 2),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: textBodySmall(
-                          text: des,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          color: Colors.black,
-                        ),
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4 * 4),
+        child: InkWell(
+          onTap: () {
+            onTap();
+          },
+          child: Stack(
+            children: [
+              imageNetwork(
+                  url: image, width: Get.width, height: 250, fit: BoxFit.cover),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  margin: const EdgeInsets.all(4 * 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      forYouItemTitle(title: title),
+                      const SizedBox(
+                        height: 4,
                       ),
-                    )
-                  ],
+                      LimitedBox(
+                        maxWidth: Get.width - 4 * 20,
+                        child: Container(
+                          padding: const EdgeInsets.all(4 * 2),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
+                          child: textBodySmall(
+                            text: des,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.black,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -164,7 +164,10 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
       width: Get.width,
       child: GFButton(
         onPressed: () {
-          Get.toNamed(PlayVideoScreen.routeName, arguments: workout);
+          Get.toNamed(
+            PlayVideoScreen.routeName,
+            arguments: {'workout': workout},
+          );
         },
         padding: const EdgeInsets.only(
           left: 4 * 5,

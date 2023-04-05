@@ -3,6 +3,7 @@ import 'package:calories/modules/blog/blog_screen.dart';
 import 'package:calories/modules/calorie_calculator/calorie_calculator_screen.dart';
 import 'package:calories/modules/dashboard/dashboard_controller.dart';
 import 'package:calories/modules/home/home_controller.dart';
+import 'package:calories/modules/statistical/statistical_controller.dart';
 import 'package:calories/widgets/base/base.dart';
 import 'package:calories/widgets/loading_custom.dart';
 import 'package:calories/widgets/text_custom.dart';
@@ -25,6 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormBMI');
 
   DashboardController dashboardController = Get.put(DashboardController());
+  StatisticalController statisticalController = Get.put(StatisticalController());
   BlogController blogController = Get.put(BlogController());
 
   @override
@@ -57,7 +59,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           const SizedBox(
                             height: 4 * 6,
                           ),
-                          blockStatisticalToday(),
+                          blockStatisticalToday(
+                              time: statisticalController.time,
+                              workout: statisticalController.workout,
+                              kcal: statisticalController.kcal),
                           const SizedBox(
                             height: 4 * 14,
                           ),

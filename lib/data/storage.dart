@@ -22,6 +22,9 @@ class Storages {
 
   //data blog
   static const String dataBlog = 'data_blog';
+
+  //data dataTrainingPlan
+  static const String dataTrainingPlan = 'data_training_plan';
 }
 
 class Config {
