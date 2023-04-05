@@ -1,4 +1,5 @@
 import 'package:calories/data/repositories/repo.dart';
+import 'package:calories/modules/workout/play_video_workout/play_video_screen.dart';
 import 'package:calories/modules/workout/workout_controller.dart';
 import 'package:calories/modules/workout/workout_detail/workout_detail_screen.dart';
 import 'package:calories/widgets/base/base.dart';
@@ -239,7 +240,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       '',
                   status:
                       workoutController.listTrainingPlan[index]?.status ?? 0,
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(
+                      PlayVideoScreen.routeName,
+                      arguments: {
+                        'workout':
+                            workoutController.listTrainingPlan[index]?.workout,
+                        'trainingId':
+                            workoutController.listTrainingPlan[index]?.id,
+                      },
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 4 * 4),
@@ -357,10 +368,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                           ),
                         ],
                       ),
-                      Icon(
-                        LucideIcons.checkCircle2,
-                        color:
-                            status == 1 ? Colors.black : Colors.grey.shade200,
+                      workoutController.obx(
+                        (state) => Icon(
+                          LucideIcons.checkCircle2,
+                          color:
+                              status == 1 ? Colors.black : Colors.grey.shade200,
+                        ),
                       ),
                     ],
                   ),

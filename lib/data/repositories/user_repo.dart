@@ -224,6 +224,28 @@ class UserRepo extends Repo {
     }
   }
 
+  Future<void> updateStatusTraining({
+    required String trainingId,
+    required num status,
+  }) async {
+    var res = await dioRepo.patch(
+      '/api/v1/trainings/$trainingId',
+      data: {"status": status},
+    );
+    var result = jsonDecode(res.toString());
+    if (result["success"] ?? false) {
+      buildToast(
+        type: TypeToast.success,
+        title: 'Thêm bài tập training thành công',
+      );
+    } else {
+      buildToast(
+        type: TypeToast.failure,
+        title: result["message"] ?? 'Có lỗi xảy ra',
+      );
+    }
+  }
+
   Future<List<UserWorkout?>> getUserWorkOut(
       {required String userId, required int month, required int year}) async {
     List<UserWorkout?> lstUserWorkout = [];

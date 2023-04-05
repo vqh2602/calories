@@ -16,7 +16,7 @@ class PlayVideoController extends GetxController
   UserRepo userRepo = UserRepo();
   User user = User();
   GetStorage box = GetStorage();
-  Workout workout = Get.arguments;
+  Workout workout = Get.arguments['workout'];
 
   @override
   Future<void> onInit() async {
@@ -58,6 +58,19 @@ class PlayVideoController extends GetxController
                   currentPosition.value!.position.inMinutes)
               .toInt());
     }
+  }
+
+  Future<void> updateUserTraining({
+    required String trainingId,
+  }) async {
+    if (currentPosition.value?.position.inMinutes != null &&
+        currentPosition.value!.position.inMinutes >= 1) {
+      await userRepo.updateStatusTraining(
+        trainingId: trainingId,
+        status: 1,
+      );
+    }
+    changeUI();
   }
 
   changeUI() {
