@@ -56,7 +56,7 @@ class DashboardController extends GetxController
     loadingUI();
     getDataUser();
 
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 2), () {
       changeUI();
     });
   }

@@ -14,6 +14,7 @@ class LoginController extends GetxController
   Future<void> onInit() async {
     super.onInit();
     initData();
+    changeUI();
   }
 
   initData() {
