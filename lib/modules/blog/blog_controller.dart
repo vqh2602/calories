@@ -8,16 +8,19 @@ class BlogController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
   BlogRepo blogRepo = BlogRepo();
   List<Blog?> listBlogs = [];
+  List<Blog?> listBlogsRan = [];
 
   @override
   Future<void> onInit() async {
-    getDataBlog();
+    await getDataBlog();
     changeUI();
     super.onInit();
   }
 
   Future<void> getDataBlog() async {
     listBlogs = await blogRepo.getBlog();
+    listBlogsRan.addAll((listBlogs..shuffle()).sublist(0, 3));
+
     updateUI();
   }
 

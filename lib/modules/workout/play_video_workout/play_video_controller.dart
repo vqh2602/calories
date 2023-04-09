@@ -64,17 +64,20 @@ class PlayVideoController extends GetxController
 
   Future<void> updateUserTraining({
     required String trainingId,
+    required String type,
   }) async {
-    if (currentPosition.value?.position.inMinutes != null &&
-        currentPosition.value!.position.inMinutes >= 1) {
-      await userRepo.updateStatusTraining(
-        trainingId: trainingId,
-        status: 1,
-      );
-      workoutController.getTrainingPlan();
-      workoutController.updateUI();
+    if (type == 'training') {
+      if (currentPosition.value?.position.inMinutes != null &&
+          currentPosition.value!.position.inMinutes >= 1) {
+        await userRepo.updateStatusTraining(
+          trainingId: trainingId,
+          status: 1,
+        );
+        workoutController.getTrainingPlan();
+        workoutController.updateUI();
+      }
+      changeUI();
     }
-    changeUI();
   }
 
   changeUI() {

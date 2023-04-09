@@ -18,8 +18,8 @@ class DashboardRepo extends Repo {
     var res = await dioRepo.post(
       '/api/v1/bmi/$userID',
       data: {
-        "weight": height,
-        "height": weight,
+        "weight": weight,
+        "height": height,
       },
     );
     var result = jsonDecode(res.toString());

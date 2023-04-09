@@ -249,6 +249,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             .listTrainingPlanResult[index]?.workout,
                         'trainingId':
                             workoutController.listTrainingPlanResult[index]?.id,
+                        'type': 'training',
                       },
                     );
                   },

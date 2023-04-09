@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:calories/data/repositories/user_repo.dart';
+import 'package:calories/data/storage.dart';
 import 'package:calories/modules/auth/login/login_screen.dart';
+import 'package:calories/widgets/share_function/share_funciton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupController extends GetxController
     with GetTickerProviderStateMixin, StateMixin {
@@ -14,6 +18,7 @@ class SignupController extends GetxController
   bool sex = true;
   Uint8List? base64Image;
   String base64ImageConvert = '';
+  String avatarConverted = '';
   late TextEditingController firstNameTE,
       lastNameTE,
       emailTE,
@@ -43,6 +48,20 @@ class SignupController extends GetxController
     addressTE = TextEditingController();
   }
 
+  Future<void> setAvatar() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    try {
+      base64ImageConvert = await convertImageToBase64(file: File(image!.path));
+      //print('convert image to base64: $base64ImageConvert');
+      base64Image =
+          await convertImageToBase64(base64String: base64ImageConvert);
+      await box.write(Storages.dataUrlAvatarUser, base64ImageConvert);
+      avatarConverted = base64ImageConvert;
+    } catch (_) {}
+    changeUI();
+  }
+
   Future<void> signup() async {
     await userRepo.signupWithEmail(
       name: '${firstNameTE.text}@${lastNameTE.text}',
@@ -52,8 +71,8 @@ class SignupController extends GetxController
       sex: sex,
       height: double.parse(heightTE.text),
       weight: double.parse(weightTE.text),
-      address: addressTE.text,
-      avatar: ' ',
+      address: (addressTE.text.isEmpty) ? '' : addressTE.text,
+      avatar: (avatarConverted.isEmpty) ? '' : avatarConverted,
     );
 
     Get.offAllNamed(LoginScreen.routeName);
@@ -69,7 +88,7 @@ class SignupController extends GetxController
 
   String? numberValidator(String? value) {
     if (value == null || value == '') {
-      return null;
+      return 'Trường bắt buộc';
     }
     final n = num.tryParse(value);
     if (n == null) {
