@@ -93,6 +93,7 @@ class StatisticalController extends GetxController
           month: dateTimeData.month,
           year: dateTimeData.year);
       listUserWorkOutResult.addAll(listUserWorkOut);
+      listUserWorkOutResult.sort((a, b) => a!.updatedAt!.compareTo(b!.updatedAt!));
       groupListData(
           result: listUserWorkOutResult, chartModel: listChartModelWorkout);
     }
@@ -102,6 +103,8 @@ class StatisticalController extends GetxController
       listUserBmi = await userRepo.getUserBmi(
           userId: user.id.toString(), dateTime: dateTimeData);
       listUserBmiResult.addAll(listUserBmi);
+      listUserBmiResult.sort((a, b) => a!.updatedAt!.compareTo(b!.updatedAt!));
+     // print('bmi result: ${listUserBmiResult.length}');
       addDataChartUserBmi();
     }
   }
@@ -203,6 +206,7 @@ class StatisticalController extends GetxController
                   w: double.parse(e?.weight.toString() ?? '0'))))
           .toList());
     }
+    //print('bmi sublist: ${sublistChartModelBmi.length}');
     setDataChartUserBmi();
   }
 
@@ -212,7 +216,7 @@ class StatisticalController extends GetxController
     chartDataWorkout.clear();
     if (indexListChartWorkout >= 0 &&
         indexListChartWorkout < sublistChartModelWorkout.length &&
-        sublistChartModelWorkout.length > 1) {
+        sublistChartModelWorkout.isNotEmpty) {
       (isNext != null && !isNext && indexListChartWorkout > 0)
           ? indexListChartWorkout--
           : null;
@@ -252,7 +256,7 @@ class StatisticalController extends GetxController
     chartDataBmi.clear();
     if (indexListChartBmi >= 0 &&
         indexListChartBmi < sublistChartModelBmi.length &&
-        sublistChartModelBmi.length > 1) {
+        sublistChartModelBmi.isNotEmpty) {
       (isNext != null && !isNext && indexListChartBmi > 0)
           ? indexListChartBmi--
           : null;
@@ -279,6 +283,7 @@ class StatisticalController extends GetxController
         );
       }
     }
+    //print('chart bmi : ${chartDataBmi.length}');
     update();
     changeUI();
   }

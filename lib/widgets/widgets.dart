@@ -448,19 +448,21 @@ Widget searchBar(
     child: TextField(
       onChanged: onChange,
       controller: controller,
+      textAlign: TextAlign.left,
       decoration: const InputDecoration(
-        contentPadding: EdgeInsets.all(4 * 3),
+        // contentPadding: EdgeInsets.all(4 * 3),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: InputBorder.none,
         focusedBorder: InputBorder.none,
         enabledBorder: InputBorder.none,
-        hintText: "Tìm kiếm",
+        hintText: "Tìm kiếm ...",
         hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 12,
         ),
         prefixIcon: Icon(
           LucideIcons.search,
-          size: 12,
+          size: 16,
         ),
       ),
     ),

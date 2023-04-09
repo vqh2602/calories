@@ -80,7 +80,7 @@ class _BlogScreenState extends State<BlogScreen> {
                         '$baserUrlMedia${blogController.listBlogs[index]?.image}'),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.3),
+                      Colors.black.withOpacity(0.5),
                       BlendMode.darken,
                     ),
                   ),

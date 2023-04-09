@@ -108,13 +108,16 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
+                  backgroundColor: Get.theme.colorScheme.background,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
                   builder: (BuildContext context) {
                     return Container(
+                      color: Get.theme.colorScheme.background,
                       height: Get.height * 0.8,
-                      margin: const EdgeInsets.symmetric(horizontal: 4 * 8),
+                      width: Get.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 4 * 8),
                       // child: SingleChildScrollView(
                       //   child: Column(
                       //     children: [
@@ -356,6 +359,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
       margin: const EdgeInsets.only(bottom: 4 * 4),
       height: Get.height * 0.102,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
         border: Border.all(color: Colors.grey.withOpacity(0.2)),
         // borderRadius: BorderRadius.circular(10),
       ),
@@ -364,9 +368,12 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
         children: [
           AspectRatio(
             aspectRatio: 1,
-            child: imageNetwork(
-              url: image,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: imageNetwork(
+                url: image,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 4 * 4),
@@ -436,6 +443,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
       margin: const EdgeInsets.only(bottom: 4 * 4),
       height: Get.height * 0.08,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
         border: Border.all(color: Colors.grey.withOpacity(0.2)),
         // borderRadius: BorderRadius.circular(10),
       ),
@@ -444,9 +452,12 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
         children: [
           AspectRatio(
             aspectRatio: 1,
-            child: imageNetwork(
-              url: image,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: imageNetwork(
+                url: image,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           const SizedBox(width: 4 * 4),
