@@ -32,7 +32,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
   Widget build(BuildContext context) {
     return buildBody(
       context: context,
-      body: _buildBody(context),
+      body: _buildBody(),
       appBar: appBarCustom(
         title: 'Tính calo thực phẩm',
         isPadding: false,
@@ -47,7 +47,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody() {
     return foodController.obx(
       onLoading: const LoadingCustom(),
       (state) => SafeArea(
@@ -76,11 +76,11 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: searchBox(context),
+              child: searchBox(),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: totalCalorie(context),
+              child: totalCalorie(),
             ),
           ],
         ),
@@ -88,7 +88,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  Widget totalCalorie(BuildContext context) {
+  Widget totalCalorie() {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -112,7 +112,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  builder: (BuildContext context) {
+                  builder: (context) {
                     return Container(
                       color: Get.theme.colorScheme.background,
                       height: Get.height * 0.8,
@@ -187,7 +187,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  Widget searchBox(BuildContext context) {
+  Widget searchBox() {
     return Container(
       decoration: const BoxDecoration(color: Colors.white),
       child: Container(
@@ -241,12 +241,12 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
     );
   }
 
-  IconButton filterButton(BuildContext context) {
+  IconButton filterButton() {
     return IconButton(
       onPressed: () {
         showDialog(
           context: context,
-          builder: (BuildContext context) {
+          builder: (context) {
             return AlertDialog(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,7 +301,7 @@ class _CalorieCalculatorScreenState extends State<CalorieCalculatorScreen> {
         itemCount: foodController.listAddedFood.length,
         shrinkWrap: true,
         physics: const ScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) => addedFoodItem(
+        itemBuilder: (context, int index) => addedFoodItem(
           image: '$baserUrlMedia${foodController.listAddedFood[index]?.image}',
           foodName: foodController.listAddedFood[index]?.name ?? '',
           calo: foodController.listAddedFood[index]?.calo ?? 0,

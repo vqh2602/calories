@@ -29,6 +29,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
 
   Workout workout = Get.arguments['workout'];
   var trainingId = Get.arguments['trainingId'];
+  var trainingType = Get.arguments['type'];
 
   @override
   void initState() {
@@ -117,7 +118,9 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                             playVideoController.setDataUserWorkout();
 
                             playVideoController.updateUserTraining(
-                                trainingId: trainingId.toString());
+                              trainingId: trainingId.toString(),
+                              type: trainingType,
+                            );
 
                             Get.back();
                           },

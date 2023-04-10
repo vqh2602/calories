@@ -53,7 +53,6 @@ Widget buildCarousel({
   required List<Blog?> listData,
   double height = 450,
 }) {
-  listData.shuffle();
   return GFCarousel(
       hasPagination: true,
       autoPlay: true,
@@ -61,7 +60,7 @@ Widget buildCarousel({
       activeIndicator: Colors.white,
       autoPlayInterval: const Duration(seconds: 4),
       viewportFraction: 1.0,
-      items: listData.sublist(0, 3).map((item) {
+      items: listData.map((item) {
         return SizedBox(
           // color: Colors.red,
           height: 450,

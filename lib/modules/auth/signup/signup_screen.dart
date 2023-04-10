@@ -10,7 +10,6 @@ import 'package:calories/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -65,18 +64,20 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final XFile? image = await picker.pickImage(
-                              source: ImageSource.gallery);
-                          setState(() {
-                            try {
-                              imagePath = File(image!.path);
-                            } catch (_) {}
-                          });
+                          signupController.setAvatar();
+                          // setState(() {
+                          //   try {
+                          //     // imagePath = File(image!.path);
+                          //   } catch (_) {}
+                          // });
                         },
                         child: Ink(
                           child: avatarImage(
-                              url: '', isFileImage: false, radius: 60),
+                            url: '',
+                            isFileImage: true,
+                            imageF: signupController.base64Image,
+                            radius: 60,
+                          ),
                         ),
                       ),
                       const SizedBox(

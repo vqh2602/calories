@@ -83,7 +83,9 @@ class UserRepo extends Repo {
       if (canAuthenticate && availableBiometrics.isNotEmpty) {
         didAuthenticate = await auth.authenticate(
             localizedReason: 'Vui lòng xác thực',
-            options: const AuthenticationOptions(stickyAuth: true,),
+            options: const AuthenticationOptions(
+              stickyAuth: true,
+            ),
             authMessages: <AuthMessages>[
               const AndroidAuthMessages(
                   signInTitle: 'Xác thực',

@@ -166,7 +166,7 @@ class _WorkoutDetailScreenState extends State<WorkoutDetailScreen> {
         onPressed: () {
           Get.toNamed(
             PlayVideoScreen.routeName,
-            arguments: {'workout': workout},
+            arguments: {'workout': workout, 'type': 'workout'},
           );
         },
         padding: const EdgeInsets.only(

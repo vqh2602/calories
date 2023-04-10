@@ -26,7 +26,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   GlobalKey<FormState> keyForm1 = GlobalKey<FormState>(debugLabel: '_FormBMI');
 
   DashboardController dashboardController = Get.put(DashboardController());
-  StatisticalController statisticalController = Get.put(StatisticalController());
+  StatisticalController statisticalController =
+      Get.put(StatisticalController());
   BlogController blogController = Get.put(BlogController());
 
   @override
@@ -90,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(
                       height: 4 * 6,
                     ),
-                    buildCarousel(listData: blogController.listBlogs),
+                    buildCarousel(listData: blogController.listBlogsRan),
                     const SizedBox(
                       height: 4 * 6,
                     ),
