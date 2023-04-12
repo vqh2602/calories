@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:calories/data/models/user.dart';
 import 'package:calories/data/models/user_bmi.dart';
@@ -216,7 +217,7 @@ class StatisticalController extends GetxController
     chartDataWorkout.clear();
     if (indexListChartWorkout >= 0 &&
         indexListChartWorkout < sublistChartModelWorkout.length &&
-        sublistChartModelWorkout.isNotEmpty) {
+        sublistChartModelWorkout.length > 1) {
       (isNext != null && !isNext && indexListChartWorkout > 0)
           ? indexListChartWorkout--
           : null;
@@ -225,14 +226,18 @@ class StatisticalController extends GetxController
               indexListChartWorkout < sublistChartModelWorkout.length - 1)
           ? indexListChartWorkout++
           : null;
-      for (ChartModel item in sublistChartModelWorkout[indexListChartWorkout]) {
-        chartDataWorkout.add(
-          ChartSampleData(
-              x: item.day,
-              calo: item.calo,
-              time: item.time,
-              workout: item.workout),
-        );
+      try {
+        for (ChartModel item in sublistChartModelWorkout[indexListChartWorkout]) {
+          chartDataWorkout.add(
+            ChartSampleData(
+                x: item.day,
+                calo: item.calo,
+                time: item.time,
+                workout: item.workout),
+          );
+        }
+      } on Exception catch (_) {
+        log('quá sublist userwork');
       }
     } else if (listChartModelWorkout.length < 7) {
       // nếu list cha trống hoặc tổng phần tử < 7 thì lấy luôn list cha
@@ -256,7 +261,7 @@ class StatisticalController extends GetxController
     chartDataBmi.clear();
     if (indexListChartBmi >= 0 &&
         indexListChartBmi < sublistChartModelBmi.length &&
-        sublistChartModelBmi.isNotEmpty) {
+        sublistChartModelBmi.length > 1) {
       (isNext != null && !isNext && indexListChartBmi > 0)
           ? indexListChartBmi--
           : null;
@@ -265,10 +270,14 @@ class StatisticalController extends GetxController
               indexListChartBmi < sublistChartModelBmi.length)
           ? indexListChartBmi++
           : null;
-      for (ChartModelBmi item in sublistChartModelBmi[indexListChartBmi]) {
-        chartDataBmi.add(
-          ChartSampleDataBmi(x: item.day, bmi: item.bmi),
-        );
+      try{
+        for (ChartModelBmi item in sublistChartModelBmi[indexListChartBmi]) {
+          chartDataBmi.add(
+            ChartSampleDataBmi(x: item.day, bmi: item.bmi),
+          );
+        }
+      }catch(_){
+        log('sublist bmi quá');
       }
     } else if (listUserBmiResult.length < 7) {
       // nếu list cha trống hoặc tổng phần tử < 7 thì lấy luôn list cha
