@@ -27,10 +27,18 @@ class PlayVideoController extends GetxController
     changeUI();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    videoPlayerController?.dispose();
+  }
+
   Future<void> initLoadVideo({String? url}) async {
     videoPlayerController = VideoPlayerController.network(url!,
         videoPlayerOptions: VideoPlayerOptions(
-            allowBackgroundPlayback: true, mixWithOthers: true));
+          allowBackgroundPlayback: true,
+          mixWithOthers: true,
+        ));
     await videoPlayerController?.initialize();
     videoPlayerController!.addListener(() {
       if (videoPlayerController!.value.isInitialized) {
