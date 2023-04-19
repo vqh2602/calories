@@ -41,72 +41,74 @@ class _LoginScreenState extends State<LoginScreen> {
           margin: alignment_20_0(),
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 4 * 20,
-                  ),
-                  textHeadlineLarge(
-                      text: 'Đăng nhập', fontWeight: FontWeight.w700),
-                  const SizedBox(
-                    height: 4 * 1,
-                  ),
-                  textBodySmall(
-                    text: 'Đăng nhập để bắt đầu quản lý quá trình tập luyện',
-                  ),
-                  const SizedBox(
-                    height: 4 * 16,
-                  ),
-                  TextFormField(
-                    onTap: () {},
-                    controller: loginController.emailTE,
-                    style: josefinSans(fontSize: 16),
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: textFieldInputStyle(label: 'Email'),
-                    maxLines: 1,
-                    validator: loginController.validateEmail,
-                  ),
-                  const SizedBox(
-                    height: 4 * 6,
-                  ),
-                  TextFormField(
-                    onTap: () {},
-                    controller: loginController.passWTE,
-                    obscureText: passwordVisible,
-                    decoration: textFieldInputStyle(
-                        label: 'Mật khẩu',
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            setState(() {
-                              passwordVisible = !passwordVisible;
-                            });
-                          },
-                          child: Ink(
-                            child: Icon(passwordVisible
-                                ? LucideIcons.eye
-                                : LucideIcons.eyeOff),
-                          ),
-                        )),
-                    validator: loginController.validateString,
-                  ),
-                  const SizedBox(
-                    height: 4 * 2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.offAndToNamed(SignupScreen.routeName);
-                    },
-                    child: Ink(
-                      child: textBodyMedium(
-                          text: 'Chưa có tài khoản? Đăng kí',
-                          decoration: TextDecoration.underline),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 4 * 20,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 4 * 20,
-                  ),
-                ],
+                    textHeadlineLarge(
+                        text: 'Đăng nhập', fontWeight: FontWeight.w700),
+                    const SizedBox(
+                      height: 4 * 1,
+                    ),
+                    textBodySmall(
+                      text: 'Đăng nhập để bắt đầu quản lý quá trình tập luyện',
+                    ),
+                    const SizedBox(
+                      height: 4 * 16,
+                    ),
+                    TextFormField(
+                      onTap: () {},
+                      controller: loginController.emailTE,
+                      style: josefinSans(fontSize: 16),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: textFieldInputStyle(label: 'Email'),
+                      maxLines: 1,
+                      validator: loginController.validateEmail,
+                    ),
+                    const SizedBox(
+                      height: 4 * 6,
+                    ),
+                    TextFormField(
+                      onTap: () {},
+                      controller: loginController.passWTE,
+                      obscureText: passwordVisible,
+                      decoration: textFieldInputStyle(
+                          label: 'Mật khẩu',
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                            child: Ink(
+                              child: Icon(passwordVisible
+                                  ? LucideIcons.eye
+                                  : LucideIcons.eyeOff),
+                            ),
+                          )),
+                      validator: loginController.validateString,
+                    ),
+                    const SizedBox(
+                      height: 4 * 2,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.offAndToNamed(SignupScreen.routeName);
+                      },
+                      child: Ink(
+                        child: textBodyMedium(
+                            text: 'Chưa có tài khoản? Đăng kí',
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4 * 20,
+                    ),
+                  ],
+                ),
               ),
               Padding(
                   padding: const EdgeInsets.all(10.0),
