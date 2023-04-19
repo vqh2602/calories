@@ -217,7 +217,7 @@ class StatisticalController extends GetxController
     chartDataWorkout.clear();
     if (indexListChartWorkout >= 0 &&
         indexListChartWorkout < sublistChartModelWorkout.length &&
-        sublistChartModelWorkout.length > 1) {
+        sublistChartModelWorkout.isNotEmpty) {
       (isNext != null && !isNext && indexListChartWorkout > 0)
           ? indexListChartWorkout--
           : null;
@@ -261,13 +261,13 @@ class StatisticalController extends GetxController
     chartDataBmi.clear();
     if (indexListChartBmi >= 0 &&
         indexListChartBmi < sublistChartModelBmi.length &&
-        sublistChartModelBmi.length > 1) {
+        sublistChartModelBmi.isNotEmpty) {
       (isNext != null && !isNext && indexListChartBmi > 0)
           ? indexListChartBmi--
           : null;
       (isNext != null &&
               isNext &&
-              indexListChartBmi < sublistChartModelBmi.length)
+              indexListChartBmi < sublistChartModelBmi.length - 1)
           ? indexListChartBmi++
           : null;
       try{
