@@ -70,8 +70,9 @@ class PlayVideoController extends GetxController
           calo: ((workout.calo!.toInt() / workout.time!.toInt()) *
                   currentPosition.value!.position.inMinutes)
               .toInt());
+      statisticalController.onRefresh();
     }
-    statisticalController.onRefresh();
+
   }
 
   Future<void> updateUserTraining({
@@ -89,8 +90,8 @@ class PlayVideoController extends GetxController
         workoutController.updateUI();
       }
       changeUI();
+      statisticalController.onRefresh();
     }
-    statisticalController.onRefresh();
   }
 
   changeUI() {
